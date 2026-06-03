@@ -13,13 +13,18 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float minWorldYToTrigger = -0.15f;
     [SerializeField] private float minSecondsAfterRelease = 0.05f;
+    [SerializeField] private float ignoreSecondsAfterSceneLoad = 0.25f;
+    [SerializeField] private bool ignoreWhileSelected = true;
     [SerializeField] private float cooldownSeconds = 0.5f;
+    [SerializeField] private float rescanIntervalSeconds = 1f;
 
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
 
     private bool resetting;
     private float lastTriggerTime;
+    private float sceneLoadedAtUnscaledTime;
+    private Coroutine rescanRoutine;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -63,14 +68,18 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
     private void Start()
     {
+        sceneLoadedAtUnscaledTime = Time.unscaledTime;
         AttachWatchersInScene();
+        StartRescanRoutine();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
         resetting = false;
+        sceneLoadedAtUnscaledTime = Time.unscaledTime;
         AttachWatchersInScene();
+        StartRescanRoutine();
     }
 
     private void AttachWatchersInScene()
@@ -87,6 +96,27 @@ public sealed class GlobalDropResetter : MonoBehaviour
                 watcher = grabbable.gameObject.AddComponent<DropWatcher>();
 
             watcher.Bind(this, grabbable);
+        }
+    }
+
+    private void StartRescanRoutine()
+    {
+        if (rescanIntervalSeconds <= 0f)
+            return;
+
+        if (rescanRoutine != null)
+            StopCoroutine(rescanRoutine);
+
+        rescanRoutine = StartCoroutine(RescanRoutine());
+    }
+
+    private IEnumerator RescanRoutine()
+    {
+        WaitForSecondsRealtime wait = new WaitForSecondsRealtime(rescanIntervalSeconds);
+        while (true)
+        {
+            AttachWatchersInScene();
+            yield return wait;
         }
     }
 
@@ -113,6 +143,9 @@ public sealed class GlobalDropResetter : MonoBehaviour
     }
 
     internal float MinSecondsAfterRelease => minSecondsAfterRelease;
+    internal float SceneLoadedAtUnscaledTime => sceneLoadedAtUnscaledTime;
+    internal float IgnoreSecondsAfterSceneLoad => ignoreSecondsAfterSceneLoad;
+    internal bool IgnoreWhileSelected => ignoreWhileSelected;
 
     internal void TriggerReset()
     {
@@ -144,7 +177,6 @@ public sealed class GlobalDropResetter : MonoBehaviour
         private XRGrabInteractable grabbable;
         private Rigidbody rb;
 
-        private bool wasReleased;
         private float releasedAtUnscaledTime;
 
         public void Bind(GlobalDropResetter newController, XRGrabInteractable newGrabbable)
@@ -178,18 +210,23 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         private void OnSelectEntered(SelectEnterEventArgs args)
         {
-            wasReleased = false;
+            releasedAtUnscaledTime = Time.unscaledTime;
         }
 
         private void OnSelectExited(SelectExitEventArgs args)
         {
-            wasReleased = true;
             releasedAtUnscaledTime = Time.unscaledTime;
         }
 
         private void Update()
         {
-            if (!wasReleased || controller == null)
+            if (controller == null)
+                return;
+
+            if (controller.IgnoreWhileSelected && grabbable != null && grabbable.isSelected)
+                return;
+
+            if (Time.unscaledTime - controller.SceneLoadedAtUnscaledTime < controller.IgnoreSecondsAfterSceneLoad)
                 return;
 
             if (Time.unscaledTime - releasedAtUnscaledTime < controller.MinSecondsAfterRelease)
@@ -201,7 +238,13 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!wasReleased || controller == null)
+            if (controller == null)
+                return;
+
+            if (controller.IgnoreWhileSelected && grabbable != null && grabbable.isSelected)
+                return;
+
+            if (Time.unscaledTime - controller.SceneLoadedAtUnscaledTime < controller.IgnoreSecondsAfterSceneLoad)
                 return;
 
             if (Time.unscaledTime - releasedAtUnscaledTime < controller.MinSecondsAfterRelease)
@@ -223,7 +266,13 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         private void OnTriggerEnter(Collider other)
         {
-            if (!wasReleased || controller == null)
+            if (controller == null)
+                return;
+
+            if (controller.IgnoreWhileSelected && grabbable != null && grabbable.isSelected)
+                return;
+
+            if (Time.unscaledTime - controller.SceneLoadedAtUnscaledTime < controller.IgnoreSecondsAfterSceneLoad)
                 return;
 
             if (Time.unscaledTime - releasedAtUnscaledTime < controller.MinSecondsAfterRelease)
