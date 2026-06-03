@@ -11,6 +11,9 @@ public class XRDrawerToggle : MonoBehaviour
     [SerializeField] private float moveDuration = 0.25f;
     [SerializeField] private bool startOpened;
 
+    [Header("Glow")]
+    [SerializeField] private TouchGlowObject glowObject;
+
     [Header("Optional")]
     [SerializeField] private Animator animatorToDisable;
 
@@ -24,6 +27,7 @@ public class XRDrawerToggle : MonoBehaviour
     {
         drawerToMove = transform;
         animatorToDisable = GetComponent<Animator>();
+        glowObject = GetComponent<TouchGlowObject>();
     }
 
     private void Awake()
@@ -35,6 +39,9 @@ public class XRDrawerToggle : MonoBehaviour
 
         if (animatorToDisable == null)
             animatorToDisable = GetComponent<Animator>();
+
+        if (glowObject == null)
+            glowObject = GetComponent<TouchGlowObject>();
 
         if (animatorToDisable != null)
             animatorToDisable.enabled = false;
@@ -60,6 +67,11 @@ public class XRDrawerToggle : MonoBehaviour
 
     private void OnSelected(SelectEnterEventArgs args)
     {
+        if (glowObject != null)
+        {
+            glowObject.Reveal();
+        }
+
         ToggleDrawer();
     }
 

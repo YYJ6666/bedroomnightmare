@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class TouchGlowObject : MonoBehaviour
 {
-    public Outline outline;
+    [Header("Outlines")]
+    public Outline[] outlines;
+
+    [Header("Settings")]
     public float glowDuration = 3f;
 
     private float timer;
@@ -10,8 +13,7 @@ public class TouchGlowObject : MonoBehaviour
 
     private void Awake()
     {
-        if (outline != null)
-            outline.enabled = false;
+        SetOutlines(false);
     }
 
     private void Update()
@@ -22,17 +24,34 @@ public class TouchGlowObject : MonoBehaviour
 
         if (timer <= 0f)
         {
-            outline.enabled = false;
+            SetOutlines(false);
             isRevealed = false;
         }
     }
 
     public void Reveal()
     {
-        if (outline == null) return;
+        if (outlines == null || outlines.Length == 0)
+        {
+            Debug.LogWarning($"{name}: No outlines assigned.");
+            return;
+        }
 
-        outline.enabled = true;
+        SetOutlines(true);
         timer = glowDuration;
         isRevealed = true;
+    }
+
+    private void SetOutlines(bool enabled)
+    {
+        if (outlines == null) return;
+
+        foreach (Outline outline in outlines)
+        {
+            if (outline != null)
+            {
+                outline.enabled = enabled;
+            }
+        }
     }
 }
