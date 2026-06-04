@@ -5837,11 +5837,11 @@ GameObject:
   - component: {fileID: 701256610}
   - component: {fileID: 701256617}
   - component: {fileID: 701256616}
-  - component: {fileID: 701256615}
   - component: {fileID: 701256614}
   - component: {fileID: 701256613}
   - component: {fileID: 701256612}
   - component: {fileID: 701256611}
+  - component: {fileID: 701256618}
   m_Layer: 0
   m_Name: Large Drawer Handle
   m_TagString: Untagged
@@ -6011,27 +6011,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!65 &701256615
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 701256609}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.08086029, y: 0.014178168, z: 0.03775112}
-  m_Center: {x: 0, y: -0.000000118045136, z: 0.015297392}
 --- !u!23 &701256616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6082,6 +6061,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 701256609}
   m_Mesh: {fileID: 152487145111630020, guid: 8a4034dd2baae114d928481d787c6c31, type: 3}
+--- !u!65 &701256618
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701256609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.08086029, y: 0.014178172, z: 0.037751123}
+  m_Center: {x: 0.000000029802322, y: 0.0000000011641533, z: 0.015297394}
 --- !u!1001 &703260176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15896,7 +15896,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4176472363534678, guid: 322aea51c1d456f48a5bc5a59a931ed3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.875
+      value: 1.975
       objectReference: {fileID: 0}
     - target: {fileID: 4176472363534678, guid: 322aea51c1d456f48a5bc5a59a931ed3, type: 3}
       propertyPath: m_LocalRotation.w
