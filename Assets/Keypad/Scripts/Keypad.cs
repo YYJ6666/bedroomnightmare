@@ -12,7 +12,7 @@ namespace NavKeypad
         [SerializeField] private UnityEvent onAccessGranted;
         [SerializeField] private UnityEvent onAccessDenied;
         [Header("Combination Code (9 Numbers Max)")]
-        [SerializeField] private int keypadCombo = 12345;
+        [SerializeField] private string keypadCombo = "12345";
 
         public UnityEvent OnAccessGranted => onAccessGranted;
         public UnityEvent OnAccessDenied => onAccessDenied;
@@ -73,18 +73,9 @@ namespace NavKeypad
         }
         public void CheckCombo()
         {
-            if (int.TryParse(currentInput, out var currentKombo))
-            {
-                bool granted = currentKombo == keypadCombo;
-                if (!displayingResult)
-                {
-                    StartCoroutine(DisplayResultRoutine(granted));
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Couldn't process input for some reason..");
-            }
+            bool granted = string.Equals(currentInput, keypadCombo, StringComparison.Ordinal);
+            if (!displayingResult)
+                StartCoroutine(DisplayResultRoutine(granted));
 
         }
 
