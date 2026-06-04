@@ -19,7 +19,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [SerializeField] private bool ignoreWhileSelected = true;
     [SerializeField] private float cooldownSeconds = 0.5f;
     [SerializeField] private float rescanIntervalSeconds = 1f;
-    [SerializeField] private bool logResetCause = true;
+    [SerializeField] private bool logResetCause = false;
 
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
