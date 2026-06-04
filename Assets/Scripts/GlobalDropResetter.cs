@@ -12,11 +12,14 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [SerializeField] private string groundTag = "Ground";
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float minWorldYToTrigger = -0.15f;
+    [SerializeField] private bool enableWorldYFallback = false;
+    [SerializeField] private float minDownwardSpeedToTrigger = 0.5f;
     [SerializeField] private float minSecondsAfterRelease = 0.05f;
-    [SerializeField] private float ignoreSecondsAfterSceneLoad = 0.25f;
+    [SerializeField] private float ignoreSecondsAfterSceneLoad = 1f;
     [SerializeField] private bool ignoreWhileSelected = true;
     [SerializeField] private float cooldownSeconds = 0.5f;
     [SerializeField] private float rescanIntervalSeconds = 1f;
+    [SerializeField] private bool logResetCause = true;
 
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
@@ -25,6 +28,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
     private float lastTriggerTime;
     private float sceneLoadedAtUnscaledTime;
     private Coroutine rescanRoutine;
+    private string pendingResetLog;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -146,8 +150,10 @@ public sealed class GlobalDropResetter : MonoBehaviour
     internal float SceneLoadedAtUnscaledTime => sceneLoadedAtUnscaledTime;
     internal float IgnoreSecondsAfterSceneLoad => ignoreSecondsAfterSceneLoad;
     internal bool IgnoreWhileSelected => ignoreWhileSelected;
+    internal bool EnableWorldYFallback => enableWorldYFallback;
+    internal float MinDownwardSpeedToTrigger => minDownwardSpeedToTrigger;
 
-    internal void TriggerReset()
+    internal void TriggerReset(XRGrabInteractable source, Collider ground, string reason)
     {
         if (resetting)
             return;
@@ -157,6 +163,8 @@ public sealed class GlobalDropResetter : MonoBehaviour
             return;
 
         lastTriggerTime = now;
+        if (logResetCause)
+            pendingResetLog = BuildResetLog(source, ground, reason);
         StartCoroutine(ResetRoutine());
     }
 
@@ -166,8 +174,37 @@ public sealed class GlobalDropResetter : MonoBehaviour
         if (resetDelaySeconds > 0f)
             yield return new WaitForSecondsRealtime(resetDelaySeconds);
 
+        if (logResetCause && !string.IsNullOrWhiteSpace(pendingResetLog))
+            Debug.LogWarning(pendingResetLog);
+
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
+    }
+
+    private static string BuildResetLog(XRGrabInteractable source, Collider ground, string reason)
+    {
+        string sourceName = source != null ? GetHierarchyPath(source.transform) : "<null>";
+        Vector3 pos = source != null ? source.transform.position : Vector3.zero;
+        string groundName = ground != null ? GetHierarchyPath(ground.transform) : "<null>";
+        int frame = Time.frameCount;
+        float time = Time.unscaledTime;
+        return $"[GlobalDropResetter] Reset triggered. reason={reason}, source={sourceName}, pos={pos}, ground={groundName}, frame={frame}, time={time:F3}";
+    }
+
+    private static string GetHierarchyPath(Transform t)
+    {
+        if (t == null)
+            return "<null>";
+
+        string path = t.name;
+        Transform current = t.parent;
+        while (current != null)
+        {
+            path = current.name + "/" + path;
+            current = current.parent;
+        }
+
+        return path;
     }
 
     [DisallowMultipleComponent]
@@ -232,8 +269,11 @@ public sealed class GlobalDropResetter : MonoBehaviour
             if (Time.unscaledTime - releasedAtUnscaledTime < controller.MinSecondsAfterRelease)
                 return;
 
-            if (controller.ShouldTriggerByWorldY(transform.position.y))
-                controller.TriggerReset();
+            if (controller.EnableWorldYFallback && controller.ShouldTriggerByWorldY(transform.position.y))
+            {
+                if (rb != null && rb.velocity.y < -controller.MinDownwardSpeedToTrigger)
+                    controller.TriggerReset(grabbable, null, "WorldY");
+            }
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -261,7 +301,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
                 return;
 
             if (controller.IsGroundCollider(other))
-                controller.TriggerReset();
+                controller.TriggerReset(grabbable, other, "CollisionEnter");
         }
 
         private void OnTriggerEnter(Collider other)
@@ -285,7 +325,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
                 return;
 
             if (controller.IsGroundCollider(other))
-                controller.TriggerReset();
+                controller.TriggerReset(grabbable, other, "TriggerEnter");
         }
     }
 }
