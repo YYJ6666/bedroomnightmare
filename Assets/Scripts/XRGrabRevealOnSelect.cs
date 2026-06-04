@@ -21,6 +21,7 @@ public class XRGrabRevealOnSelect : MonoBehaviour
     private void OnEnable()
     {
         grabInteractable.selectEntered.AddListener(OnSelected);
+        grabInteractable.selectExited.AddListener(OnReleased);
     }
 
     private void OnDisable()
@@ -28,21 +29,33 @@ public class XRGrabRevealOnSelect : MonoBehaviour
         if (grabInteractable != null)
         {
             grabInteractable.selectEntered.RemoveListener(OnSelected);
+            grabInteractable.selectExited.RemoveListener(OnReleased);
         }
     }
 
     private void OnSelected(SelectEnterEventArgs args)
     {
-        // 如果是 Socket 触发的 Select，就忽略
         if (args.interactorObject is XRSocketInteractor)
         {
             return;
         }
 
-        // 只有玩家手柄 / 射线 / Direct Interactor 触发时才发光
         if (glowObject != null)
         {
-            glowObject.Reveal();
+            glowObject.RevealAndKeep();
+        }
+    }
+
+    private void OnReleased(SelectExitEventArgs args)
+    {
+        if (args.interactorObject is XRSocketInteractor)
+        {
+            return;
+        }
+
+        if (glowObject != null)
+        {
+            glowObject.ReleaseKeep();
         }
     }
 }

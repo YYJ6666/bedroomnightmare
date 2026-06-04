@@ -6,51 +6,90 @@ public class TouchGlowObject : MonoBehaviour
     public Outline[] outlines;
 
     [Header("Settings")]
-    public float glowDuration = 3f;
+    public float glowDuration = 10f;
 
+    private Light[] lights;
     private float timer;
     private bool isRevealed;
+    private bool keepRevealed;
 
     private void Awake()
     {
-        SetOutlines(false);
+        if (outlines == null || outlines.Length == 0)
+        {
+            outlines = GetComponentsInChildren<Outline>(true);
+        }
+
+        lights = GetComponentsInChildren<Light>(true);
+
+        SetGlow(false);
     }
 
     private void Update()
     {
         if (!isRevealed) return;
 
+        // 被抓住或被强制保持发光时，不倒计时
+        if (keepRevealed) return;
+
         timer -= Time.deltaTime;
 
         if (timer <= 0f)
         {
-            SetOutlines(false);
-            isRevealed = false;
+            Hide();
         }
     }
 
     public void Reveal()
     {
-        if (outlines == null || outlines.Length == 0)
-        {
-            Debug.LogWarning($"{name}: No outlines assigned.");
-            return;
-        }
-
-        SetOutlines(true);
+        SetGlow(true);
         timer = glowDuration;
         isRevealed = true;
     }
 
-    private void SetOutlines(bool enabled)
+    public void RevealAndKeep()
     {
-        if (outlines == null) return;
+        keepRevealed = true;
+        SetGlow(true);
+        isRevealed = true;
+    }
 
-        foreach (Outline outline in outlines)
+    public void ReleaseKeep()
+    {
+        keepRevealed = false;
+        timer = glowDuration;
+        isRevealed = true;
+    }
+
+    public void Hide()
+    {
+        keepRevealed = false;
+        SetGlow(false);
+        isRevealed = false;
+        timer = 0f;
+    }
+
+    private void SetGlow(bool enabled)
+    {
+        if (outlines != null)
         {
-            if (outline != null)
+            foreach (Outline outline in outlines)
             {
-                outline.enabled = enabled;
+                if (outline != null)
+                {
+                    outline.enabled = enabled;
+                }
+            }
+        }
+
+        if (lights != null)
+        {
+            foreach (Light light in lights)
+            {
+                if (light != null)
+                {
+                    light.enabled = enabled;
+                }
             }
         }
     }
