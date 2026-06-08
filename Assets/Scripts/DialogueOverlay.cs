@@ -10,25 +10,21 @@ public sealed class DialogueOverlay : MonoBehaviour
     private static DialogueOverlay instance;
 
     [Header("Startup")]
-    [SerializeField] private bool showOnStart = true;
-    [SerializeField] private string startupText = "You wake from a deep sleep.\nEverything is pitch black.";
+    [SerializeField] private bool showOnStart = false;
+    [SerializeField] private string startupText = "";
 
     [Header("Layout")]
-    [SerializeField] private float distanceFromCamera = 0.75f;
-    [SerializeField] private Vector2 canvasSize = new Vector2(800f, 100f);
+    [SerializeField] private float distanceFromCamera = 0.9f;
+    [SerializeField] private Vector2 canvasSize = new Vector2(900f, 160f);
     [SerializeField] private float canvasScale = 0.0012f;
     [SerializeField] private float verticalOffsetMeters = -0.25f;
 
-    [Header("Style")]
-    [SerializeField] private float backgroundAlpha = 0.75f;
-    [SerializeField] private Color frameColor = Color.white;
-    [SerializeField] private float frameAlpha = 0.9f;
-    [SerializeField] private float fontSize = 25f;
+    [Header("Text Style")]
+    [SerializeField] private float fontSize = 32f;
     [SerializeField] private Color textColor = Color.white;
 
-    [Header("Rounded Frame")]
-    [SerializeField] private float cornerRadiusPixels = 36f;
-    [SerializeField] private float frameThicknessPixels = 6f;
+    [Header("Chinese Font")]
+    [SerializeField] private string chineseFontResourcePath = "Fonts/simheiSDF";
 
     [Header("Fade")]
     [SerializeField] private float fadeInDuration = 0.15f;
@@ -40,7 +36,6 @@ public sealed class DialogueOverlay : MonoBehaviour
     private TMP_Text dialogueText;
     private Coroutine fadeRoutine;
     private Coroutine autoHideRoutine;
-    private Sprite roundedSprite;
     private Canvas canvas;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -83,14 +78,6 @@ public sealed class DialogueOverlay : MonoBehaviour
         canvasGroup = null;
         dialogueText = null;
         canvas = null;
-
-        if (roundedSprite != null)
-        {
-            if (roundedSprite.texture != null)
-                Destroy(roundedSprite.texture);
-            Destroy(roundedSprite);
-            roundedSprite = null;
-        }
     }
 
     private void Start()
@@ -106,9 +93,11 @@ public sealed class DialogueOverlay : MonoBehaviour
     private IEnumerator InitializeRoutine()
     {
         float timeoutAt = Time.realtimeSinceStartup + 3f;
+
         while (Time.realtimeSinceStartup < timeoutAt && cameraTransform == null)
         {
             XROrigin origin = FindObjectOfType<XROrigin>(true);
+
             if (origin != null && origin.Camera != null)
             {
                 cameraTransform = origin.Camera.transform;
@@ -139,9 +128,11 @@ public sealed class DialogueOverlay : MonoBehaviour
             return;
 
         Transform t = canvasGroup.transform;
+
         t.SetPositionAndRotation(
             cameraTransform.TransformPoint(0f, verticalOffsetMeters, distanceFromCamera),
-            cameraTransform.rotation);
+            cameraTransform.rotation
+        );
     }
 
     private void EnsureUi()
@@ -161,89 +152,38 @@ public sealed class DialogueOverlay : MonoBehaviour
         CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
 
-        canvasGo.AddComponent<GraphicRaycaster>();
-
-        RectTransform canvasRect = canvasGo.GetComponent<RectTransform>();
-        canvasRect.sizeDelta = canvasSize;
-
         canvasGroup = canvasGo.AddComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        if (roundedSprite == null)
-            roundedSprite = CreateRoundedSprite(256, Mathf.Max(2f, cornerRadiusPixels));
-
-        GameObject frameGo = new GameObject("Frame");
-        frameGo.transform.SetParent(canvasGo.transform, false);
-        Image frame = frameGo.AddComponent<Image>();
-        frame.sprite = roundedSprite;
-        frame.type = Image.Type.Sliced;
-        frame.color = new Color(frameColor.r, frameColor.g, frameColor.b, Mathf.Clamp01(frameAlpha));
-        RectTransform frameRect = frameGo.GetComponent<RectTransform>();
-        frameRect.anchorMin = Vector2.zero;
-        frameRect.anchorMax = Vector2.one;
-        frameRect.offsetMin = Vector2.zero;
-        frameRect.offsetMax = Vector2.zero;
-
-        GameObject bgGo = new GameObject("Background");
-        bgGo.transform.SetParent(frameGo.transform, false);
-        Image bg = bgGo.AddComponent<Image>();
-        bg.sprite = roundedSprite;
-        bg.type = Image.Type.Sliced;
-        bg.color = new Color(0f, 0f, 0f, Mathf.Clamp01(backgroundAlpha));
-        RectTransform bgRect = bgGo.GetComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        float inset = Mathf.Max(0f, frameThicknessPixels);
-        bgRect.offsetMin = new Vector2(inset, inset);
-        bgRect.offsetMax = new Vector2(-inset, -inset);
+        RectTransform canvasRect = canvasGo.GetComponent<RectTransform>();
+        canvasRect.sizeDelta = canvasSize;
 
         GameObject textGo = new GameObject("Text");
-        textGo.transform.SetParent(bgGo.transform, false);
+        textGo.transform.SetParent(canvasGo.transform, false);
+
         dialogueText = textGo.AddComponent<TextMeshProUGUI>();
         dialogueText.alignment = TextAlignmentOptions.Center;
         dialogueText.fontSize = fontSize;
         dialogueText.color = textColor;
-        RectTransform textRect = textGo.GetComponent<RectTransform>();
-        textRect.anchorMin = new Vector2(0.08f, 0.12f);
-        textRect.anchorMax = new Vector2(0.92f, 0.88f);
-        textRect.offsetMin = Vector2.zero;
-        textRect.offsetMax = Vector2.zero;
-    }
+        dialogueText.enableWordWrapping = true;
 
-    private static Sprite CreateRoundedSprite(int size, float radiusPixels)
-    {
-        int s = Mathf.Clamp(size, 64, 1024);
-        float r = Mathf.Clamp(radiusPixels, 2f, s * 0.49f);
-
-        Texture2D tex = new Texture2D(s, s, TextureFormat.RGBA32, false, true);
-        tex.wrapMode = TextureWrapMode.Clamp;
-        tex.filterMode = FilterMode.Bilinear;
-
-        Color32[] pixels = new Color32[s * s];
-        float half = (s - 1) * 0.5f;
-        float innerHalf = half - r;
-        float rSq = r * r;
-
-        for (int y = 0; y < s; y++)
+        TMP_FontAsset chineseFont = Resources.Load<TMP_FontAsset>(chineseFontResourcePath);
+        if (chineseFont != null)
         {
-            for (int x = 0; x < s; x++)
-            {
-                float dx = Mathf.Abs(x - half) - innerHalf;
-                float dy = Mathf.Abs(y - half) - innerHalf;
-                float cx = Mathf.Max(dx, 0f);
-                float cy = Mathf.Max(dy, 0f);
-                bool inside = (cx * cx + cy * cy) <= rSq;
-                pixels[y * s + x] = inside ? new Color32(255, 255, 255, 255) : new Color32(255, 255, 255, 0);
-            }
+            dialogueText.font = chineseFont;
+        }
+        else
+        {
+            Debug.LogWarning($"DialogueOverlay: 没有在 Resources/{chineseFontResourcePath} 找到中文 TMP 字体。中文可能无法显示。");
         }
 
-        tex.SetPixels32(pixels);
-        tex.Apply(false, true);
-
-        Vector4 border = new Vector4(r, r, r, r);
-        return Sprite.Create(tex, new Rect(0, 0, s, s), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+        RectTransform textRect = textGo.GetComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.offsetMin = Vector2.zero;
+        textRect.offsetMax = Vector2.zero;
     }
 
     public static void Show(string text, bool instant = false)
@@ -251,7 +191,15 @@ public sealed class DialogueOverlay : MonoBehaviour
         if (instance == null)
             return;
 
-        instance.ShowInternal(text, instant);
+        instance.ShowInternal(text, instant, -1f);
+    }
+
+    public static void ShowFor(string text, float visibleSecondsOverride, bool instant = false)
+    {
+        if (instance == null)
+            return;
+
+        instance.ShowInternal(text, instant, visibleSecondsOverride);
     }
 
     public static void Hide(bool instant = false)
@@ -262,7 +210,7 @@ public sealed class DialogueOverlay : MonoBehaviour
         instance.HideInternal(instant);
     }
 
-    private void ShowInternal(string text, bool instant)
+    private void ShowInternal(string text, bool instant, float visibleSecondsOverride)
     {
         if (dialogueText == null || canvasGroup == null)
             return;
@@ -272,7 +220,8 @@ public sealed class DialogueOverlay : MonoBehaviour
 
         if (autoHideRoutine != null)
             StopCoroutine(autoHideRoutine);
-        autoHideRoutine = StartCoroutine(AutoHideRoutine());
+
+        autoHideRoutine = StartCoroutine(AutoHideRoutine(visibleSecondsOverride));
     }
 
     private void HideInternal(bool instant)
@@ -302,6 +251,7 @@ public sealed class DialogueOverlay : MonoBehaviour
     {
         float start = canvasGroup.alpha;
         float elapsed = 0f;
+
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
@@ -315,10 +265,12 @@ public sealed class DialogueOverlay : MonoBehaviour
         fadeRoutine = null;
     }
 
-    private IEnumerator AutoHideRoutine()
+    private IEnumerator AutoHideRoutine(float visibleSecondsOverride)
     {
-        if (visibleSeconds > 0f)
-            yield return new WaitForSecondsRealtime(visibleSeconds);
+        float duration = visibleSecondsOverride >= 0f ? visibleSecondsOverride : visibleSeconds;
+
+        if (duration > 0f)
+            yield return new WaitForSecondsRealtime(duration);
 
         StartFade(0f, fadeOutDuration);
         autoHideRoutine = null;

@@ -21,14 +21,45 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [SerializeField] private float rescanIntervalSeconds = 1f;
     [SerializeField] private bool logResetCause = false;
 
+    [Header("Scene Filter")]
+    [SerializeField] private string gameSceneName = "bedroom2";
+
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
 
+    [Header("Dialogue")]
+    [SerializeField] private bool showDialogueOnStart = true;
+
+    [TextArea(2, 5)]
+    [SerializeField] private string wakeUpDialogue =
+        "又做了一场梦吗。\n房间里好黑，我好渴。";
+    
+    [TextArea(2, 5)]
+    [SerializeField] private string repeatedResetDialogue =
+    "她回来了。\n她不喜欢我把东西丢在地上，\n别让她发现。";
+
+    [TextArea(2, 5)]
+    [SerializeField] private string firstRunHintDialogue =
+        "灯的开关在右手边床头柜上，\n我记得睡前我还放了一杯水……\n把灯打开然后喝水吧。";
+
+    [SerializeField] private float timeBetweenFirstRunDialogues = 4f;
+
     private bool resetting;
+    private int resetCount = 0;
     private float lastTriggerTime;
     private float sceneLoadedAtUnscaledTime;
     private Coroutine rescanRoutine;
+    private Coroutine startDialogueRoutine;
     private string pendingResetLog;
+
+    private bool IsInGameScene()
+    {
+        return string.IsNullOrWhiteSpace(gameSceneName) ||
+            SceneManager.GetActiveScene().name == gameSceneName;
+    }
+
+    private bool hasShownFirstRunHint = false;
+    private bool showResetDialogueAfterLoad = false;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -73,29 +104,58 @@ public sealed class GlobalDropResetter : MonoBehaviour
     private void Start()
     {
         sceneLoadedAtUnscaledTime = Time.unscaledTime;
+
+        if (!IsInGameScene())
+            return;
+
         AttachWatchersInScene();
         StartRescanRoutine();
+
+        TryShowStartDialogue();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
+
+        rescanRoutine = null;
+        startDialogueRoutine = null;
+
         resetting = false;
         sceneLoadedAtUnscaledTime = Time.unscaledTime;
+
+        if (!IsInGameScene())
+        {
+            return;
+        }
+
         AttachWatchersInScene();
         StartRescanRoutine();
+
+        if (showResetDialogueAfterLoad)
+        {
+            showResetDialogueAfterLoad = false;
+            ShowResetDialogueByCount();
+        }
+        else
+        {
+            TryShowStartDialogue();
+        }
     }
 
     private void AttachWatchersInScene()
     {
         XRGrabInteractable[] grabbables = FindObjectsOfType<XRGrabInteractable>(true);
+
         for (int i = 0; i < grabbables.Length; i++)
         {
             XRGrabInteractable grabbable = grabbables[i];
+
             if (grabbable == null)
                 continue;
 
             DropWatcher watcher = grabbable.GetComponent<DropWatcher>();
+
             if (watcher == null)
                 watcher = grabbable.gameObject.AddComponent<DropWatcher>();
 
@@ -117,10 +177,68 @@ public sealed class GlobalDropResetter : MonoBehaviour
     private IEnumerator RescanRoutine()
     {
         WaitForSecondsRealtime wait = new WaitForSecondsRealtime(rescanIntervalSeconds);
+
         while (true)
         {
             AttachWatchersInScene();
             yield return wait;
+        }
+    }
+
+    private void TryShowStartDialogue()
+    {
+        if (!showDialogueOnStart)
+            return;
+
+        if (startDialogueRoutine != null)
+            return;
+
+        startDialogueRoutine = StartCoroutine(ShowStartDialogueRoutine());
+    }
+
+    private IEnumerator ShowStartDialogueRoutine()
+    {
+        yield return null;
+        yield return null;
+        yield return null;
+
+        ShowWakeUpDialogueOnly();
+
+        if (!hasShownFirstRunHint)
+        {
+            hasShownFirstRunHint = true;
+
+            if (timeBetweenFirstRunDialogues > 0f)
+                yield return new WaitForSecondsRealtime(timeBetweenFirstRunDialogues);
+
+            if (!string.IsNullOrWhiteSpace(firstRunHintDialogue))
+            {
+                DialogueOverlay.Show(firstRunHintDialogue);
+            }
+        }
+
+        startDialogueRoutine = null;
+    }
+
+    private void ShowWakeUpDialogueOnly()
+    {
+        if (!string.IsNullOrWhiteSpace(wakeUpDialogue))
+        {
+            DialogueOverlay.Show(wakeUpDialogue);
+        }
+    }
+    private void ShowResetDialogueByCount()
+    {
+        if (resetCount >= 2)
+        {
+            if (!string.IsNullOrWhiteSpace(repeatedResetDialogue))
+            {
+                DialogueOverlay.Show(repeatedResetDialogue);
+            }
+        }
+        else
+        {
+            ShowWakeUpDialogueOnly();
         }
     }
 
@@ -159,23 +277,29 @@ public sealed class GlobalDropResetter : MonoBehaviour
             return;
 
         float now = Time.unscaledTime;
+
         if (now - lastTriggerTime < cooldownSeconds)
             return;
 
         lastTriggerTime = now;
+
         if (logResetCause)
             pendingResetLog = BuildResetLog(source, ground, reason);
+
         StartCoroutine(ResetRoutine());
     }
 
     private IEnumerator ResetRoutine()
     {
         resetting = true;
+
         if (resetDelaySeconds > 0f)
             yield return new WaitForSecondsRealtime(resetDelaySeconds);
 
         if (logResetCause && !string.IsNullOrWhiteSpace(pendingResetLog))
             Debug.LogWarning(pendingResetLog);
+        resetCount++;
+        showResetDialogueAfterLoad = true;
 
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
@@ -188,6 +312,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
         string groundName = ground != null ? GetHierarchyPath(ground.transform) : "<null>";
         int frame = Time.frameCount;
         float time = Time.unscaledTime;
+
         return $"[GlobalDropResetter] Reset triggered. reason={reason}, source={sourceName}, pos={pos}, ground={groundName}, frame={frame}, time={time:F3}";
     }
 
@@ -198,6 +323,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         string path = t.name;
         Transform current = t.parent;
+
         while (current != null)
         {
             path = current.name + "/" + path;
@@ -294,6 +420,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
                 return;
 
             Collider other = collision.collider;
+
             if (other == null)
                 return;
 
