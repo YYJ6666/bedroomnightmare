@@ -16,8 +16,9 @@ public sealed class OperationHintOverlay : MonoBehaviour
     [SerializeField] private string startupHint =
         "[房间里太黑了，用grab键摸索周围。]\n[确认了位置的物体会显示轮廓。在黑暗中，你很快就会失去方向。]\n[再次触摸可以重新确认位置。]";
 
-    [SerializeField] private float startupVisibleSeconds = 60f; 
+    [SerializeField] private float startupVisibleSeconds = 60f;
     // 0 表示一直显示，不自动消失
+
     [Header("Scene Filter")]
     [SerializeField] private string gameSceneName = "bedroom2";
 
@@ -35,6 +36,10 @@ public sealed class OperationHintOverlay : MonoBehaviour
 
     [Header("Chinese Font")]
     [SerializeField] private string chineseFontResourcePath = "Fonts/simheiSDF";
+
+    [Header("Text Quality")]
+    [SerializeField] private bool extraPadding = true;
+    [SerializeField] private float dynamicPixelsPerUnit = 20f;
 
     [Header("Fade")]
     [SerializeField] private float fadeInDuration = 0.15f;
@@ -142,11 +147,13 @@ public sealed class OperationHintOverlay : MonoBehaviour
             Show(startupHint, startupVisibleSeconds);
         }
     }
+
     private bool IsInGameScene()
     {
         return string.IsNullOrWhiteSpace(gameSceneName) ||
-            SceneManager.GetActiveScene().name == gameSceneName;
+               SceneManager.GetActiveScene().name == gameSceneName;
     }
+
     private void LateUpdate()
     {
         if (canvasGroup == null || cameraTransform == null)
@@ -182,6 +189,7 @@ public sealed class OperationHintOverlay : MonoBehaviour
 
         CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+        scaler.dynamicPixelsPerUnit = dynamicPixelsPerUnit;
 
         canvasGroup = canvasGo.AddComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
@@ -196,9 +204,16 @@ public sealed class OperationHintOverlay : MonoBehaviour
 
         hintText = textGo.AddComponent<TextMeshProUGUI>();
         hintText.alignment = alignment;
-        hintText.fontSize = fontSize;
+        hintText.fontSize = fontSize; // 保持你的 15f，不改字号
         hintText.color = textColor;
         hintText.enableWordWrapping = true;
+
+        // 关键：改善小字号 TMP 在 World Space Canvas 下的灰底 / 边缘脏块
+        hintText.extraPadding = extraPadding;
+        hintText.richText = true;
+        hintText.raycastTarget = false;
+        hintText.overflowMode = TextOverflowModes.Overflow;
+        hintText.isTextObjectScaleStatic = false;
 
         TMP_FontAsset chineseFont = Resources.Load<TMP_FontAsset>(chineseFontResourcePath);
         if (chineseFont != null)
@@ -273,6 +288,7 @@ public sealed class OperationHintOverlay : MonoBehaviour
             return;
 
         hintText.text = FormatText(text);
+        hintText.ForceMeshUpdate();
 
         StartFade(1f, instant ? 0f : fadeInDuration);
 
@@ -295,6 +311,7 @@ public sealed class OperationHintOverlay : MonoBehaviour
             return;
 
         hintText.text = FormatText(text);
+        hintText.ForceMeshUpdate();
     }
 
     private void HideInternal(bool instant)
