@@ -1,12 +1,16 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 using Unity.XR.CoreUtils;
 
 public sealed class GlobalDropResetter : MonoBehaviour
 {
     private static GlobalDropResetter instance;
+
+    [Header("Scene Filter")]
+    [SerializeField] private string gameSceneName = "bedroom2";
 
     [Header("Detection")]
     [SerializeField] private string groundTag = "Ground";
@@ -20,46 +24,61 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [SerializeField] private float cooldownSeconds = 0.5f;
     [SerializeField] private float rescanIntervalSeconds = 1f;
     [SerializeField] private bool logResetCause = false;
+    [Header("Scream Before Reset")]
+    [SerializeField] private AudioClip screamBeforeResetClip;
+    [SerializeField] private float screamVolume = 1f;
 
-    [Header("Scene Filter")]
-    [SerializeField] private string gameSceneName = "bedroom2";
+    [Tooltip("落地音效结束/等待后，再延迟多久播放尖叫。")]
+    [SerializeField] private float waitBeforeScream = 0.1f;
+
+    [Tooltip("尖叫播放多久后开始黑屏。0 表示自动按尖叫音频长度等待一小段。")]
+    [SerializeField] private float waitAfterScream = 0f;
+    [Header("Sound")]
+    [Tooltip("如果物体没有 DropResetSoundProfile，就播放这个默认声音。")]
+    [SerializeField] private AudioClip defaultDropSound;
+    [SerializeField] private float defaultVolume = 1f;
+
+    [Header("Black Screen")]
+    [SerializeField] private bool useBlackScreenBeforeReset = true;
+    [SerializeField] private float fadeToBlackTime = 0.8f;
+    [SerializeField] private float blackHoldTime = 0.35f;
 
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
 
-    [Header("Dialogue")]
+    [Header("Start Dialogue")]
     [SerializeField] private bool showDialogueOnStart = true;
 
     [TextArea(2, 5)]
     [SerializeField] private string wakeUpDialogue =
         "又做了一场梦吗。\n房间里好黑，我好渴。";
-    
+
+    [TextArea(2, 6)]
+    [SerializeField] private string firstRunHintDialogue =
+        "灯的开关在右手边床头柜上，我记得睡前我还放了一杯水……\n把灯打开然后喝水吧。";
+
+    [SerializeField] private float timeBetweenFirstRunDialogues = 3f;
+
     [TextArea(2, 5)]
     [SerializeField] private string repeatedResetDialogue =
-    "她回来了。\n她不喜欢我把东西丢在地上，\n别让她发现。";
-
-    [TextArea(2, 5)]
-    [SerializeField] private string firstRunHintDialogue =
-        "灯的开关在右手边床头柜上，\n我记得睡前我还放了一杯水……\n把灯打开然后喝水吧。";
-
-    [SerializeField] private float timeBetweenFirstRunDialogues = 4f;
+        "她回来了。\n她不喜欢我把东西丢在地上，别让她发现。";   
 
     private bool resetting;
-    private int resetCount = 0;
     private float lastTriggerTime;
     private float sceneLoadedAtUnscaledTime;
     private Coroutine rescanRoutine;
     private Coroutine startDialogueRoutine;
     private string pendingResetLog;
 
-    private bool IsInGameScene()
-    {
-        return string.IsNullOrWhiteSpace(gameSceneName) ||
-            SceneManager.GetActiveScene().name == gameSceneName;
-    }
+    private CanvasGroup blackCanvasGroup;
 
-    private bool hasShownFirstRunHint = false;
+    private int resetCount = 0;
     private bool showResetDialogueAfterLoad = false;
+    private bool hasShownFirstRunHint = false;
+
+    private XRGrabInteractable pendingResetSource;
+    private Collider pendingResetGround;
+    private string pendingResetReason;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -99,6 +118,18 @@ public sealed class GlobalDropResetter : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (rescanRoutine != null)
+        {
+            StopCoroutine(rescanRoutine);
+            rescanRoutine = null;
+        }
+
+        if (startDialogueRoutine != null)
+        {
+            StopCoroutine(startDialogueRoutine);
+            startDialogueRoutine = null;
+        }
     }
 
     private void Start()
@@ -110,7 +141,6 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         AttachWatchersInScene();
         StartRescanRoutine();
-
         TryShowStartDialogue();
     }
 
@@ -122,12 +152,20 @@ public sealed class GlobalDropResetter : MonoBehaviour
         startDialogueRoutine = null;
 
         resetting = false;
+        pendingResetSource = null;
+        pendingResetGround = null;
+        pendingResetReason = null;
+
         sceneLoadedAtUnscaledTime = Time.unscaledTime;
 
-        if (!IsInGameScene())
+        if (blackCanvasGroup != null)
         {
-            return;
+            Destroy(blackCanvasGroup.gameObject);
+            blackCanvasGroup = null;
         }
+
+        if (!IsInGameScene())
+            return;
 
         AttachWatchersInScene();
         StartRescanRoutine();
@@ -145,6 +183,9 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
     private void AttachWatchersInScene()
     {
+        if (!IsInGameScene())
+            return;
+
         XRGrabInteractable[] grabbables = FindObjectsOfType<XRGrabInteractable>(true);
 
         for (int i = 0; i < grabbables.Length; i++)
@@ -165,6 +206,9 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
     private void StartRescanRoutine()
     {
+        if (!IsInGameScene())
+            return;
+
         if (rescanIntervalSeconds <= 0f)
             return;
 
@@ -185,61 +229,10 @@ public sealed class GlobalDropResetter : MonoBehaviour
         }
     }
 
-    private void TryShowStartDialogue()
+    private bool IsInGameScene()
     {
-        if (!showDialogueOnStart)
-            return;
-
-        if (startDialogueRoutine != null)
-            return;
-
-        startDialogueRoutine = StartCoroutine(ShowStartDialogueRoutine());
-    }
-
-    private IEnumerator ShowStartDialogueRoutine()
-    {
-        yield return null;
-        yield return null;
-        yield return null;
-
-        ShowWakeUpDialogueOnly();
-
-        if (!hasShownFirstRunHint)
-        {
-            hasShownFirstRunHint = true;
-
-            if (timeBetweenFirstRunDialogues > 0f)
-                yield return new WaitForSecondsRealtime(timeBetweenFirstRunDialogues);
-
-            if (!string.IsNullOrWhiteSpace(firstRunHintDialogue))
-            {
-                DialogueOverlay.Show(firstRunHintDialogue);
-            }
-        }
-
-        startDialogueRoutine = null;
-    }
-
-    private void ShowWakeUpDialogueOnly()
-    {
-        if (!string.IsNullOrWhiteSpace(wakeUpDialogue))
-        {
-            DialogueOverlay.Show(wakeUpDialogue);
-        }
-    }
-    private void ShowResetDialogueByCount()
-    {
-        if (resetCount >= 2)
-        {
-            if (!string.IsNullOrWhiteSpace(repeatedResetDialogue))
-            {
-                DialogueOverlay.Show(repeatedResetDialogue);
-            }
-        }
-        else
-        {
-            ShowWakeUpDialogueOnly();
-        }
+        return string.IsNullOrWhiteSpace(gameSceneName) ||
+               SceneManager.GetActiveScene().name == gameSceneName;
     }
 
     internal bool IsGroundCollider(Collider other)
@@ -276,12 +269,19 @@ public sealed class GlobalDropResetter : MonoBehaviour
         if (resetting)
             return;
 
+        if (!IsInGameScene())
+            return;
+
         float now = Time.unscaledTime;
 
         if (now - lastTriggerTime < cooldownSeconds)
             return;
 
         lastTriggerTime = now;
+
+        pendingResetSource = source;
+        pendingResetGround = ground;
+        pendingResetReason = reason;
 
         if (logResetCause)
             pendingResetLog = BuildResetLog(source, ground, reason);
@@ -293,16 +293,250 @@ public sealed class GlobalDropResetter : MonoBehaviour
     {
         resetting = true;
 
+        XRGrabInteractable source = pendingResetSource;
+        Collider ground = pendingResetGround;
+
+        DisableDroppedObject(source);
+
+        AudioClip clip = defaultDropSound;
+        float volume = defaultVolume;
+        float waitBeforeFade = 0.2f;
+
+        if (source != null)
+        {
+            DropResetSoundProfile profile = source.GetComponent<DropResetSoundProfile>();
+
+            if (profile != null)
+            {
+                if (profile.DropSound != null)
+                    clip = profile.DropSound;
+
+                volume = profile.Volume;
+                waitBeforeFade = profile.GetWaitBeforeFade();
+            }
+            else if (clip != null)
+            {
+                waitBeforeFade = Mathf.Min(clip.length, 1.2f);
+            }
+        }
+
+        // 1. 播放物体自己的落地声音
+        PlayOneShotSound(clip, volume, "DropResetSound");
+
+        if (waitBeforeFade > 0f)
+            yield return new WaitForSecondsRealtime(waitBeforeFade);
+
+        // 2. 播放 reset 前的尖叫声
+        if (waitBeforeScream > 0f)
+            yield return new WaitForSecondsRealtime(waitBeforeScream);
+
+        PlayOneShotSound(screamBeforeResetClip, screamVolume, "ScreamBeforeResetSound");
+
+        float screamWait = GetScreamWaitTime();
+
+        if (screamWait > 0f)
+            yield return new WaitForSecondsRealtime(screamWait);
+
+        // 3. 黑屏
+        if (useBlackScreenBeforeReset)
+        {
+            yield return FadeToBlack();
+
+            if (blackHoldTime > 0f)
+                yield return new WaitForSecondsRealtime(blackHoldTime);
+        }
+
         if (resetDelaySeconds > 0f)
             yield return new WaitForSecondsRealtime(resetDelaySeconds);
 
         if (logResetCause && !string.IsNullOrWhiteSpace(pendingResetLog))
             Debug.LogWarning(pendingResetLog);
+
         resetCount++;
         showResetDialogueAfterLoad = true;
 
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
+    }
+
+    private void DisableDroppedObject(XRGrabInteractable source)
+    {
+        if (source == null)
+            return;
+
+        source.enabled = false;
+
+        Rigidbody rb = source.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.useGravity = false;
+            rb.isKinematic = true;
+        }
+    }
+
+    private void PlayOneShotSound(AudioClip clip, float volume, string objectName)
+    {
+        if (clip == null)
+            return;
+
+        GameObject audioGo = new GameObject(objectName);
+        DontDestroyOnLoad(audioGo);
+
+        AudioSource source = audioGo.AddComponent<AudioSource>();
+        source.playOnAwake = false;
+        source.spatialBlend = 0f;
+        source.volume = volume;
+        source.clip = clip;
+        source.Play();
+
+        Destroy(audioGo, clip.length + 0.5f);
+    }
+
+    private float GetScreamWaitTime()
+    {
+        if (screamBeforeResetClip == null)
+            return 0f;
+
+        if (waitAfterScream > 0f)
+            return waitAfterScream;
+
+        return Mathf.Min(screamBeforeResetClip.length, 1.5f);
+    }
+
+    private IEnumerator FadeToBlack()
+    {
+        EnsureBlackScreen();
+
+        if (blackCanvasGroup == null)
+            yield break;
+
+        blackCanvasGroup.gameObject.SetActive(true);
+
+        float startAlpha = blackCanvasGroup.alpha;
+        float elapsed = 0f;
+
+        while (elapsed < fadeToBlackTime)
+        {
+            elapsed += Time.unscaledDeltaTime;
+
+            float t = Mathf.Clamp01(elapsed / fadeToBlackTime);
+            t = t * t * (3f - 2f * t);
+
+            blackCanvasGroup.alpha = Mathf.Lerp(startAlpha, 1f, t);
+
+            yield return null;
+        }
+
+        blackCanvasGroup.alpha = 1f;
+    }
+
+    private void EnsureBlackScreen()
+    {
+        if (blackCanvasGroup != null)
+            return;
+
+        GameObject canvasGo = new GameObject("GlobalResetBlackScreenCanvas");
+        DontDestroyOnLoad(canvasGo);
+
+        Canvas canvas = canvasGo.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 99999;
+
+        CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
+        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        scaler.referenceResolution = new Vector2(1920f, 1080f);
+
+        blackCanvasGroup = canvasGo.AddComponent<CanvasGroup>();
+        blackCanvasGroup.alpha = 0f;
+        blackCanvasGroup.interactable = false;
+        blackCanvasGroup.blocksRaycasts = false;
+
+        GameObject imageGo = new GameObject("BlackImage");
+        imageGo.transform.SetParent(canvasGo.transform, false);
+
+        Image image = imageGo.AddComponent<Image>();
+        image.color = Color.black;
+
+        RectTransform rect = imageGo.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+    }
+
+    // =========================
+    // Dialogue Logic
+    // =========================
+
+    private void TryShowStartDialogue()
+    {
+        if (!showDialogueOnStart)
+            return;
+
+        if (!IsInGameScene())
+            return;
+
+        if (hasShownFirstRunHint)
+            return;
+
+        if (startDialogueRoutine != null)
+            StopCoroutine(startDialogueRoutine);
+
+        startDialogueRoutine = StartCoroutine(ShowStartDialogueRoutine());
+    }
+
+    private IEnumerator ShowStartDialogueRoutine()
+    {
+        hasShownFirstRunHint = true;
+
+        yield return null;
+        yield return null;
+        yield return null;
+
+        if (!string.IsNullOrWhiteSpace(wakeUpDialogue))
+            DialogueOverlay.Show(wakeUpDialogue.Replace("\\n", "\n"));
+
+        if (timeBetweenFirstRunDialogues > 0f)
+            yield return new WaitForSecondsRealtime(timeBetweenFirstRunDialogues);
+
+        if (!string.IsNullOrWhiteSpace(firstRunHintDialogue))
+            DialogueOverlay.Show(firstRunHintDialogue.Replace("\\n", "\n"));
+
+        startDialogueRoutine = null;
+    }
+
+    private void ShowWakeUpDialogueOnly()
+    {
+        if (!showDialogueOnStart)
+            return;
+
+        if (!IsInGameScene())
+            return;
+
+        if (!string.IsNullOrWhiteSpace(wakeUpDialogue))
+            DialogueOverlay.Show(wakeUpDialogue.Replace("\\n", "\n"));
+    }
+
+    private void ShowResetDialogueByCount()
+    {
+        if (!showDialogueOnStart)
+            return;
+
+        if (!IsInGameScene())
+            return;
+
+        if (resetCount >= 2)
+        {
+            if (!string.IsNullOrWhiteSpace(repeatedResetDialogue))
+                DialogueOverlay.Show(repeatedResetDialogue.Replace("\\n", "\n"));
+        }
+        else
+        {
+            ShowWakeUpDialogueOnly();
+        }
     }
 
     private static string BuildResetLog(XRGrabInteractable source, Collider ground, string reason)

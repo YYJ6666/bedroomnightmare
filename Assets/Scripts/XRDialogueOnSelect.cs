@@ -1,25 +1,38 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(XRSimpleInteractable))]
+[RequireComponent(typeof(XRBaseInteractable))]
 public class XRDialogueOnSelect : MonoBehaviour
 {
     [Header("Dialogue")]
-    [TextArea(2, 5)]
+    [TextArea(2, 6)]
     [SerializeField] private string dialogueText = "这里写要显示的文字。";
 
     [SerializeField] private bool instant = false;
+    [SerializeField] private bool showOnlyOnce = false;
 
-    private XRSimpleInteractable interactable;
+    [Header("Grab / Socket")]
+    [SerializeField] private bool ignoreSocketSelect = true;
+
+    private XRBaseInteractable interactable;
+    private bool hasShown = false;
 
     private void Awake()
     {
-        interactable = GetComponent<XRSimpleInteractable>();
+        interactable = GetComponent<XRBaseInteractable>();
     }
 
     private void OnEnable()
     {
-        interactable.selectEntered.AddListener(OnSelected);
+        if (interactable == null)
+        {
+            interactable = GetComponent<XRBaseInteractable>();
+        }
+
+        if (interactable != null)
+        {
+            interactable.selectEntered.AddListener(OnSelected);
+        }
     }
 
     private void OnDisable()
@@ -32,6 +45,20 @@ public class XRDialogueOnSelect : MonoBehaviour
 
     private void OnSelected(SelectEnterEventArgs args)
     {
-        DialogueOverlay.Show(dialogueText, instant);
+        // 如果是 Socket 自动吸附触发的 Select，不显示对话
+        if (ignoreSocketSelect && args.interactorObject is XRSocketInteractor)
+        {
+            return;
+        }
+
+        if (showOnlyOnce && hasShown)
+        {
+            return;
+        }
+
+        hasShown = true;
+
+        string finalText = dialogueText.Replace("\\n", "\n");
+        DialogueOverlay.Show(finalText, instant);
     }
 }

@@ -14,9 +14,9 @@ public sealed class OperationHintOverlay : MonoBehaviour
 
     [TextArea(2, 5)]
     [SerializeField] private string startupHint =
-        "[房间里太黑了，用grab键摸索周围。]";
+        "[房间里太黑了，用grab键摸索周围。]\n[确认了位置的物体会显示轮廓。在黑暗中，你很快就会失去方向。]\n[再次触摸可以重新确认位置。]";
 
-    [SerializeField] private float startupVisibleSeconds = 12f; 
+    [SerializeField] private float startupVisibleSeconds = 30f; 
     // 0 表示一直显示，不自动消失
     [Header("Scene Filter")]
     [SerializeField] private string gameSceneName = "bedroom2";

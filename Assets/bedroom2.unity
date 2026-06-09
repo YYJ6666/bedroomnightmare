@@ -2468,6 +2468,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
       insertIndex: -1
       addedObject: {fileID: 428932201}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932204}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932207}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932208}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932209}
   m_SourcePrefab: {fileID: 100100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
 --- !u!1 &266231557
 GameObject:
@@ -3415,6 +3427,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowObject: {fileID: 428932200}
+--- !u!114 &428932204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe92ef1825d76e946ad5bb56c00c65a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSceneName: bedroom2
+  glowObject: {fileID: 428932200}
+  onlyFirstRun: 1
+  uniqueId: 
+  ignoreSocketSelect: 1
+  callRevealOnFirstSelect: 1
+--- !u!114 &428932207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u559D\u4E86\u6C34\u3002\n\u8FD8\u662F\u597D\u6E34\u3002"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
+--- !u!114 &428932208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58526bb9753f564fb59e9abd385a265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drinkOnlyOnce: 1
+  hasDrunk: 0
+  cameraTransform: {fileID: 0}
+  localDrinkPosition: {x: 0.12, y: -0.18, z: 0.35}
+  localDrinkEuler: {x: -25, y: 0, z: 0}
+  moveToMouthTime: 0.45
+  drinkHoldTime: 1.2
+  moveBackTime: 0.35
+  drinkAudio: {fileID: 0}
+  forceGravityAfterDrink: 1
+  forceNonKinematicAfterDrink: 1
+  stopVelocityAfterDrink: 1
+--- !u!114 &428932209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac55d5a5e6e1b24ba0350a1f67b79fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropSound: {fileID: 0}
+  volume: 1
+  waitBeforeFade: 0
 --- !u!1001 &442422595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4167,6 +4252,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 6fdb1a2c71a97874882aecfd5b92fa11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 590131827}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: 6fdb1a2c71a97874882aecfd5b92fa11, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 590131830}
   m_SourcePrefab: {fileID: 100100000, guid: 6fdb1a2c71a97874882aecfd5b92fa11, type: 3}
 --- !u!1 &487835971 stripped
 GameObject:
@@ -4910,6 +4998,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueText: "\u706F\u6253\u4E0D\u5F00\u2026\u2026\u505C\u7535\u4E86\u5417?\n\u51FA\u53BB\u770B\u770B\u4EC0\u4E48\u60C5\u51B5\u5427\u3002"
   instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
+--- !u!114 &590131830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590131816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe92ef1825d76e946ad5bb56c00c65a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSceneName: bedroom2
+  glowObject: {fileID: 590131817}
+  onlyFirstRun: 1
+  uniqueId: 
+  ignoreSocketSelect: 1
+  callRevealOnFirstSelect: 1
 --- !u!1 &591207249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1895757708702104, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}

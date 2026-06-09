@@ -3,7 +3,9 @@ guid: bdf991a18d02760498aca1a3ad4eb066
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - screamBeforeResetClip: {fileID: 8300000, guid: 3147e6427ee16d64e9dd329d2714c1be, type: 3}
+  - defaultDropSound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
