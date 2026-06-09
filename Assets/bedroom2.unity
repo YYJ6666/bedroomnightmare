@@ -971,6 +971,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3174904133223890789, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
   m_PrefabInstance: {fileID: 1453975582}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &118890920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118890907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u5E8A\u5934\u67DC\u3002\u91CC\u9762\u9501\u7740\u4E00\u4E9B\u6211\u4E0D\u60F3\u770B\u5230\u7684\u4E1C\u897F\u3002"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1 &123463718
 GameObject:
   m_ObjectHideFlags: 0
@@ -10786,8 +10802,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.8, z: 0.6}
-  m_Center: {x: -0.03, y: 0.35, z: -0.5}
+  m_Size: {x: 0.5, y: 0.8, z: 0.5}
+  m_Center: {x: -0.03, y: 0.35, z: 0}
 --- !u!1 &1248462217
 GameObject:
   m_ObjectHideFlags: 0
@@ -13769,6 +13785,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2829481919296234975, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 118890912}
+    - targetCorrespondingSourceObject: {fileID: 2829481919296234975, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 118890920}
     - targetCorrespondingSourceObject: {fileID: 2581745182649784471, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2049264159}
