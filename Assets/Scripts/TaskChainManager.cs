@@ -27,10 +27,20 @@ public class TaskChainManager : MonoBehaviour
         [Header("On Start Optional")]
         public bool showStartDialogue = false;
 
+        [Tooltip("任务开始后，延迟多少秒显示 Start Dialogue。")]
         public float startDialogueDelay = 0f;
 
         [TextArea(2, 5)]
         public string startDialogue = "";
+
+        [Header("TV Screen Text On Task Start")]
+        public bool setTVTextOnTaskStart = false;
+
+        [TextArea(2, 5)]
+        public string tvScreenTextOnTaskStart = "";
+
+        [Tooltip("任务开始后，延迟多少秒修改电视文字。")]
+        public float tvScreenTextDelay = 0f;
 
         [Header("On Complete Optional")]
         public bool showDialogueOnComplete = false;
@@ -50,7 +60,15 @@ public class TaskChainManager : MonoBehaviour
     [SerializeField] private int currentTaskIndex = 0;
     [SerializeField] private bool autoStart = true;
 
-    private Coroutine hintRoutine;
+    [Header("Checkpoint")]
+    [SerializeField] private bool saveCheckpointOnTaskComplete = true;
+    [SerializeField] private string checkpointPrefix = "after_";
+
+    [Header("Debug")]
+    [SerializeField] private bool logDebug = true;
+
+    private Coroutine taskRoutine;
+    private Coroutine tvTextRoutine;
     private bool isRunning;
 
     public int CurrentTaskIndex => currentTaskIndex;
@@ -68,18 +86,33 @@ public class TaskChainManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     private void Start()
     {
         if (autoStart)
-        {
             StartCurrentTask();
-        }
     }
 
     public void StartCurrentTask()
+    {
+        StartCurrentTask(true);
+    }
+
+    public void StartCurrentTask(bool replayStartDialogue)
     {
         if (!IsInTargetScene())
             return;
@@ -92,19 +125,31 @@ public class TaskChainManager : MonoBehaviour
 
         if (currentTaskIndex < 0 || currentTaskIndex >= tasks.Length)
         {
-            Debug.Log("[TaskChainManager] 所有任务已完成。");
+            StopCurrentTaskRuntime();
+
+            if (logDebug)
+                Debug.Log("[TaskChainManager] 所有任务已完成。");
+
             return;
         }
 
-        StopCurrentHint();
+        StopCurrentTaskRuntime();
 
         TaskStep task = tasks[currentTaskIndex];
-
         isRunning = true;
 
-        hintRoutine = StartCoroutine(TaskHintRoutine(task));
+        if (task.setTVTextOnTaskStart)
+            tvTextRoutine = StartCoroutine(SetTVTextRoutine(task));
 
-        Debug.Log($"[TaskChainManager] Start Task: {task.taskId}");
+        taskRoutine = StartCoroutine(TaskRoutine(task, replayStartDialogue));
+
+        if (logDebug)
+            Debug.Log($"[TaskChainManager] Start Task: {task.taskId}, index={currentTaskIndex}, replayStartDialogue={replayStartDialogue}");
+    }
+
+    public void ReplayCurrentTaskStartPrompt()
+    {
+        StartCurrentTask(true);
     }
 
     public void CompleteCurrentTask()
@@ -112,9 +157,7 @@ public class TaskChainManager : MonoBehaviour
         if (tasks == null || currentTaskIndex < 0 || currentTaskIndex >= tasks.Length)
             return;
 
-        TaskStep task = tasks[currentTaskIndex];
-
-        CompleteTask(task.taskId);
+        CompleteTask(tasks[currentTaskIndex].taskId);
     }
 
     public void CompleteTask(string taskId)
@@ -129,28 +172,35 @@ public class TaskChainManager : MonoBehaviour
 
         if (currentTask.taskId != taskId)
         {
-            Debug.Log($"[TaskChainManager] 当前任务是 {currentTask.taskId}，收到完成 {taskId}，已忽略。");
+            if (logDebug)
+                Debug.Log($"[TaskChainManager] 当前任务是 {currentTask.taskId}，收到完成 {taskId}，已忽略。");
+
             return;
         }
 
-        StopCurrentHint();
+        StopCurrentTaskRuntime();
 
         if (currentTask.showDialogueOnComplete && !string.IsNullOrWhiteSpace(currentTask.completeDialogue))
-        {
             ShowText(currentTask.completeDialogue, currentTask);
-        }
 
-        Debug.Log($"[TaskChainManager] Complete Task: {currentTask.taskId}");
+        if (logDebug)
+            Debug.Log($"[TaskChainManager] Complete Task: {currentTask.taskId}, index={currentTaskIndex}");
 
         currentTaskIndex++;
 
+        // 注意：必须在 currentTaskIndex++ 之后保存，这样 checkpoint 才会保存到“下一个任务阶段”。
+        if (saveCheckpointOnTaskComplete)
+            CheckpointManager.SaveCheckpoint(checkpointPrefix + taskId);
+
         if (currentTaskIndex >= tasks.Length)
         {
-            Debug.Log("[TaskChainManager] 所有任务完成。");
+            if (logDebug)
+                Debug.Log("[TaskChainManager] 所有任务已完成。");
+
             return;
         }
 
-        StartCurrentTask();
+        StartCurrentTask(true);
     }
 
     public bool IsCurrentTask(string taskId)
@@ -158,52 +208,82 @@ public class TaskChainManager : MonoBehaviour
         return CurrentTaskId == taskId;
     }
 
-    public void SetTaskIndex(int index)
+    public int GetCurrentTaskIndex()
     {
+        return currentTaskIndex;
+    }
+
+    public void RestoreTaskIndex(int index)
+    {
+        RestoreTaskIndex(index, false);
+    }
+
+    public void RestoreTaskIndex(int index, bool replayStartDialogue)
+    {
+        StopCurrentTaskRuntime();
+
         if (tasks == null || tasks.Length == 0)
+        {
+            currentTaskIndex = index;
             return;
+        }
 
         currentTaskIndex = Mathf.Clamp(index, 0, tasks.Length);
-        StartCurrentTask();
+
+        if (currentTaskIndex < tasks.Length)
+            StartCurrentTask(replayStartDialogue);
+    }
+
+    public void SetTaskIndex(int index)
+    {
+        RestoreTaskIndex(index, true);
     }
 
     public void StopCurrentHint()
     {
+        StopCurrentTaskRuntime();
+    }
+
+    private void StopCurrentTaskRuntime()
+    {
         isRunning = false;
 
-        if (hintRoutine != null)
+        if (taskRoutine != null)
         {
-            StopCoroutine(hintRoutine);
-            hintRoutine = null;
+            StopCoroutine(taskRoutine);
+            taskRoutine = null;
+        }
+
+        if (tvTextRoutine != null)
+        {
+            StopCoroutine(tvTextRoutine);
+            tvTextRoutine = null;
         }
     }
 
-    private IEnumerator TaskHintRoutine(TaskStep task)
+    private IEnumerator TaskRoutine(TaskStep task, bool replayStartDialogue)
     {
-        if (task.showStartDialogue && !string.IsNullOrWhiteSpace(task.startDialogue))
+        if (replayStartDialogue && task.showStartDialogue && !string.IsNullOrWhiteSpace(task.startDialogue))
         {
             if (task.startDialogueDelay > 0f)
-            {
                 yield return new WaitForSecondsRealtime(task.startDialogueDelay);
-            }
 
-            if (isRunning)
-            {
-                ShowText(task.startDialogue, task);
-            }
+            if (!isRunning)
+                yield break;
+
+            ShowText(task.startDialogue, task);
         }
 
         if (task.firstDelay > 0f)
-        {
             yield return new WaitForSecondsRealtime(task.firstDelay);
-        }
+
+        if (!isRunning)
+            yield break;
 
         while (isRunning)
         {
             if (!string.IsNullOrWhiteSpace(task.repeatingHint))
-            {
                 ShowText(task.repeatingHint, task);
-            }
 
             if (task.repeatInterval <= 0f)
                 yield break;
@@ -212,19 +292,26 @@ public class TaskChainManager : MonoBehaviour
         }
     }
 
+    private IEnumerator SetTVTextRoutine(TaskStep task)
+    {
+        if (task.tvScreenTextDelay > 0f)
+            yield return new WaitForSecondsRealtime(task.tvScreenTextDelay);
+
+        if (!isRunning)
+            yield break;
+
+        TVScreenTextManager.SetText(task.tvScreenTextOnTaskStart);
+    }
+
     private void ShowText(string text, TaskStep task)
     {
         string finalText = FormatText(text);
 
         if (task.useDialogueOverlay)
-        {
             DialogueOverlay.Show(finalText);
-        }
 
         if (task.useOperationHintOverlay)
-        {
             OperationHintOverlay.Show(finalText, task.visibleSeconds);
-        }
     }
 
     private string FormatText(string text)

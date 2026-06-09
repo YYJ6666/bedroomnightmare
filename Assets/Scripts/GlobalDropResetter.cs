@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -46,12 +48,32 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [Header("Reset")]
     [SerializeField] private float resetDelaySeconds = 0.1f;
 
+    [Header("Checkpoint Reset")]
+    [Tooltip("如果场景里存在 CheckpointManager，Reset 时优先回到最近一次检查点。")]
+    [SerializeField] private bool resetToCheckpointIfAvailable = true;
+
+    [Header("Reset Dialogue / Task Prompt")]
+    [Tooltip("Reset 后重新播放当前 Task 的开始提示。需要场景里有 TaskChainManager。")]
+    [SerializeField] private bool replayCurrentTaskStartPromptOnReset = true;
+
+    [Tooltip("重新进入场景后，等待多久再尝试重放当前 Task 的开始提示。建议给 CheckpointManager 一点时间恢复任务阶段。")]
+    [SerializeField] private float waitBeforeReplayTaskPromptAfterLoad = 0.25f;
+
+    [Tooltip("如果没有找到 TaskChainManager 或无法重放当前任务提示，则使用下面的旧 Reset 台词。")]
+    [SerializeField] private bool showOldResetDialogueIfTaskReplayFails = true;
+
+    [Tooltip("Reset 重新进入场景后，先播放 Reset 开场白，再重放当前 Task 的 startDialogue，避免两段字幕互相覆盖。")]
+    [SerializeField] private bool showResetDialogueBeforeTaskPrompt = true;
+
+    [Tooltip("Reset 开场白显示后，等待多久再重放当前 Task 的 startDialogue。建议设置成和开场白可读时间接近。")]
+    [SerializeField] private float waitAfterResetDialogueBeforeTaskPrompt = 3f;
+
     [Header("Start Dialogue")]
     [SerializeField] private bool showDialogueOnStart = true;
 
     [TextArea(2, 5)]
     [SerializeField] private string wakeUpDialogue =
-        "又做了一场梦吗。\n房间里好黑，我好渴。";
+        "是梦吗。\n房间里好黑，我好渴。";
 
     [TextArea(2, 6)]
     [SerializeField] private string firstRunHintDialogue =
@@ -68,6 +90,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
     private float sceneLoadedAtUnscaledTime;
     private Coroutine rescanRoutine;
     private Coroutine startDialogueRoutine;
+    private Coroutine resetAfterLoadRoutine;
     private string pendingResetLog;
 
     private CanvasGroup blackCanvasGroup;
@@ -130,6 +153,12 @@ public sealed class GlobalDropResetter : MonoBehaviour
             StopCoroutine(startDialogueRoutine);
             startDialogueRoutine = null;
         }
+
+        if (resetAfterLoadRoutine != null)
+        {
+            StopCoroutine(resetAfterLoadRoutine);
+            resetAfterLoadRoutine = null;
+        }
     }
 
     private void Start()
@@ -150,6 +179,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         rescanRoutine = null;
         startDialogueRoutine = null;
+        resetAfterLoadRoutine = null;
 
         resetting = false;
         pendingResetSource = null;
@@ -173,7 +203,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
         if (showResetDialogueAfterLoad)
         {
             showResetDialogueAfterLoad = false;
-            ShowResetDialogueByCount();
+            resetAfterLoadRoutine = StartCoroutine(HandleAfterResetSceneLoadedRoutine());
         }
         else
         {
@@ -355,8 +385,212 @@ public sealed class GlobalDropResetter : MonoBehaviour
         resetCount++;
         showResetDialogueAfterLoad = true;
 
+        if (resetToCheckpointIfAvailable && TryResetWithCheckpointManager())
+            yield break;
+
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
+    }
+
+    private IEnumerator HandleAfterResetSceneLoadedRoutine()
+    {
+        // 等待场景物体、TaskChainManager、CheckpointManager 都完成 Awake / Start。
+        // CheckpointManager 通常会在 sceneLoaded 后再等几帧恢复 currentTaskIndex。
+        yield return null;
+        yield return null;
+        yield return null;
+
+        if (waitBeforeReplayTaskPromptAfterLoad > 0f)
+            yield return new WaitForSecondsRealtime(waitBeforeReplayTaskPromptAfterLoad);
+
+        bool hasShownResetDialogue = false;
+
+        // 先播放 reset 开场白，再重放当前 task 的 startDialogue，避免两段字幕互相覆盖。
+        if (showResetDialogueBeforeTaskPrompt && showDialogueOnStart)
+        {
+            ShowResetDialogueByCount();
+            hasShownResetDialogue = true;
+
+            if (waitAfterResetDialogueBeforeTaskPrompt > 0f)
+                yield return new WaitForSecondsRealtime(waitAfterResetDialogueBeforeTaskPrompt);
+        }
+
+        bool replayedTaskPrompt = false;
+
+        if (replayCurrentTaskStartPromptOnReset)
+            replayedTaskPrompt = TryReplayCurrentTaskStartPrompt();
+
+        // 如果没有成功重放 task 提示，而且前面还没播过 reset 开场白，就回退到旧 reset 台词。
+        if (!replayedTaskPrompt && !hasShownResetDialogue && showOldResetDialogueIfTaskReplayFails)
+            ShowResetDialogueByCount();
+
+        resetAfterLoadRoutine = null;
+    }
+
+    private bool TryResetWithCheckpointManager()
+    {
+        Type checkpointType = FindTypeByName("CheckpointManager");
+
+        if (checkpointType == null)
+            return false;
+
+        MethodInfo resetMethod = checkpointType.GetMethod(
+            "ResetToCheckpointOrReloadCurrentScene",
+            BindingFlags.Public | BindingFlags.Static
+        );
+
+        if (resetMethod == null)
+            return false;
+
+        try
+        {
+            resetMethod.Invoke(null, null);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[GlobalDropResetter] 调用 CheckpointManager.ResetToCheckpointOrReloadCurrentScene 失败，将退回普通重载。\n{e}");
+            return false;
+        }
+    }
+
+    private bool TryReplayCurrentTaskStartPrompt()
+    {
+        Type taskManagerType = FindTypeByName("TaskChainManager");
+
+        if (taskManagerType == null)
+            return false;
+
+        object taskManager = GetTaskManagerInstance(taskManagerType);
+
+        if (taskManager == null)
+            return false;
+
+        // 1. 优先调用 TaskChainManager 里专门用于 reset 后重放开始提示的方法。
+        //    这些方法没有参数，因此不会发生 AmbiguousMatchException。
+        string[] noParameterCandidateMethodNames =
+        {
+            "ReplayCurrentTaskStartDialogueAfterReset",
+            "ReplayCurrentTaskStartDialogue",
+            "ReplayStartDialogueForCurrentTask"
+        };
+
+        for (int i = 0; i < noParameterCandidateMethodNames.Length; i++)
+        {
+            MethodInfo method = taskManagerType.GetMethod(
+                noParameterCandidateMethodNames[i],
+                BindingFlags.Public | BindingFlags.Instance,
+                null,
+                Type.EmptyTypes,
+                null
+            );
+
+            if (method == null)
+                continue;
+
+            try
+            {
+                method.Invoke(taskManager, null);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[GlobalDropResetter] 调用 TaskChainManager.{noParameterCandidateMethodNames[i]} 失败。\n{e}");
+                return false;
+            }
+        }
+
+        // 2. 如果没有专门接口，就明确调用 RestoreTaskIndex(int, bool)。
+        //    这里显式指定参数类型，修复 AmbiguousMatchException。
+        MethodInfo getCurrentTaskIndexMethod = taskManagerType.GetMethod(
+            "GetCurrentTaskIndex",
+            BindingFlags.Public | BindingFlags.Instance,
+            null,
+            Type.EmptyTypes,
+            null
+        );
+
+        MethodInfo restoreTaskIndexWithReplayMethod = taskManagerType.GetMethod(
+            "RestoreTaskIndex",
+            BindingFlags.Public | BindingFlags.Instance,
+            null,
+            new Type[] { typeof(int), typeof(bool) },
+            null
+        );
+
+        if (getCurrentTaskIndexMethod != null && restoreTaskIndexWithReplayMethod != null)
+        {
+            try
+            {
+                int currentTaskIndex = (int)getCurrentTaskIndexMethod.Invoke(taskManager, null);
+                restoreTaskIndexWithReplayMethod.Invoke(taskManager, new object[] { currentTaskIndex, true });
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[GlobalDropResetter] 调用 TaskChainManager.RestoreTaskIndex(int, bool) 失败。\n{e}");
+                return false;
+            }
+        }
+
+        // 3. 最后回退到 StartCurrentTask()。它会重启当前 task 的提示流程。
+        MethodInfo startCurrentTaskMethod = taskManagerType.GetMethod(
+            "StartCurrentTask",
+            BindingFlags.Public | BindingFlags.Instance,
+            null,
+            Type.EmptyTypes,
+            null
+        );
+
+        if (startCurrentTaskMethod != null)
+        {
+            try
+            {
+                startCurrentTaskMethod.Invoke(taskManager, null);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[GlobalDropResetter] 调用 TaskChainManager.StartCurrentTask 失败。\n{e}");
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private object GetTaskManagerInstance(Type taskManagerType)
+    {
+        PropertyInfo instanceProperty = taskManagerType.GetProperty(
+            "Instance",
+            BindingFlags.Public | BindingFlags.Static
+        );
+
+        if (instanceProperty != null)
+        {
+            object instanceValue = instanceProperty.GetValue(null, null);
+
+            if (instanceValue != null)
+                return instanceValue;
+        }
+
+        UnityEngine.Object found = UnityEngine.Object.FindObjectOfType(taskManagerType, true);
+        return found;
+    }
+
+    private static Type FindTypeByName(string typeName)
+    {
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        for (int i = 0; i < assemblies.Length; i++)
+        {
+            Type type = assemblies[i].GetType(typeName);
+
+            if (type != null)
+                return type;
+        }
+
+        return null;
     }
 
     private void DisableDroppedObject(XRGrabInteractable source)
