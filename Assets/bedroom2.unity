@@ -4749,6 +4749,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1900861648779190114, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1777586434}
+    - targetCorrespondingSourceObject: {fileID: 1900861648779190114, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1777586436}
   m_SourcePrefab: {fileID: 100100000, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
 --- !u!4 &585334648 stripped
 Transform:
@@ -13145,7 +13148,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1412198860}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
@@ -17455,6 +17458,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23cf423068d81ce438cdac712e9fd0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1777586436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777586423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u6211\u5728\u5E8A\u4E0A\uFF0C\u8FD9\u91CC\u662F\u2026"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1001 &1795451107
 PrefabInstance:
   m_ObjectHideFlags: 0
