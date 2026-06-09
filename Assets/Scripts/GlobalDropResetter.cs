@@ -55,7 +55,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
     [TextArea(2, 6)]
     [SerializeField] private string firstRunHintDialogue =
-        "灯的开关在右手边床头柜上，我记得睡前我还放了一杯水……\n把灯打开然后喝水吧。";
+        "灯的开关在右手边床头柜上，\n我记得睡前我还放了一杯水……\n把灯打开然后喝水吧。";
 
     [SerializeField] private float timeBetweenFirstRunDialogues = 3f;
 

@@ -1478,6 +1478,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1968076069133720, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 745225947}
+    - targetCorrespondingSourceObject: {fileID: 1968076069133720, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 745225949}
+    - targetCorrespondingSourceObject: {fileID: 1968076069133720, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 745225950}
     - targetCorrespondingSourceObject: {fileID: 1413738549845302, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1797260368}
@@ -2480,6 +2486,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
       insertIndex: -1
       addedObject: {fileID: 428932209}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932210}
   m_SourcePrefab: {fileID: 100100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
 --- !u!1 &266231557
 GameObject:
@@ -3497,9 +3506,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ac55d5a5e6e1b24ba0350a1f67b79fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dropSound: {fileID: 0}
+  dropSound: {fileID: 8300000, guid: caea2ca5079bbd647ab298bd6c354ff7, type: 3}
   volume: 1
   waitBeforeFade: 0
+--- !u!114 &428932210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06ac65a6919c2d44a127bc5ecfd19f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskId: drink
+  completeOnlyOnce: 1
+  ignoreSocketSelect: 1
+  requireCurrentTask: 1
 --- !u!1001 &442422595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7692,6 +7717,118 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!82 &745225949
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745225940}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 92eff2ab1944be144b3621513c31a768, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.4
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.5
+  MaxDistance: 6
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &745225950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 745225940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06ac65a6919c2d44a127bc5ecfd19f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskId: touch_tv
+  completeOnlyOnce: 1
+  ignoreSocketSelect: 1
+  requireCurrentTask: 1
 --- !u!1 &760802857 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1598352777824910, guid: 06de7bc9964522345b24fbad285cb973, type: 3}
@@ -18739,6 +18876,79 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!1 &2019063104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2019063106}
+  - component: {fileID: 2019063105}
+  m_Layer: 0
+  m_Name: taskmanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2019063105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019063104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83224a2b731968d4f82351d1fe10250c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onlyInGameScene: 1
+  gameSceneName: bedroom2
+  tasks:
+  - taskId: drink
+    repeatingHint: "\u597D\u6E34\u2026\u2026\u6211\u8981\u559D\u6C34\u3002"
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 0
+    startDialogueDelay: 0
+    startDialogue: 
+    showDialogueOnComplete: 0
+    completeDialogue: 
+  - taskId: touch_tv
+    repeatingHint: "\u7535\u89C6\u2026\u2026\u5728\u54EA\u91CC\uFF1F"
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: "\u7535\u89C6\u4F3C\u4E4E\u4E00\u76F4\u5728\u54CD\uFF0C\n\u786E\u8BA4\u4E00\u4E0B\u600E\u4E48\u4E86\u3002"
+    showDialogueOnComplete: 1
+    completeDialogue: "\u8C01\uFF1F\uFF01"
+  currentTaskIndex: 0
+  autoStart: 1
+--- !u!4 &2019063106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019063104}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.226, y: 1.882, z: 0.121}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2021165252
 GameObject:
   m_ObjectHideFlags: 0
@@ -20232,4 +20442,5 @@ SceneRoots:
   - {fileID: 1461580384}
   - {fileID: 481174082}
   - {fileID: 1296682786}
+  - {fileID: 2019063106}
   - {fileID: 1503220816}
