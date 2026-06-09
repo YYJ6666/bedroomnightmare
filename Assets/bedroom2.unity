@@ -1418,31 +1418,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1895266
+      value: -1.19
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.7225389
+      value: -0.695
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.9444618
+      value: -1.944
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071049
+      value: 0.7074501
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.001101768
+      value: 0.0011025994
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70710576
+      value: -0.70676047
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0017031659
+      value: -0.0017026277
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1450,7 +1450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: -89.944
       objectReference: {fileID: 0}
     - target: {fileID: 4457419614222144, guid: 7cecf1c5e6ef8d142aac7e3c96e199e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -13214,6 +13214,7 @@ GameObject:
   - component: {fileID: 1429118823}
   - component: {fileID: 1429118825}
   - component: {fileID: 1429118824}
+  - component: {fileID: 1429118826}
   m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -13228,16 +13229,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429118822}
-  m_LocalRotation: {x: 0.0016247269, y: 0.70872176, z: -0.0016432923, w: -0.70548433}
-  m_LocalPosition: {x: 0, y: 0, z: 0.026001535}
+  m_LocalRotation: {x: -0.0004747225, y: 0.7061067, z: 0.00039821284, w: -0.7081053}
+  m_LocalPosition: {x: 0, y: 0, z: 0.026287116}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 204215835}
-  m_LocalEulerAnglesHint: {x: 0.002, y: 269.738, z: 0.265}
+  m_LocalEulerAnglesHint: {x: 0.006, y: 270.162, z: -0.071}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.001773215, y: 0.0710002}
+  m_AnchoredPosition: {x: 0.0007803352, y: 0.07088413}
   m_SizeDelta: {x: 1.2921, y: 0.719}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1429118824
@@ -13247,7 +13248,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429118822}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
   m_Name: 
@@ -13262,8 +13263,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: nihao
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
+  m_sharedMaterial: {fileID: -8572201076005629793, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13287,15 +13288,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 2
+  m_fontSizeBase: 2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -13323,7 +13324,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.12777847, y: 0.17337675, z: 0.1723992, w: 0.0709227}
+  m_margin: {x: 0.1187287, y: 0.115061074, z: 0.1723992, w: 0.0568451}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -13352,7 +13353,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: -8572201076005629793, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13374,6 +13375,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1429118826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429118822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91cc781afb9b044881ae5319f5b34c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1429118824}
+  hideIfNoSavedText: 1
 --- !u!1 &1431815432 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1562597946105574, guid: 995e1f56fd9cf14448afa79f227d5948, type: 3}
@@ -19231,6 +19246,9 @@ MonoBehaviour:
     showStartDialogue: 0
     startDialogueDelay: 0
     startDialogue: 
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: 
+    tvScreenTextDelay: 0
     showDialogueOnComplete: 0
     completeDialogue: 
   - taskId: drink
@@ -19243,6 +19261,9 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 4
     startDialogue: "\u4EC0\u4E48\u58F0\u97F3\uFF0C\u6211\u7761\u8FF7\u7CCA\u4E86\u5417\u3002\n\u5148\u559D\u6C34\u5427\u3002"
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: 
+    tvScreenTextDelay: 0
     showDialogueOnComplete: 0
     completeDialogue: 
   - taskId: touch_tv
@@ -19255,10 +19276,31 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: "\u7535\u89C6\u4F3C\u4E4E\u4E00\u76F4\u5728\u54CD\uFF0C\n\u521A\u521A\u7684\u58F0\u97F3\u662F\u7535\u89C6\u53D1\u51FA\u7684\u5417\uFF1F\n\u786E\u8BA4\u4E00\u4E0B\u600E\u4E48\u4E86\u3002"
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: 
+    tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogue: "\u8C01\uFF1F\uFF01"
+  - taskId: find_phto
+    repeatingHint: "\u7167\u7247\u2026\u2026"
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: "\u4F60\u7684\u7167\u7247\u6211\u90FD\u85CF\u8D77\u6765\u4E86\u2026\u2026\u4E0D\u6562\u770B\u89C1\u2026\u2026"
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u6211\u5417\uFF1F"
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
   currentTaskIndex: 0
   autoStart: 1
+  saveCheckpointOnTaskComplete: 1
+  checkpointPrefix: after_
+  logDebug: 1
 --- !u!4 &2019063106
 Transform:
   m_ObjectHideFlags: 0
