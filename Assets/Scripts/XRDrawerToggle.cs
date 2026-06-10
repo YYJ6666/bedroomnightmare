@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(XRSimpleInteractable))]
 public class XRDrawerToggle : MonoBehaviour
 {
+    [Header("Activation")]
+    [SerializeField] private bool allowSelectToggle = true;
+
     [Header("Drawer")]
     [SerializeField] private Transform drawerToMove;
     [SerializeField] private Vector3 openOffset = new Vector3(0f, 0f, 0.25f);
@@ -17,11 +20,19 @@ public class XRDrawerToggle : MonoBehaviour
     [Header("Optional")]
     [SerializeField] private Animator animatorToDisable;
 
+    [Header("Proximity Open")]
+    [SerializeField] private bool openOnProximity = false;
+    [SerializeField] private Transform proximityTarget;
+    [SerializeField] private string proximityTargetTag = "Key";
+    [SerializeField] private float proximityDistance = 0.25f;
+    [SerializeField] private float proximityCheckInterval = 0.1f;
+
     private XRSimpleInteractable interactable;
     private Vector3 closedLocalPosition;
     private Vector3 openedLocalPosition;
     private Coroutine moveRoutine;
     private bool isOpen;
+    private float nextProximityCheckTime;
 
     private void Reset()
     {
@@ -56,7 +67,9 @@ public class XRDrawerToggle : MonoBehaviour
     private void OnEnable()
     {
         interactable = GetComponent<XRSimpleInteractable>();
-        interactable.selectEntered.AddListener(OnSelected);
+
+        if (allowSelectToggle && interactable != null)
+            interactable.selectEntered.AddListener(OnSelected);
     }
 
     private void OnDisable()
@@ -75,15 +88,70 @@ public class XRDrawerToggle : MonoBehaviour
         ToggleDrawer();
     }
 
+    private void Update()
+    {
+        if (!openOnProximity || isOpen)
+            return;
+
+        if (proximityCheckInterval > 0f && Time.time < nextProximityCheckTime)
+            return;
+
+        nextProximityCheckTime = proximityCheckInterval > 0f ? Time.time + proximityCheckInterval : Time.time;
+
+        if (proximityTarget == null && !string.IsNullOrWhiteSpace(proximityTargetTag))
+        {
+            GameObject go = GameObject.FindGameObjectWithTag(proximityTargetTag);
+            if (go != null)
+                proximityTarget = go.transform;
+        }
+
+        if (proximityTarget == null)
+            return;
+
+        float sqrDistance = (proximityTarget.position - drawerToMove.position).sqrMagnitude;
+        float threshold = Mathf.Max(0f, proximityDistance);
+
+        if (sqrDistance <= threshold * threshold)
+        {
+            OpenDrawer();
+        }
+    }
+
     public void ToggleDrawer()
     {
-        Vector3 target = isOpen ? closedLocalPosition : openedLocalPosition;
+        if (isOpen)
+            CloseDrawer();
+        else
+            OpenDrawer();
+    }
 
+    public void OpenDrawer()
+    {
+        if (isOpen)
+            return;
+
+        StartMove(openedLocalPosition);
+        isOpen = true;
+
+        if (glowObject != null)
+            glowObject.Reveal();
+    }
+
+    public void CloseDrawer()
+    {
+        if (!isOpen)
+            return;
+
+        StartMove(closedLocalPosition);
+        isOpen = false;
+    }
+
+    private void StartMove(Vector3 target)
+    {
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
 
         moveRoutine = StartCoroutine(MoveDrawer(target));
-        isOpen = !isOpen;
     }
 
     private IEnumerator MoveDrawer(Vector3 target)
