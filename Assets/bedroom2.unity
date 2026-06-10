@@ -1432,6 +1432,10 @@ MonoBehaviour:
   doorRoot: {fileID: 1296682786}
   useLocalRotation: 1
   openYaw: 0
+  completeTaskOnOpen: 1
+  taskId: password
+  requireCurrentTask: 1
+  completeOnlyOnce: 1
 --- !u!1 &140450167 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1252135667551608, guid: 304f6e7ca956f014fbd64574bb654481, type: 3}
@@ -16760,13 +16764,37 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 48c4b63a5ac7b4f40a949c197398c3cb, type: 3}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedText
+      value: DON'T LEAVE
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: keypadCombo
       value: 1314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedTextTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: requiredTaskId
+      value: password
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: rotationTarget
       value: 
       objectReference: {fileID: 1296682786}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockUntilTaskStage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedSoundCooldown
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319335, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: m_Name
       value: KeypadStandard
@@ -22581,21 +22609,6 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
-  - taskId: restore_memory
-    repeatingHint: test
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: test
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: test
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: 1111
   - taskId: switch_light
     repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
     firstDelay: 15
@@ -22611,6 +22624,21 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 0
     completeDialogue: 
+  - taskId: password
+    repeatingHint: password
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: pass
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: pass
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: passwordok
   - taskId: drink
     repeatingHint: "\u597D\u6E34\u2026\u2026\u6211\u8981\u559D\u6C34\u3002"
     firstDelay: 15
@@ -22657,6 +22685,21 @@ MonoBehaviour:
     showDialogueOnComplete: 1
     completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
   - taskId: find_cloths
+    repeatingHint: test
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: test
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: test
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 1111
+  - taskId: restore_memory
     repeatingHint: test
     firstDelay: 15
     repeatInterval: 15
