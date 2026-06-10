@@ -196,6 +196,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4379810807702074, guid: 26a5612ea827061409d063159b007487, type: 3}
       insertIndex: -1
       addedObject: {fileID: 319259968}
+    - targetCorrespondingSourceObject: {fileID: 4379810807702074, guid: 26a5612ea827061409d063159b007487, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1425318725}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1878044100457540, guid: 26a5612ea827061409d063159b007487, type: 3}
       insertIndex: -1
@@ -215,6 +218,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1878044100457540, guid: 26a5612ea827061409d063159b007487, type: 3}
       insertIndex: -1
       addedObject: {fileID: 711471960}
+    - targetCorrespondingSourceObject: {fileID: 1878044100457540, guid: 26a5612ea827061409d063159b007487, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 711471965}
   m_SourcePrefab: {fileID: 100100000, guid: 26a5612ea827061409d063159b007487, type: 3}
 --- !u!4 &28723203 stripped
 Transform:
@@ -5836,6 +5842,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4968258872780050, guid: ed576bcffb0d1b04286376701d58b587, type: 3}
   m_PrefabInstance: {fileID: 31509294}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &545975213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 545975214}
+  m_Layer: 0
+  m_Name: AttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &545975214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545975213}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.012968684, y: 0.7488405, z: 0.01959296, w: 0.6623336}
+  m_LocalPosition: {x: 0.026, y: -0.009, z: -0.018}
+  m_LocalScale: {x: 1.4999999, y: 0.8333332, z: 0.83333325}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1755933306}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &562831594 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1894297908263818, guid: de3c4f453617c274b84136339512767f, type: 3}
@@ -6613,7 +6650,7 @@ GameObject:
   - component: {fileID: 609936569}
   - component: {fileID: 609936568}
   m_Layer: 0
-  m_Name: ClothesSocketPoint
+  m_Name: ClothesSocketPoint 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8257,6 +8294,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &711471965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711471952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9c809254fa35947a4b2aa596a28367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: pink_bag
 --- !u!1 &713080799 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2567989927401147639, guid: 828d187c6a64cd24883762d5cf367413, type: 3}
@@ -13839,6 +13889,19 @@ MonoBehaviour:
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
+--- !u!114 &1314082628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1314082614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9c809254fa35947a4b2aa596a28367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: pink_dress
 --- !u!1001 &1315891770
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14775,9 +14838,18 @@ MonoBehaviour:
   taskId: find_cloths
   requireCurrentTask: 1
   completeOnlyOnce: 1
-  requirements: []
+  sockets:
+  - {fileID: 1732620412}
+  - {fileID: 1761463205}
+  - {fileID: 609936569}
+  - {fileID: 1489552372}
+  requiredItemIds:
+  - pink_dress
+  - pink_bag
+  requireEachItemOnce: 1
+  allowExtraItems: 1
   checkDelayAfterSocketEvent: 0.15
-  showDialogueOnComplete: 0
+  showDialogueOnComplete: 1
   completeDialogue: "\u8FD9\u6837\u624D\u5BF9\u3002"
   logDebug: 1
 --- !u!4 &1414952340
@@ -14789,7 +14861,7 @@ Transform:
   m_GameObject: {fileID: 1414952337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.96385, y: -3.2111552, z: -1.7742728}
+  m_LocalPosition: {x: -13.96385, y: 10.16, z: -1.7742728}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15079,6 +15151,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.014308918, y: 0.24809588, z: 0.18705767}
   m_Center: {x: 0.00000008591451, y: 0.00000011175871, z: -0.00000008940697}
+--- !u!1 &1425318724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1425318725}
+  m_Layer: 0
+  m_Name: AttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1425318725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425318724}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.012968684, y: -0.7488405, z: -0.01959296, w: -0.6623336}
+  m_LocalPosition: {x: 0.068, y: 0.0001, z: 0.02}
+  m_LocalScale: {x: 1.7981485, y: 0.66715753, z: 0.99992615}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 28723203}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429118822
 GameObject:
   m_ObjectHideFlags: 0
@@ -15898,7 +16001,7 @@ GameObject:
   - component: {fileID: 1489552372}
   - component: {fileID: 1489552371}
   m_Layer: 0
-  m_Name: ClothesSocketPoint
+  m_Name: ClothesSocketPoint 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17484,6 +17587,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1859784644353912, guid: 00c715cf02461844395b6cd252645661, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1314082625}
+    - targetCorrespondingSourceObject: {fileID: 1859784644353912, guid: 00c715cf02461844395b6cd252645661, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1314082628}
   m_SourcePrefab: {fileID: 100100000, guid: 00c715cf02461844395b6cd252645661, type: 3}
 --- !u!1 &1651088050 stripped
 GameObject:
@@ -18288,7 +18394,7 @@ GameObject:
   - component: {fileID: 1732620412}
   - component: {fileID: 1732620411}
   m_Layer: 0
-  m_Name: ClothesSocketPoint
+  m_Name: ClothesSocketPoint 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18685,7 +18791,7 @@ GameObject:
   - component: {fileID: 1761463205}
   - component: {fileID: 1761463204}
   m_Layer: 0
-  m_Name: ClothesSocketPoint
+  m_Name: ClothesSocketPoint 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21965,6 +22071,21 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
+  - taskId: find_cloths
+    repeatingHint: test
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: test
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: test
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 1111
   currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
@@ -22408,6 +22529,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4379810807702074, guid: 26a5612ea827061409d063159b007487, type: 3}
       insertIndex: -1
       addedObject: {fileID: 354215655}
+    - targetCorrespondingSourceObject: {fileID: 4379810807702074, guid: 26a5612ea827061409d063159b007487, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 545975214}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1878044100457540, guid: 26a5612ea827061409d063159b007487, type: 3}
       insertIndex: -1
