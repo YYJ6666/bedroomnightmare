@@ -27,11 +27,16 @@ public class XRDrawerToggle : MonoBehaviour
     [SerializeField] private float proximityDistance = 0.25f;
     [SerializeField] private float proximityCheckInterval = 0.1f;
 
+    [Header("Proximity Unlock")]
+    [SerializeField] private bool unlockOnProximity = false;
+    [SerializeField] private GameObject lockObjectToHide;
+
     private XRSimpleInteractable interactable;
     private Vector3 closedLocalPosition;
     private Vector3 openedLocalPosition;
     private Coroutine moveRoutine;
     private bool isOpen;
+    private bool isUnlocked;
     private float nextProximityCheckTime;
 
     private void Reset()
@@ -67,8 +72,7 @@ public class XRDrawerToggle : MonoBehaviour
     private void OnEnable()
     {
         interactable = GetComponent<XRSimpleInteractable>();
-
-        if (allowSelectToggle && interactable != null)
+        if (interactable != null)
             interactable.selectEntered.AddListener(OnSelected);
     }
 
@@ -80,6 +84,9 @@ public class XRDrawerToggle : MonoBehaviour
 
     private void OnSelected(SelectEnterEventArgs args)
     {
+        if (!allowSelectToggle)
+            return;
+
         if (glowObject != null)
         {
             glowObject.Reveal();
@@ -90,7 +97,7 @@ public class XRDrawerToggle : MonoBehaviour
 
     private void Update()
     {
-        if (!openOnProximity || isOpen)
+        if ((!openOnProximity && !unlockOnProximity) || (isOpen && isUnlocked))
             return;
 
         if (proximityCheckInterval > 0f && Time.time < nextProximityCheckTime)
@@ -113,8 +120,33 @@ public class XRDrawerToggle : MonoBehaviour
 
         if (sqrDistance <= threshold * threshold)
         {
-            OpenDrawer();
+            if (unlockOnProximity && !isUnlocked)
+            {
+                Unlock();
+                return;
+            }
+
+            if (openOnProximity && !isOpen)
+            {
+                OpenDrawer();
+            }
         }
+    }
+
+    public void Unlock()
+    {
+        if (isUnlocked)
+            return;
+
+        isUnlocked = true;
+
+        if (lockObjectToHide != null)
+            lockObjectToHide.SetActive(false);
+
+        allowSelectToggle = true;
+
+        if (glowObject != null)
+            glowObject.Reveal();
     }
 
     public void ToggleDrawer()
