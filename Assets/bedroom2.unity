@@ -1433,6 +1433,10 @@ MonoBehaviour:
   doorRoot: {fileID: 1296682786}
   useLocalRotation: 1
   openYaw: 0
+  completeTaskOnOpen: 1
+  taskId: password
+  requireCurrentTask: 1
+  completeOnlyOnce: 1
 --- !u!1 &140450167 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1252135667551608, guid: 304f6e7ca956f014fbd64574bb654481, type: 3}
@@ -6233,6 +6237,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4968258872780050, guid: ed576bcffb0d1b04286376701d58b587, type: 3}
   m_PrefabInstance: {fileID: 31509294}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &542885457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542885459}
+  - component: {fileID: 542885458}
+  m_Layer: 0
+  m_Name: MemorySequenceTask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &542885458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542885457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53599a330ef48a1499dcc32a69e4766b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  taskId: restore_memory
+  requireCurrentTask: 1
+  completeOnlyOnce: 0
+  sequence:
+  - interactable: {fileID: 1314082617}
+    correctDialogue: "\u5BF9\u3002\u4E4B\u540E\u5462\uFF1F"
+  - interactable: {fileID: 745225944}
+    correctDialogue: "\u5BF9\u3002\u4E4B\u540E\u5462\uFF1F"
+  - interactable: {fileID: 311274324}
+    correctDialogue: 
+  resetProgressOnWrongSelect: 1
+  ignoreSocketSelect: 1
+  wrongOrderDialogue: "\u4E0D\u662F\u8FD9\u4E2A\u987A\u5E8F\u3002\u4F60\u5F97\u6309\u8BB0\u5FC6\u53D1\u751F\u7684\u987A\u5E8F\u6765\u3002"
+  completeDialogue: "\u8FD9\u4E9B\u8BB0\u5FC6\u7EC8\u4E8E\u8FDE\u8D77\u6765\u4E86\u3002"
+  showDialogue: 1
+  playAudioOnComplete: 0
+  audioSource: {fileID: 0}
+  completeAudioClip: {fileID: 0}
+  audioDelay: 0
+  useOneShot: 1
+  audioVolume: 1
+  logDebug: 1
+--- !u!4 &542885459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542885457}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.226, y: 1.882, z: 0.121}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &545975213
 GameObject:
   m_ObjectHideFlags: 0
@@ -17217,13 +17287,37 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedSfx
+      value: 
+      objectReference: {fileID: 8300000, guid: 48c4b63a5ac7b4f40a949c197398c3cb, type: 3}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedText
+      value: DON'T LEAVE
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: keypadCombo
       value: 1314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedTextTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: requiredTaskId
+      value: password
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: rotationTarget
       value: 
       objectReference: {fileID: 1296682786}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockUntilTaskStage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: lockedSoundCooldown
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319335, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: m_Name
       value: KeypadStandard
@@ -23252,6 +23346,21 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 0
     completeDialogue: 
+  - taskId: password
+    repeatingHint: password
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: pass
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: pass
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: passwordok
   - taskId: drink
     repeatingHint: "\u597D\u6E34\u2026\u2026\u6211\u8981\u559D\u6C34\u3002"
     firstDelay: 15
@@ -23298,6 +23407,21 @@ MonoBehaviour:
     showDialogueOnComplete: 1
     completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
   - taskId: find_cloths
+    repeatingHint: test
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: test
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: test
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 1111
+  - taskId: restore_memory
     repeatingHint: test
     firstDelay: 15
     repeatInterval: 15
@@ -25363,10 +25487,10 @@ SceneRoots:
   - {fileID: 1079895400}
   - {fileID: 1191835613}
   - {fileID: 1344301975}
+  - {fileID: 492423160}
   - {fileID: 1453975582}
   - {fileID: 1923939676}
   - {fileID: 629526845}
-  - {fileID: 492423160}
   - {fileID: 689775734}
   - {fileID: 1412198863}
   - {fileID: 1843518805}
@@ -25393,3 +25517,4 @@ SceneRoots:
   - {fileID: 99355756}
   - {fileID: 1414952340}
   - {fileID: 1823179808}
+  - {fileID: 542885459}
