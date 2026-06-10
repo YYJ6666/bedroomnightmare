@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.XR.CoreUtils;
@@ -26,6 +27,10 @@ public sealed class DialogueOverlay : MonoBehaviour
     [Header("Chinese Font")]
     [SerializeField] private string chineseFontResourcePath = "Fonts/simheiSDF";
 
+    [Header("Always On Top")]
+    [SerializeField] private bool alwaysOnTop = true;
+    [SerializeField] private int alwaysOnTopRenderQueue = 4000;
+
     [Header("Fade")]
     [SerializeField] private float fadeInDuration = 0.15f;
     [SerializeField] private float visibleSeconds = 3f;
@@ -37,6 +42,9 @@ public sealed class DialogueOverlay : MonoBehaviour
     private Coroutine fadeRoutine;
     private Coroutine autoHideRoutine;
     private Canvas canvas;
+    private Material dialogueRuntimeMaterial;
+    private static readonly int ZTestModeId = Shader.PropertyToID("_ZTestMode");
+    private static readonly int UnityGuiZTestModeId = Shader.PropertyToID("unity_GUIZTestMode");
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Bootstrap()
@@ -78,6 +86,12 @@ public sealed class DialogueOverlay : MonoBehaviour
         canvasGroup = null;
         dialogueText = null;
         canvas = null;
+
+        if (dialogueRuntimeMaterial != null)
+        {
+            Destroy(dialogueRuntimeMaterial);
+            dialogueRuntimeMaterial = null;
+        }
     }
 
     private void Start()
@@ -168,6 +182,11 @@ public sealed class DialogueOverlay : MonoBehaviour
         dialogueText.fontSize = fontSize;
         dialogueText.color = textColor;
         dialogueText.enableWordWrapping = true;
+        dialogueText.raycastTarget = false;
+        dialogueText.extraPadding = true;
+        dialogueText.richText = true;
+        dialogueText.overflowMode = TextOverflowModes.Overflow;
+        dialogueText.isTextObjectScaleStatic = false;
 
         TMP_FontAsset chineseFont = Resources.Load<TMP_FontAsset>(chineseFontResourcePath);
         if (chineseFont != null)
@@ -179,11 +198,48 @@ public sealed class DialogueOverlay : MonoBehaviour
             Debug.LogWarning($"DialogueOverlay: 没有在 Resources/{chineseFontResourcePath} 找到中文 TMP 字体。中文可能无法显示。");
         }
 
+        ApplyAlwaysOnTop(dialogueText, ref dialogueRuntimeMaterial);
+
         RectTransform textRect = textGo.GetComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
         textRect.offsetMin = Vector2.zero;
         textRect.offsetMax = Vector2.zero;
+    }
+
+    private void ApplyAlwaysOnTop(TMP_Text text, ref Material runtimeMaterial)
+    {
+        if (text == null || !alwaysOnTop)
+            return;
+
+        if (runtimeMaterial == null)
+        {
+            runtimeMaterial = new Material(text.fontMaterial);
+            runtimeMaterial.name = text.fontMaterial.name + " AlwaysOnTop Overlay Instance";
+        }
+
+        Shader overlayShader = Shader.Find("TextMeshPro/Distance Field Overlay");
+
+        if (overlayShader != null)
+        {
+            runtimeMaterial.shader = overlayShader;
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"{name}: 没有找到 TextMeshPro/Distance Field Overlay shader，字幕可能仍然会被物体遮挡。"
+            );
+        }
+
+        runtimeMaterial.renderQueue = alwaysOnTopRenderQueue;
+
+        // 强制尝试设置常见的 ZTest 属性，不判断 HasProperty
+        runtimeMaterial.SetFloat("_ZTestMode", (float)CompareFunction.Always);
+        runtimeMaterial.SetFloat("unity_GUIZTestMode", (float)CompareFunction.Always);
+
+        text.fontMaterial = runtimeMaterial;
+        text.UpdateMeshPadding();
+        text.ForceMeshUpdate();
     }
 
     public static void Show(string text, bool instant = false)
@@ -216,6 +272,8 @@ public sealed class DialogueOverlay : MonoBehaviour
             return;
 
         dialogueText.text = text ?? string.Empty;
+        dialogueText.ForceMeshUpdate();
+
         StartFade(1f, instant ? 0f : fadeInDuration);
 
         if (autoHideRoutine != null)
