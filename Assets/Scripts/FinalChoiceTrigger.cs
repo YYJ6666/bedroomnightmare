@@ -22,6 +22,7 @@ public class FinalChoiceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Enter : " + other.name);
         if (hasTriggered)
             return;
 
