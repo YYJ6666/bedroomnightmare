@@ -31,6 +31,10 @@ public class XRDrawerToggle : MonoBehaviour
     [SerializeField] private bool unlockOnProximity = false;
     [SerializeField] private GameObject lockObjectToHide;
 
+    [Header("Linked Interactables")]
+    [SerializeField] private Behaviour[] enableWhenDrawerOpen;
+    [SerializeField] private Collider[] enableCollidersWhenDrawerOpen;
+
     private XRSimpleInteractable interactable;
     private Vector3 closedLocalPosition;
     private Vector3 openedLocalPosition;
@@ -67,6 +71,8 @@ public class XRDrawerToggle : MonoBehaviour
 
         isOpen = startOpened;
         drawerToMove.localPosition = isOpen ? openedLocalPosition : closedLocalPosition;
+
+        ApplyDrawerOpenLinkedState();
     }
 
     private void OnEnable()
@@ -164,6 +170,7 @@ public class XRDrawerToggle : MonoBehaviour
 
         StartMove(openedLocalPosition);
         isOpen = true;
+        ApplyDrawerOpenLinkedState();
 
         if (glowObject != null)
             glowObject.Reveal();
@@ -176,6 +183,30 @@ public class XRDrawerToggle : MonoBehaviour
 
         StartMove(closedLocalPosition);
         isOpen = false;
+        ApplyDrawerOpenLinkedState();
+    }
+
+    private void ApplyDrawerOpenLinkedState()
+    {
+        bool shouldEnable = isOpen;
+
+        if (enableWhenDrawerOpen != null)
+        {
+            for (int i = 0; i < enableWhenDrawerOpen.Length; i++)
+            {
+                if (enableWhenDrawerOpen[i] != null)
+                    enableWhenDrawerOpen[i].enabled = shouldEnable;
+            }
+        }
+
+        if (enableCollidersWhenDrawerOpen != null)
+        {
+            for (int i = 0; i < enableCollidersWhenDrawerOpen.Length; i++)
+            {
+                if (enableCollidersWhenDrawerOpen[i] != null)
+                    enableCollidersWhenDrawerOpen[i].enabled = shouldEnable;
+            }
+        }
     }
 
     private void StartMove(Vector3 target)
