@@ -90,13 +90,13 @@ public class XRDrawerToggle : MonoBehaviour
 
     private void OnSelected(SelectEnterEventArgs args)
     {
-        if (!allowSelectToggle)
-            return;
-
         if (glowObject != null)
         {
             glowObject.Reveal();
         }
+
+        if (!allowSelectToggle)
+            return;
 
         ToggleDrawer();
     }
