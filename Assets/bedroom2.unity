@@ -2831,7 +2831,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2840,6 +2840,10 @@ PrefabInstance:
     - target: {fileID: 1733398658894498, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1854962426394316, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      propertyPath: m_Name
+      value: Canvas_02
       objectReference: {fileID: 0}
     - target: {fileID: 1854962426394316, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2851,23 +2855,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.65
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.25
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.175
+      value: 5.174
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.139
+      value: 1.44
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.236
+      value: 0.646
       objectReference: {fileID: 0}
     - target: {fileID: 4476175563999882, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2897,6 +2901,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4822192827112030, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822192827112030, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822192827112030, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 23309229629674614, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -2908,6 +2924,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 782502877}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 441317866}
+    - targetCorrespondingSourceObject: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 441317865}
     - targetCorrespondingSourceObject: {fileID: 1854962426394316, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 218280449}
@@ -3800,6 +3822,64 @@ MonoBehaviour:
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
+--- !u!1 &312671553
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312671555}
+  - component: {fileID: 312671554}
+  m_Layer: 0
+  m_Name: Final_Choice
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &312671554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312671553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00bd42252dd6daf48b3197f39da3c2bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalChoiceTaskId: final_choice
+  requireCurrentTask: 1
+  bedGlowObject: {fileID: 1777586428}
+  doorExitGlowObject: {fileID: 218280445}
+  ending1SceneName: Ending1
+  ending2SceneName: Ending2
+  showStartDialogue: 1
+  startDialogue: "\u95E8\u5F00\u4E86\u3002\n\u53EF\u662F\u5979\u7684\u58F0\u97F3\u53C8\u4E00\u6B21\u54CD\u8D77\uFF1A\n\u4E0D\u8981\u8D70\u2026\u2026\u56DE\u6765\u3002"
+  showDoorWarningDialogue: 1
+  doorWarningDialogue: "\u4F60\u8FD8\u662F\u9009\u62E9\u79BB\u5F00\u4E86\u3002"
+  showBedDialogue: 1
+  bedDialogue: "\u4F60\u56DE\u5230\u4E86\u5E8A\u4E0A\u3002\n\u8FD9\u4E00\u6B21\uFF0C\u4F60\u9009\u62E9\u7559\u4E0B\u3002"
+  sceneLoadDelay: 1.5
+  logDebug: 1
+--- !u!4 &312671555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312671553}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.09, z: 0.016}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &319259967
 GameObject:
   m_ObjectHideFlags: 0
@@ -5170,6 +5250,48 @@ MonoBehaviour:
   stopCurrentAudioBeforePlay: 1
   useOneShot: 1
   audioVolume: 1
+--- !u!1 &441317863 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
+  m_PrefabInstance: {fileID: 255303875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &441317865
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441317863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.53342795, y: 1, z: 1.5093032}
+  m_Center: {x: -0.022677824, y: 0, z: -0.058018625}
+--- !u!114 &441317866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441317863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7ae9c7325c75f4dbed2b8f3a9e5898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  choiceType: 0
+  onlyPlayerTag: 0
+  playerTag: Player
+  logDebug: 1
 --- !u!1001 &442422595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5491,6 +5613,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &458259129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5847,6 +5971,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &480814912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6847,6 +6973,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1237055265507231192, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1333131518}
+    - targetCorrespondingSourceObject: {fileID: 1237055265507231192, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2009236014}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1900861648779190114, guid: 2ad6fcf6ec6972c4a9008502415e9e5e, type: 3}
       insertIndex: -1
@@ -10887,6 +11016,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &881511790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11637,6 +11768,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &977978295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13041,6 +13174,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &1189356120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18357,6 +18492,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &1557272802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18786,6 +18923,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &1585863564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22871,6 +23010,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &1861679867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23262,6 +23403,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 0
   lockObjectToHide: {fileID: 0}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &1873752720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24843,6 +24986,76 @@ MonoBehaviour:
   outlines:
   - {fileID: 2001854488}
   glowDuration: 3
+--- !u!1 &2009236013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2009236014}
+  - component: {fileID: 2009236016}
+  - component: {fileID: 2009236015}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2009236014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009236013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.002, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 784563519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2009236015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009236013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa7ae9c7325c75f4dbed2b8f3a9e5898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  choiceType: 1
+  onlyPlayerTag: 0
+  playerTag: Player
+  logDebug: 1
+--- !u!65 &2009236016
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009236013}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3286593, y: 0.16755058, z: 1.8667282}
+  m_Center: {x: 0.009630084, y: 0.0561636, z: 0.16734633}
 --- !u!1001 &2011790235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25004,21 +25217,6 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
-  - taskId: switch_light
-    repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 0
-    startDialogueDelay: 0
-    startDialogue: 
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: 
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 0
-    completeDialogue: 
   - taskId: password
     repeatingHint: password
     firstDelay: 15
@@ -25034,6 +25232,38 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogue: passwordok
+  - taskId: final_choice
+    repeatingHint: choice
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: start choice
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: choice
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 'choice complete
+
+'
+  - taskId: switch_light
+    repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 0
+    startDialogueDelay: 0
+    startDialogue: 
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: 
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 0
+    completeDialogue: 
   - taskId: drink
     repeatingHint: "\u597D\u6E34\u2026\u2026\u6211\u8981\u559D\u6C34\u3002"
     firstDelay: 15
@@ -25364,6 +25594,8 @@ MonoBehaviour:
   proximityCheckInterval: 0.1
   unlockOnProximity: 1
   lockObjectToHide: {fileID: 25546008}
+  enableWhenDrawerOpen: []
+  enableCollidersWhenDrawerOpen: []
 --- !u!114 &2049264159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27313,4 +27545,5 @@ SceneRoots:
   - {fileID: 1823179808}
   - {fileID: 542885459}
   - {fileID: 1748514659}
+  - {fileID: 312671555}
   - {fileID: 1020725617}
