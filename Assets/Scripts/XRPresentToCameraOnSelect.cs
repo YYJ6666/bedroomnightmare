@@ -6,6 +6,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(XRSimpleInteractable))]
 public class XRPresentToCameraOnSelect : MonoBehaviour
 {
+    [Header("Glow")]
+    [SerializeField] private TouchGlowObject glowObject;
+
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Vector3 cameraLocalOffset = new Vector3(0f, 0f, 0.45f);
     [SerializeField] private bool faceCamera = true;
@@ -36,6 +39,21 @@ public class XRPresentToCameraOnSelect : MonoBehaviour
     {
         interactable = GetComponent<XRSimpleInteractable>();
         rb = GetComponent<Rigidbody>();
+
+        if (glowObject == null)
+        {
+            glowObject = GetComponent<TouchGlowObject>();
+        }
+
+        if (glowObject == null)
+        {
+            glowObject = GetComponentInParent<TouchGlowObject>();
+        }
+
+        if (glowObject == null)
+        {
+            glowObject = GetComponentInChildren<TouchGlowObject>(true);
+        }
     }
 
     private void OnEnable()
@@ -61,6 +79,11 @@ public class XRPresentToCameraOnSelect : MonoBehaviour
     {
         if (isPresenting)
             return;
+
+        if (glowObject != null)
+        {
+            glowObject.Reveal();
+        }
 
         Transform anchor = ResolvePresentationAnchor();
         if (anchor == null)
