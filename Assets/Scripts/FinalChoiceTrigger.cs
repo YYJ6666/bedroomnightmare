@@ -22,12 +22,18 @@ public class FinalChoiceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enter : " + other.name);
+        if (logDebug)
+            Debug.Log("Enter : " + other.name);
+
         if (hasTriggered)
             return;
 
-        if (onlyPlayerTag && !other.CompareTag(playerTag))
+        if (!IsPlayer(other))
+        {
+            if (logDebug)
+                Debug.Log($"[FinalChoiceTrigger] 忽略非玩家物体: {other.name}");
             return;
+        }
 
         if (FinalChoiceManager.Instance == null)
         {
@@ -35,7 +41,7 @@ public class FinalChoiceTrigger : MonoBehaviour
             return;
         }
 
-        hasTriggered = true;
+        bool success = false;
 
         if (logDebug)
             Debug.Log($"[FinalChoiceTrigger] {name} triggered by {other.name}, Choice={choiceType}");
@@ -43,12 +49,31 @@ public class FinalChoiceTrigger : MonoBehaviour
         switch (choiceType)
         {
             case ChoiceType.DoorEnding:
-                FinalChoiceManager.Instance.ChooseDoorEnding();
+                success = FinalChoiceManager.Instance.ChooseDoorEnding();
                 break;
 
             case ChoiceType.BedEnding:
-                FinalChoiceManager.Instance.ChooseBedEnding();
+                success = FinalChoiceManager.Instance.ChooseBedEnding();
                 break;
         }
+
+        if (success)
+        {
+            hasTriggered = true;
+        }
+    }
+
+    private bool IsPlayer(Collider other)
+    {
+        if (onlyPlayerTag)
+            return other.CompareTag(playerTag);
+
+        if (other.GetComponent<CharacterController>() != null)
+            return true;
+
+        if (other.GetComponentInParent<CharacterController>() != null)
+            return true;
+
+        return other.name.Contains("XR Origin");
     }
 }

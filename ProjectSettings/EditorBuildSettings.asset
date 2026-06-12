@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/bedroom2.unity
     guid: ba77fdb2940ba2545b1996d68211e43e
+  - enabled: 1
+    path: Assets/EndingScene.unity
+    guid: 5c4941acd8a3dae488740672e2c60909
+  - enabled: 1
+    path: Assets/CreditsScene.unity
+    guid: 5cafc11405cd21d4eb00da7e013912d6
   m_configObjects: {}

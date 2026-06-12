@@ -14,9 +14,8 @@ public class FinalChoiceManager : MonoBehaviour
     [SerializeField] private TouchGlowObject bedGlowObject;
     [SerializeField] private TouchGlowObject doorExitGlowObject;
 
-    [Header("Scene Names")]
-    [SerializeField] private string ending1SceneName = "Ending1";
-    [SerializeField] private string ending2SceneName = "Ending2";
+    [Header("Ending Scene")]
+    [SerializeField] private string endingSceneName = "EndingScene";
 
     [Header("Dialogue")]
     [SerializeField] private bool showStartDialogue = true;
@@ -87,16 +86,21 @@ public class FinalChoiceManager : MonoBehaviour
         if (doorExitGlowObject != null)
             doorExitGlowObject.RevealAndKeep();
 
-        if (showStartDialogue && !string.IsNullOrWhiteSpace(startDialogue))
-            DialogueOverlay.Show(startDialogue.Replace("\\n", "\n"));
+        if (showStartDialogue &&
+            !string.IsNullOrWhiteSpace(startDialogue))
+        {
+            DialogueOverlay.Show(
+                startDialogue.Replace("\\n", "\n"));
+        }
     }
 
-    public void ChooseDoorEnding()
+    public bool ChooseDoorEnding()
     {
         if (!CanChoose())
-            return;
+            return false;
 
         hasChosenEnding = true;
+        EndingData.SelectedEnding = EndingData.EndingType.Door;
 
         if (logDebug)
             Debug.Log("[FinalChoiceManager] 玩家选择门后结局。");
@@ -104,15 +108,17 @@ public class FinalChoiceManager : MonoBehaviour
         if (showDoorWarningDialogue && !string.IsNullOrWhiteSpace(doorWarningDialogue))
             DialogueOverlay.Show(doorWarningDialogue.Replace("\\n", "\n"));
 
-        StartCoroutine(LoadSceneAfterDelay(ending1SceneName));
+        StartCoroutine(LoadEndingSceneAfterDelay());
+        return true;
     }
 
-    public void ChooseBedEnding()
+    public bool ChooseBedEnding()
     {
         if (!CanChoose())
-            return;
+            return false;
 
         hasChosenEnding = true;
+        EndingData.SelectedEnding = EndingData.EndingType.Bed;
 
         if (logDebug)
             Debug.Log("[FinalChoiceManager] 玩家选择回到床上结局。");
@@ -120,8 +126,10 @@ public class FinalChoiceManager : MonoBehaviour
         if (showBedDialogue && !string.IsNullOrWhiteSpace(bedDialogue))
             DialogueOverlay.Show(bedDialogue.Replace("\\n", "\n"));
 
-        StartCoroutine(LoadSceneAfterDelay(ending2SceneName));
+        StartCoroutine(LoadEndingSceneAfterDelay());
+        return true;
     }
+
 
     private bool CanChoose()
     {
@@ -146,11 +154,18 @@ public class FinalChoiceManager : MonoBehaviour
         return true;
     }
 
-    private IEnumerator LoadSceneAfterDelay(string sceneName)
+    private IEnumerator LoadEndingSceneAfterDelay()
     {
         if (sceneLoadDelay > 0f)
             yield return new WaitForSeconds(sceneLoadDelay);
 
-        SceneManager.LoadScene(sceneName);
+        if (string.IsNullOrWhiteSpace(endingSceneName))
+        {
+            Debug.LogError(
+                "[FinalChoiceManager] Ending Scene Name为空。");
+            yield break;
+        }
+
+        SceneManager.LoadScene(endingSceneName);
     }
 }
