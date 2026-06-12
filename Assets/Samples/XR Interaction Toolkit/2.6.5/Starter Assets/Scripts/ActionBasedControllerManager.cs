@@ -88,6 +88,13 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
         bool m_UIScrollingEnabled;
 
         [Space]
+        [Header("Selection Settings")]
+
+        [SerializeField]
+        [Tooltip("If true, locomotion and turn actions will be disabled while this controller's Ray Interactor is selecting an interactable.")]
+        bool m_DisableLocomotionWhileRaySelecting = true;
+
+        [Space]
         [Header("Mediation Events")]
         [SerializeField]
         [Tooltip("Event fired when the active ray interactor changes between interaction and teleport.")]
@@ -279,12 +286,18 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
 
         void OnRaySelectEntered(SelectEnterEventArgs args)
         {
+            if (!m_DisableLocomotionWhileRaySelecting)
+                return;
+
             // Disable locomotion and turn actions
             DisableLocomotionActions();
         }
 
         void OnRaySelectExited(SelectExitEventArgs args)
         {
+            if (!m_DisableLocomotionWhileRaySelecting)
+                return;
+
             // Re-enable the locomotion and turn actions
             UpdateLocomotionActions();
         }
