@@ -7,7 +7,7 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
     [System.Serializable]
     private class RevealCheckpointState
     {
-        public bool revealed;
+        public bool shouldReveal;
     }
 
     [Header("Task")]
@@ -128,7 +128,7 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
         // 只有任务从“不是 find_ring”切换到“find_ring”时才显示
         if (!wasCurrentTask && isCurrentTask)
         {
-            RevealItem();
+            RevealItem(true, true, true);
             return;
         }
 
@@ -207,8 +207,9 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
         }
     }
 
-    private void RevealItem()
+    private void RevealItem(bool resetToSpawn, bool playFeedback, bool applyDropForce)
     {
+        gameObject.SetActive(true);
         revealed = true;
 
         // 先恢复缩放
@@ -217,7 +218,7 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
             transform.localScale = originalLocalScale;
         }
 
-        if (spawnPoint != null)
+        if (resetToSpawn && spawnPoint != null)
         {
             transform.position = spawnPoint.position;
             transform.rotation = spawnPoint.rotation;
@@ -281,11 +282,14 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
 
-            Vector3 force =
-                Vector3.down * dropForce +
-                Random.insideUnitSphere * dropForce * 0.3f;
+            if (applyDropForce)
+            {
+                Vector3 force =
+                    Vector3.down * dropForce +
+                    Random.insideUnitSphere * dropForce * 0.3f;
 
-            rb.AddForce(force, ForceMode.Impulse);
+                rb.AddForce(force, ForceMode.Impulse);
+            }
         }
 
         if (glowObject != null)
@@ -293,12 +297,12 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
             glowObject.RevealAndKeep();
         }
 
-        if (revealClip != null)
+        if (playFeedback && revealClip != null)
         {
             StartCoroutine(PlayRevealAudioRoutine());
         }
 
-        if (!string.IsNullOrWhiteSpace(hint))
+        if (playFeedback && !string.IsNullOrWhiteSpace(hint))
         {
             OperationHintOverlay.Show(hint, 6f);
         }
@@ -307,7 +311,7 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
     public string CaptureCheckpointState()
     {
         RevealCheckpointState state = new RevealCheckpointState();
-        state.revealed = revealed || ShouldBeRevealedForCurrentTask();
+        state.shouldReveal = revealed || ShouldBeRevealedForCurrentTask();
 
         return JsonUtility.ToJson(state);
     }
@@ -319,24 +323,20 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
 
         RevealCheckpointState state = JsonUtility.FromJson<RevealCheckpointState>(stateJson);
 
-        if (state == null || !state.revealed)
+        if (state == null)
             return;
 
-        revealed = true;
-
-        if (hideByScale)
-            transform.localScale = originalLocalScale;
-
-        ApplyRevealedComponentState();
-
-        if (rb != null)
+        if (state.shouldReveal)
         {
-            rb.isKinematic = false;
-            rb.useGravity = true;
+            RevealItem(true, false, true);
+            return;
         }
 
-        if (glowObject != null)
-            glowObject.RevealAndKeep();
+        gameObject.SetActive(true);
+        revealed = false;
+        hasObservedTaskState = true;
+        wasCurrentTask = false;
+        HideItem();
     }
 
     private bool ShouldBeRevealedForCurrentTask()

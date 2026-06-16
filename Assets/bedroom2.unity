@@ -4383,9 +4383,9 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 71
   DopplerLevel: 1
-  MinDistance: 0.1
+  MinDistance: 1
   MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
@@ -17274,6 +17274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414952340}
   - component: {fileID: 1414952339}
+  - component: {fileID: 1414952341}
   m_Layer: 0
   m_Name: clothes puzzle
   m_TagString: Untagged
@@ -17303,8 +17304,8 @@ MonoBehaviour:
   - {fileID: 1489552372}
   requiredItemIds:
   - pink_dress
-  - pink_bag
   - pink_shoes
+  - pink_bag
   requireEachItemOnce: 1
   allowExtraItems: 1
   checkDelayAfterSocketEvent: 0.15
@@ -17326,6 +17327,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1414952341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414952337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babc748063f7461395dda58038fe6a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placements:
+  - {item: {fileID: 1222506734}, target: {fileID: 1012924985}, matchRotation: 0, matchScale: 0}
+  activatePlacedItems: 1
+  releaseSelectionBeforeMove: 1
+  restoreGravityAfterMove: 1
+  enableGrabAfterMove: 1
+  ringReveal: {fileID: 341190721}
+  triggerRingDrop: 1
+  resetRingToSpawnPoint: 1
+  playRingFeedback: 1
+  logDebug: 1
 --- !u!1001 &1416247739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26317,6 +26341,7 @@ MonoBehaviour:
     showStartDialogue: 0
     startDialogueDelay: 0
     startDialogue: "......\u4ECA\u5929\u600E\u4E48\u5929\u8FD8\u6CA1\u4EAE\u5C31\u9192\u4E86\uFF1F\u8FD9\u4E48\u9ED1\uFF0C\u6628\u665A\u7A97\u5E18\u62C9\u7684\u771F\u4E25\u5B9E......\u8FD8\u662F\u5F00\u706F\u770B\u770B\u73B0\u5728\u51E0\u70B9\u4E86"
+    startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
@@ -26332,6 +26357,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 4
     startDialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F\n\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
+    startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
@@ -26347,6 +26373,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: "\u7535\u89C6\u4F3C\u4E4E\u4E00\u76F4\u5728\u54CD\uFF0C\n\u521A\u521A\u7684\u58F0\u97F3\u662F\u7535\u89C6\u53D1\u51FA\u7684\u5417\uFF1F\n\u786E\u8BA4\u4E00\u4E0B\u600E\u4E48\u4E86\u3002"
+    startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
@@ -26362,6 +26389,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: "\u4F60\u7684\u7167\u7247\u6211\u90FD\u85CF\u8D77\u6765\u4E86\u2026\u2026\u4E0D\u6562\u770B\u89C1\u2026\u2026"
+    startDialogues: []
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u6211\u5417\uFF1F"
     tvScreenTextDelay: 0
@@ -26377,6 +26405,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: test
+    startDialogues: []
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: test
     tvScreenTextDelay: 0
@@ -26392,6 +26421,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u665A\u4E0A\u53D1\u751F\u4E86\u4EC0\u4E48\u5417\uFF1F\u8FD8\u662F\u8BF4\uFF0C\u4F60\u53C8\u60F3\u88C5\u4F5C\u4EC0\u4E48\u90FD\u6CA1\u53D1\u751F\uFF1F"
+    startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: test
     tvScreenTextDelay: 0
@@ -26407,6 +26437,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: pass
+    startDialogues: []
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: pass
     tvScreenTextDelay: 0
@@ -26422,6 +26453,7 @@ MonoBehaviour:
     showStartDialogue: 1
     startDialogueDelay: 5
     startDialogue: start choice
+    startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: choice
     tvScreenTextDelay: 0
