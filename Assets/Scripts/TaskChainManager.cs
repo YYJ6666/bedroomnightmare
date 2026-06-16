@@ -57,9 +57,17 @@ public class TaskChainManager : MonoBehaviour
 
         [Header("On Complete Optional")]
         public bool showDialogueOnComplete = false;
+        [Tooltip("任务完成后，延迟多少秒再开始播放 Complete Dialogue。")]
+        public float completeDialogueDelay = 0f;
+
+        [Tooltip("完成任务时，如果要播放 Complete Dialogue，先临时屏蔽 XRDialogueOnSelect，避免它把 Complete Dialogue 顶掉。")]
+        public bool suppressXRDialogueOnSelectOnComplete = true;
 
         [TextArea(2, 5)]
         public string completeDialogue = "";
+
+        [Header("Complete Dialogue Sequence")]
+        public StartDialogueEntry[] completeDialogues;
     }
 
     [Header("Scene Filter")]
@@ -82,6 +90,7 @@ public class TaskChainManager : MonoBehaviour
 
     private Coroutine taskRoutine;
     private Coroutine tvTextRoutine;
+    private Coroutine completeTaskRoutine;
     private bool isRunning;
 
     public int CurrentTaskIndex => currentTaskIndex;
@@ -193,27 +202,13 @@ public class TaskChainManager : MonoBehaviour
 
         StopCurrentTaskRuntime();
 
-        if (currentTask.showDialogueOnComplete && !string.IsNullOrWhiteSpace(currentTask.completeDialogue))
-            ShowText(currentTask.completeDialogue, currentTask);
-
-        if (logDebug)
-            Debug.Log($"[TaskChainManager] Complete Task: {currentTask.taskId}, index={currentTaskIndex}");
-
-        currentTaskIndex++;
-
-        // 注意：必须在 currentTaskIndex++ 之后保存，这样 checkpoint 才会保存到“下一个任务阶段”。
-        if (saveCheckpointOnTaskComplete)
-            CheckpointManager.SaveCheckpoint(checkpointPrefix + taskId);
-
-        if (currentTaskIndex >= tasks.Length)
+        if (completeTaskRoutine != null)
         {
-            if (logDebug)
-                Debug.Log("[TaskChainManager] 所有任务已完成。");
-
-            return;
+            StopCoroutine(completeTaskRoutine);
+            completeTaskRoutine = null;
         }
 
-        StartCurrentTask(true);
+        completeTaskRoutine = StartCoroutine(CompleteTaskRoutine(currentTask, taskId));
     }
 
     public bool IsCurrentTask(string taskId)
@@ -272,6 +267,12 @@ public class TaskChainManager : MonoBehaviour
             StopCoroutine(tvTextRoutine);
             tvTextRoutine = null;
         }
+
+        if (completeTaskRoutine != null)
+        {
+            StopCoroutine(completeTaskRoutine);
+            completeTaskRoutine = null;
+        }
     }
 
     private IEnumerator TaskRoutine(TaskStep task, bool replayStartDialogue)
@@ -319,6 +320,46 @@ public class TaskChainManager : MonoBehaviour
     private void ShowText(string text, TaskStep task)
     {
         ShowText(text, task, -1f);
+    }
+
+    private IEnumerator CompleteTaskRoutine(TaskStep currentTask, string taskId)
+    {
+        if (HasCompleteDialogues(currentTask))
+        {
+            float suppressSeconds = GetDialogueSequenceTotalDuration(currentTask.completeDialogues, currentTask.completeDialogue)
+                + Mathf.Max(0f, currentTask.completeDialogueDelay)
+                + 0.2f;
+
+            if (currentTask.suppressXRDialogueOnSelectOnComplete)
+            {
+                XRDialogueOnSelect.SuppressFor(suppressSeconds);
+            }
+
+            if (currentTask.completeDialogueDelay > 0f)
+                yield return new WaitForSecondsRealtime(currentTask.completeDialogueDelay);
+
+            yield return PlayCompleteDialogueSequence(currentTask);
+        }
+
+        if (logDebug)
+            Debug.Log($"[TaskChainManager] Complete Task: {currentTask.taskId}, index={currentTaskIndex}");
+
+        currentTaskIndex++;
+
+        if (saveCheckpointOnTaskComplete)
+            CheckpointManager.SaveCheckpoint(checkpointPrefix + taskId);
+
+        if (currentTaskIndex >= tasks.Length)
+        {
+            if (logDebug)
+                Debug.Log("[TaskChainManager] 所有任务已完成。");
+
+            completeTaskRoutine = null;
+            yield break;
+        }
+
+        completeTaskRoutine = null;
+        StartCurrentTask(true);
     }
 
     private void ShowText(string text, TaskStep task, float dialogueVisibleSecondsOverride)
@@ -369,6 +410,24 @@ public class TaskChainManager : MonoBehaviour
         return !string.IsNullOrWhiteSpace(task.startDialogue);
     }
 
+    private static bool HasCompleteDialogues(TaskStep task)
+    {
+        if (task == null || !task.showDialogueOnComplete)
+            return false;
+
+        if (task.completeDialogues != null)
+        {
+            for (int i = 0; i < task.completeDialogues.Length; i++)
+            {
+                StartDialogueEntry entry = task.completeDialogues[i];
+                if (entry != null && !string.IsNullOrWhiteSpace(entry.dialogue))
+                    return true;
+            }
+        }
+
+        return !string.IsNullOrWhiteSpace(task.completeDialogue);
+    }
+
     private IEnumerator PlayStartDialogueSequence(TaskStep task)
     {
         bool playedAny = false;
@@ -393,6 +452,30 @@ public class TaskChainManager : MonoBehaviour
             yield return PlaySingleStartDialogue(task, task.startDialogue, -1f);
     }
 
+    private IEnumerator PlayCompleteDialogueSequence(TaskStep task)
+    {
+        bool playedAny = false;
+
+        if (task.completeDialogues != null && task.completeDialogues.Length > 0)
+        {
+            for (int i = 0; i < task.completeDialogues.Length; i++)
+            {
+                StartDialogueEntry entry = task.completeDialogues[i];
+                if (entry == null || string.IsNullOrWhiteSpace(entry.dialogue))
+                    continue;
+
+                yield return PlaySingleStartDialogue(task, entry.dialogue, entry.visibleSeconds);
+                playedAny = true;
+
+                if (!isRunning && completeTaskRoutine == null)
+                    yield break;
+            }
+        }
+
+        if (!playedAny && !string.IsNullOrWhiteSpace(task.completeDialogue))
+            yield return PlaySingleStartDialogue(task, task.completeDialogue, -1f);
+    }
+
     private IEnumerator PlaySingleStartDialogue(TaskStep task, string text, float visibleSecondsOverride)
     {
         float visibleSeconds = visibleSecondsOverride > 0f
@@ -404,6 +487,34 @@ public class TaskChainManager : MonoBehaviour
         float waitSeconds = visibleSeconds + DialogueOverlay.DefaultFadeOutDuration;
         if (waitSeconds > 0f)
             yield return new WaitForSecondsRealtime(waitSeconds);
+    }
+
+    private float GetDialogueSequenceTotalDuration(StartDialogueEntry[] entries, string fallbackDialogue)
+    {
+        float total = 0f;
+        bool countedAny = false;
+
+        if (entries != null)
+        {
+            for (int i = 0; i < entries.Length; i++)
+            {
+                StartDialogueEntry entry = entries[i];
+                if (entry == null || string.IsNullOrWhiteSpace(entry.dialogue))
+                    continue;
+
+                float visibleSeconds = entry.visibleSeconds > 0f
+                    ? entry.visibleSeconds
+                    : DialogueOverlay.DefaultVisibleSeconds;
+
+                total += visibleSeconds + DialogueOverlay.DefaultFadeOutDuration;
+                countedAny = true;
+            }
+        }
+
+        if (!countedAny && !string.IsNullOrWhiteSpace(fallbackDialogue))
+            total = DialogueOverlay.DefaultVisibleSeconds + DialogueOverlay.DefaultFadeOutDuration;
+
+        return total;
     }
 
     private bool IsInTargetScene()

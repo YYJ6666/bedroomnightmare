@@ -3390,6 +3390,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
       insertIndex: -1
       addedObject: {fileID: 428932210}
+    - targetCorrespondingSourceObject: {fileID: 100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 428932213}
   m_SourcePrefab: {fileID: 100100000, guid: b362fb257dcf5fa46b1f535541907988, type: 3}
 --- !u!1 &266231557
 GameObject:
@@ -5350,7 +5353,7 @@ MonoBehaviour:
   moveToMouthTime: 0.45
   drinkHoldTime: 1.2
   moveBackTime: 0.35
-  drinkAudio: {fileID: 0}
+  drinkAudio: {fileID: 428932213}
   forceGravityAfterDrink: 1
   forceNonKinematicAfterDrink: 1
   stopVelocityAfterDrink: 1
@@ -5392,6 +5395,102 @@ MonoBehaviour:
   stopCurrentAudioBeforePlay: 1
   useOneShot: 1
   audioVolume: 1
+--- !u!82 &428932213
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428932189}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: e087b7e2e8609a74783e376ab887207c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &441317863 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1579701461944172, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
@@ -10854,7 +10953,7 @@ MonoBehaviour:
   requireCurrentTask: 0
   playAudioOnComplete: 1
   audioSource: {fileID: 631721324}
-  completeAudioClip: {fileID: 8300000, guid: 5acb5c907c9c517469007e6eeb304d96, type: 3}
+  completeAudioClip: {fileID: 8300000, guid: 1c2181e9f107fa6419ffd5421d8ea628, type: 3}
   audioDelay: 1
   stopCurrentAudioBeforePlay: 1
   useOneShot: 1
@@ -10871,7 +10970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u7535\u89C6\u673A\uFF0C\u4F3C\u4E4E\u662F\u5979\u5728\u8BF4\u8BDD\uFF0C"
+  dialogueText: "\u4E0D\u662F\u505C\u7535\u4E86\u5417\uFF1F\u7535\u89C6\u600E\u4E48\u8FD8\u4EAE\u7740\uFF1F"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
@@ -14944,7 +15043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u82B1\u76C6\uFF0C\u6211\u8BB0\u5F97\u91CC\u9762\u653E\u4E1C\u897F\u4E86\u3002"
+  dialogueText: "\u82B1\u76C6\uFF0C\u6211\u8BB0\u5F97\u91CC\u9762\u85CF\u4E1C\u897F\u4E86......"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
@@ -17725,8 +17824,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
+  m_sharedMaterial: {fileID: -8572201076005629793, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -17815,7 +17914,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: -8572201076005629793, guid: 4779abd91c5ab914c88b8b6e2f94215d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -26332,7 +26431,7 @@ MonoBehaviour:
   gameSceneName: bedroom2
   tasks:
   - taskId: switch_light
-    repeatingHint: "\u597D\u9ED1\u554A\uFF0C\u5148\u628A\u706F\u5F00\u5F00\u5427......\u592A\u9ED1\u4E86\uFF0C\u5F00\u5173\u90FD\u627E\u4E0D\u5230......"
+    repeatingHint: "\u597D\u9ED1\u554A\uFF0C\u5148\u628A\u706F\u5F00\u5F00\u5427......"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
@@ -26340,29 +26439,39 @@ MonoBehaviour:
     useOperationHintOverlay: 0
     showStartDialogue: 0
     startDialogueDelay: 0
-    startDialogue: "......\u4ECA\u5929\u600E\u4E48\u5929\u8FD8\u6CA1\u4EAE\u5C31\u9192\u4E86\uFF1F\u8FD9\u4E48\u9ED1\uFF0C\u6628\u665A\u7A97\u5E18\u62C9\u7684\u771F\u4E25\u5B9E......\u8FD8\u662F\u5F00\u706F\u770B\u770B\u73B0\u5728\u51E0\u70B9\u4E86"
+    startDialogue: 
     startDialogues: []
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: "\u600E\u4E48\u56DE\u4E8B\uFF1F\u706F\u6253\u4E0D\u5F00\uFF1F\u505C\u7535\u4E86\uFF1F"
+    completeDialogues: []
   - taskId: drink
-    repeatingHint: "\u6211\u8BB0\u5F97"
+    repeatingHint: "\u6211\u8BB0\u5F97\u6628\u665A\u628A\u6C34\u676F\u653E\u5230\u5E8A\u5934\u67DC\u4E0A\u4E86......"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 4
-    startDialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F\n\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
-    startDialogues: []
+    startDialogueDelay: 0
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F"
+      visibleSeconds: 3
+    - dialogue: "\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
+      visibleSeconds: 4
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 0
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 0
     completeDialogue: 
+    completeDialogues: []
   - taskId: touch_tv
     repeatingHint: "\u7535\u89C6\u2026\u2026\u5728\u54EA\u91CC\uFF1F"
     firstDelay: 15
@@ -26372,29 +26481,45 @@ MonoBehaviour:
     useOperationHintOverlay: 0
     showStartDialogue: 1
     startDialogueDelay: 5
-    startDialogue: "\u7535\u89C6\u4F3C\u4E4E\u4E00\u76F4\u5728\u54CD\uFF0C\n\u521A\u521A\u7684\u58F0\u97F3\u662F\u7535\u89C6\u53D1\u51FA\u7684\u5417\uFF1F\n\u786E\u8BA4\u4E00\u4E0B\u600E\u4E48\u4E86\u3002"
-    startDialogues: []
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u8FD9\u6ECB\u6ECB\u5566\u5566\u7684......\u4F3C\u4E4E\u662F\u7535\u89C6\u5728\u54CD......"
+      visibleSeconds: 4
+    - dialogue: "\u96BE\u9053\u521A\u521A\u4E0D\u662F\u6211\u5E7B\u542C\u4E86\uFF1F\u662F\u7535\u89C6\u53D1\u51FA\u7684\u58F0\u97F3\uFF1F\n\u53BB\u770B\u770B\u7535\u89C6\u662F\u4EC0\u4E48\u60C5\u51B5\uFF01"
+      visibleSeconds: 4
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogue: "\u8C01\uFF1F\uFF01"
+    completeDialogueDelay: 3
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: 
+    completeDialogues:
+    - dialogue: "\u8C01\uFF1F\u8FD9......\u8FD9\u58F0\u97F3\uFF01\u662F\u5979\uFF01\u662F\u5979\u56DE\u6765\u4E86\uFF01"
+      visibleSeconds: 6
   - taskId: find_photo
-    repeatingHint: "\u7167\u7247\u2026\u2026"
+    repeatingHint: "\u7167\u7247\u2026\u2026\u7167\u7247\u6211\u653E\u5230\u5E8A\u5934\u67DC\u91CC\u9762\u4E86"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: "\u4F60\u7684\u7167\u7247\u6211\u90FD\u85CF\u8D77\u6765\u4E86\u2026\u2026\u4E0D\u6562\u770B\u89C1\u2026\u2026"
-    startDialogues: []
+    startDialogueDelay: 1
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u6CA1\u6709\uFF01\u6211\u6CA1\u6709\u5FD8\u8BB0\u4F60\uFF01"
+      visibleSeconds: 3
+    - dialogue: "\u7167\u7247\u6211\u53EA\u662F\u653E\u8D77\u6765\u4E86\uFF0C\u5C31\u5728\u5E8A\u5934\u67DC\u91CC\u9762\uFF0C\u6211\u8FD9\u5C31\u627E\u7ED9\u4F60\uFF01"
+      visibleSeconds: 5
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u6211\u5417\uFF1F"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: "\u547C\uFF01\u603B\u7B97\u627E\u5230\u4E86\uFF01"
+    completeDialogues: []
   - taskId: find_cloths
     repeatingHint: test
     firstDelay: 15
@@ -26407,10 +26532,13 @@ MonoBehaviour:
     startDialogue: test
     startDialogues: []
     setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: test
+    tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u6211\u7A7F\u4E86\u4EC0\u4E48\u5417\uFF1F"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 1111
+    completeDialogues: []
   - taskId: restore_memory
     repeatingHint: "\u627E\u5BFB\u90A3\u5929\u7684\u8BB0\u5FC6..."
     firstDelay: 15
@@ -26426,7 +26554,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: test
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 1111
+    completeDialogues: []
   - taskId: password
     repeatingHint: password
     firstDelay: 15
@@ -26442,7 +26573,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: pass
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: passwordok
+    completeDialogues: []
   - taskId: final_choice
     repeatingHint: choice
     firstDelay: 15
@@ -26458,9 +26592,12 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: choice
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 'choice complete
 
 '
+    completeDialogues: []
   currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
@@ -28574,7 +28711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u7535\u89C6\u67DC\u3002\u6211\u597D\u50CF\u628A\u4EC0\u4E48\u4E1C\u897F\u85CF\u5728\u9644\u8FD1\u4E86\u3002"
+  dialogueText: "\u7535\u89C6\u67DC......\u6211\u597D\u50CF\u628A\u4EC0\u4E48\u4E1C\u897F\u85CF\u5728\u9644\u8FD1\u4E86"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
