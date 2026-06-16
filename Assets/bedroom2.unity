@@ -6898,7 +6898,7 @@ MonoBehaviour:
   cameraFacingEulerOffset: {x: 90, y: 0, z: 0}
   keepWorldRotation: 0
   moveToCameraDuration: 0.35
-  stayDuration: 3
+  stayDuration: 8
   moveBackDuration: 0.35
   disablePhysicsWhilePresenting: 1
 --- !u!114 &513732881
@@ -7020,9 +7020,9 @@ MonoBehaviour:
   completeOnlyOnce: 1
   ignoreSocketSelect: 1
   requireCurrentTask: 1
-  playAudioOnComplete: 0
+  playAudioOnComplete: 1
   audioSource: {fileID: 631721324}
-  completeAudioClip: {fileID: 8300000, guid: 54ccf978c7886364c980d9f84ff32bd3, type: 3}
+  completeAudioClip: {fileID: 8300000, guid: 3c6ab6301f69ead4bb452150a851a109, type: 3}
   audioDelay: 0
   stopCurrentAudioBeforePlay: 1
   useOneShot: 1
@@ -17438,17 +17438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: babc748063f7461395dda58038fe6a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placements:
-  - {item: {fileID: 1222506734}, target: {fileID: 1012924985}, matchRotation: 0, matchScale: 0}
-  activatePlacedItems: 1
-  releaseSelectionBeforeMove: 1
-  restoreGravityAfterMove: 1
-  enableGrabAfterMove: 1
-  ringReveal: {fileID: 341190721}
-  triggerRingDrop: 1
-  resetRingToSpawnPoint: 1
-  playRingFeedback: 1
-  logDebug: 1
 --- !u!1001 &1416247739
 PrefabInstance:
   m_ObjectHideFlags: 0
