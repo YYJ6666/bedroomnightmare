@@ -7625,7 +7625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u706F\u6253\u4E0D\u5F00\u2026\u2026\u505C\u7535\u4E86\u5417?\n\u51FA\u53BB\u770B\u770B\u4EC0\u4E48\u60C5\u51B5\u5427\u3002"
+  dialogueText: "\u706F\u6253\u4E0D\u5F00\u2026\u2026"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
@@ -7665,7 +7665,7 @@ MonoBehaviour:
   requireCurrentTask: 1
   playAudioOnComplete: 1
   audioSource: {fileID: 631721324}
-  completeAudioClip: {fileID: 8300000, guid: 7a253da0322825a4184dd3e0445a0df4, type: 3}
+  completeAudioClip: {fileID: 8300000, guid: f86cc80334293d742bda35276ca0a220, type: 3}
   audioDelay: 2
   stopCurrentAudioBeforePlay: 0
   useOneShot: 1
@@ -26104,7 +26104,7 @@ MonoBehaviour:
   gameSceneName: bedroom2
   tasks:
   - taskId: switch_light
-    repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
+    repeatingHint: "\u597D\u9ED1\u554A\uFF0C\u5148\u628A\u706F\u5F00\u5F00\u5427......\u592A\u9ED1\u4E86\uFF0C\u5F00\u5173\u90FD\u627E\u4E0D\u5230......"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
@@ -26112,14 +26112,14 @@ MonoBehaviour:
     useOperationHintOverlay: 0
     showStartDialogue: 0
     startDialogueDelay: 0
-    startDialogue: 
+    startDialogue: "......\u4ECA\u5929\u600E\u4E48\u5929\u8FD8\u6CA1\u4EAE\u5C31\u9192\u4E86\uFF1F\u8FD9\u4E48\u9ED1\uFF0C\u6628\u665A\u7A97\u5E18\u62C9\u7684\u771F\u4E25\u5B9E......\u8FD8\u662F\u5F00\u706F\u770B\u770B\u73B0\u5728\u51E0\u70B9\u4E86"
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
-    showDialogueOnComplete: 0
-    completeDialogue: 
+    showDialogueOnComplete: 1
+    completeDialogue: "\u600E\u4E48\u56DE\u4E8B\uFF1F\u706F\u6253\u4E0D\u5F00\uFF1F\u505C\u7535\u4E86\uFF1F"
   - taskId: drink
-    repeatingHint: "\u597D\u6E34\u2026\u2026\u6211\u8981\u559D\u6C34\u3002"
+    repeatingHint: "\u6211\u8BB0\u5F97"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
@@ -26127,7 +26127,7 @@ MonoBehaviour:
     useOperationHintOverlay: 0
     showStartDialogue: 1
     startDialogueDelay: 4
-    startDialogue: "\u4EC0\u4E48\u58F0\u97F3\uFF0C\u6211\u7761\u8FF7\u7CCA\u4E86\u5417\u3002\n\u5148\u559D\u6C34\u5427\u3002"
+    startDialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F\n\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
