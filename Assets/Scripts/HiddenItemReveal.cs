@@ -2,8 +2,14 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class HiddenItemReveal : MonoBehaviour
+public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
 {
+    [System.Serializable]
+    private class RevealCheckpointState
+    {
+        public bool revealed;
+    }
+
     [Header("Task")]
     [SerializeField] private string revealTaskId = "find_ring";
 
@@ -190,10 +196,14 @@ public class HiddenItemReveal : MonoBehaviour
 
         if (rb != null)
         {
-            rb.isKinematic = true;
+            if (!rb.isKinematic)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
             rb.useGravity = false;
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
         }
     }
 
@@ -291,6 +301,97 @@ public class HiddenItemReveal : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(hint))
         {
             OperationHintOverlay.Show(hint, 6f);
+        }
+    }
+
+    public string CaptureCheckpointState()
+    {
+        RevealCheckpointState state = new RevealCheckpointState();
+        state.revealed = revealed || ShouldBeRevealedForCurrentTask();
+
+        return JsonUtility.ToJson(state);
+    }
+
+    public void RestoreCheckpointState(string stateJson)
+    {
+        if (string.IsNullOrWhiteSpace(stateJson))
+            return;
+
+        RevealCheckpointState state = JsonUtility.FromJson<RevealCheckpointState>(stateJson);
+
+        if (state == null || !state.revealed)
+            return;
+
+        revealed = true;
+
+        if (hideByScale)
+            transform.localScale = originalLocalScale;
+
+        ApplyRevealedComponentState();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+
+        if (glowObject != null)
+            glowObject.RevealAndKeep();
+    }
+
+    private bool ShouldBeRevealedForCurrentTask()
+    {
+        if (TaskChainManager.Instance == null)
+            return false;
+
+        return TaskChainManager.Instance.IsCurrentTask(revealTaskId);
+    }
+
+    private void ApplyRevealedComponentState()
+    {
+        if (lodGroups != null)
+        {
+            foreach (var lod in lodGroups)
+            {
+                if (lod != null)
+                    lod.enabled = true;
+            }
+        }
+
+        if (renderers != null)
+        {
+            foreach (var r in renderers)
+            {
+                if (r != null)
+                    r.enabled = true;
+            }
+        }
+
+        if (colliders != null)
+        {
+            foreach (var c in colliders)
+            {
+                if (c != null)
+                    c.enabled = true;
+            }
+        }
+
+        if (lights != null)
+        {
+            foreach (var l in lights)
+            {
+                if (l != null)
+                    l.enabled = true;
+            }
+        }
+
+        if (grabInteractables != null)
+        {
+            foreach (var grab in grabInteractables)
+            {
+                if (grab != null)
+                    grab.enabled = true;
+            }
         }
     }
 
