@@ -15014,7 +15014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u82B1\u76C6\uFF0C\u6211\u8BB0\u5F97\u91CC\u9762\u653E\u4E1C\u897F\u4E86\u3002"
+  dialogueText: "\u82B1\u76C6\uFF0C\u6211\u8BB0\u5F97\u91CC\u9762\u85CF\u4E1C\u897F\u4E86......"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
@@ -26354,7 +26354,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: "\u600E\u4E48\u56DE\u4E8B\uFF1F\u706F\u6253\u4E0D\u5F00\uFF1F\u505C\u7535\u4E86\uFF1F"
+    completeDialogues: []
   - taskId: drink
     repeatingHint: "\u6211\u8BB0\u5F97\u6628\u665A\u628A\u6C34\u676F\u653E\u5230\u5E8A\u5934\u67DC\u4E0A\u4E86......"
     firstDelay: 15
@@ -26363,7 +26366,7 @@ MonoBehaviour:
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 4
+    startDialogueDelay: 0
     startDialogue: 
     startDialogues:
     - dialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F"
@@ -26374,7 +26377,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 0
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 0
     completeDialogue: 
+    completeDialogues: []
   - taskId: touch_tv
     repeatingHint: "\u7535\u89C6\u2026\u2026\u5728\u54EA\u91CC\uFF1F"
     firstDelay: 15
@@ -26394,23 +26400,35 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogue: "\u8C01\uFF1F\u8FD9......\u8FD9\u58F0\u97F3\uFF01\u662F\u5979\uFF01\u662F\u5979\u56DE\u6765\u4E86\uFF01"
+    completeDialogueDelay: 3
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: 
+    completeDialogues:
+    - dialogue: "\u8C01\uFF1F\u8FD9......\u8FD9\u58F0\u97F3\uFF01\u662F\u5979\uFF01\u662F\u5979\u56DE\u6765\u4E86\uFF01"
+      visibleSeconds: 6
   - taskId: find_photo
-    repeatingHint: "\u7167\u7247\u2026\u2026"
+    repeatingHint: "\u7167\u7247\u2026\u2026\u7167\u7247\u6211\u653E\u5230\u5E8A\u5934\u67DC\u91CC\u9762\u4E86"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 10
-    startDialogue: "\u4F60\u7684\u7167\u7247\u6211\u90FD\u85CF\u8D77\u6765\u4E86\u2026\u2026\u4E0D\u6562\u770B\u89C1\u2026\u2026"
-    startDialogues: []
+    startDialogueDelay: 1
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u6CA1\u6709\uFF01\u6211\u6CA1\u6709\u5FD8\u8BB0\u4F60\uFF01"
+      visibleSeconds: 3
+    - dialogue: "\u7167\u7247\u6211\u53EA\u662F\u653E\u8D77\u6765\u4E86\uFF0C\u5C31\u5728\u5E8A\u5934\u67DC\u91CC\u9762\uFF0C\u6211\u8FD9\u5C31\u627E\u7ED9\u4F60\uFF01"
+      visibleSeconds: 5
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u6211\u5417\uFF1F"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: "\u547C\uFF01\u603B\u7B97\u627E\u5230\u4E86\uFF01"
+    completeDialogues: []
   - taskId: find_cloths
     repeatingHint: test
     firstDelay: 15
@@ -26426,7 +26444,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: test
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 1111
+    completeDialogues: []
   - taskId: restore_memory
     repeatingHint: "\u627E\u5BFB\u90A3\u5929\u7684\u8BB0\u5FC6..."
     firstDelay: 15
@@ -26442,7 +26463,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: test
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 1111
+    completeDialogues: []
   - taskId: password
     repeatingHint: password
     firstDelay: 15
@@ -26458,7 +26482,10 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: pass
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: passwordok
+    completeDialogues: []
   - taskId: final_choice
     repeatingHint: choice
     firstDelay: 15
@@ -26474,9 +26501,12 @@ MonoBehaviour:
     tvScreenTextOnTaskStart: choice
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 'choice complete
 
 '
+    completeDialogues: []
   currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
@@ -28577,7 +28607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u7535\u89C6\u67DC\u3002\u6211\u597D\u50CF\u628A\u4EC0\u4E48\u4E1C\u897F\u85CF\u5728\u9644\u8FD1\u4E86\u3002"
+  dialogueText: "\u7535\u89C6\u67DC......\u6211\u597D\u50CF\u628A\u4EC0\u4E48\u4E1C\u897F\u85CF\u5728\u9644\u8FD1\u4E86"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1

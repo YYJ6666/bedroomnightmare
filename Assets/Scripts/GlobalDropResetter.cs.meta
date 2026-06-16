@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - screamBeforeResetClip: {fileID: 8300000, guid: 3147e6427ee16d64e9dd329d2714c1be, type: 3}
+  - screamBeforeResetClip: {fileID: 8300000, guid: 842dfbdc6f9924546b3838aa8d5d5c3b, type: 3}
   - defaultDropSound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
