@@ -9,6 +9,8 @@ using Unity.XR.CoreUtils;
 public sealed class DialogueOverlay : MonoBehaviour
 {
     private static DialogueOverlay instance;
+    public static float DefaultVisibleSeconds => instance != null ? instance.visibleSeconds : 3f;
+    public static float DefaultFadeOutDuration => instance != null ? instance.fadeOutDuration : 0.5f;
 
     [Header("Startup")]
     [SerializeField] private bool showOnStart = false;
