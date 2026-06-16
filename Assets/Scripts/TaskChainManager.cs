@@ -7,6 +7,16 @@ public class TaskChainManager : MonoBehaviour
     public static TaskChainManager Instance { get; private set; }
 
     [System.Serializable]
+    public class StartDialogueEntry
+    {
+        [TextArea(2, 5)]
+        public string dialogue = "";
+
+        [Tooltip("留空或 <= 0 时，使用 DialogueOverlay 的默认显示时长。")]
+        public float visibleSeconds = -1f;
+    }
+
+    [System.Serializable]
     public class TaskStep
     {
         [Header("Task")]
@@ -32,6 +42,9 @@ public class TaskChainManager : MonoBehaviour
 
         [TextArea(2, 5)]
         public string startDialogue = "";
+
+        [Header("Start Dialogue Sequence")]
+        public StartDialogueEntry[] startDialogues;
 
         [Header("TV Screen Text On Task Start")]
         public bool setTVTextOnTaskStart = false;
@@ -263,7 +276,7 @@ public class TaskChainManager : MonoBehaviour
 
     private IEnumerator TaskRoutine(TaskStep task, bool replayStartDialogue)
     {
-        if (replayStartDialogue && task.showStartDialogue && !string.IsNullOrWhiteSpace(task.startDialogue))
+        if (replayStartDialogue && task.showStartDialogue && HasStartDialogues(task))
         {
             if (task.startDialogueDelay > 0f)
                 yield return new WaitForSecondsRealtime(task.startDialogueDelay);
@@ -271,7 +284,7 @@ public class TaskChainManager : MonoBehaviour
             if (!isRunning)
                 yield break;
 
-            ShowText(task.startDialogue, task);
+            yield return PlayStartDialogueSequence(task);
         }
 
         if (task.firstDelay > 0f)
@@ -305,13 +318,29 @@ public class TaskChainManager : MonoBehaviour
 
     private void ShowText(string text, TaskStep task)
     {
+        ShowText(text, task, -1f);
+    }
+
+    private void ShowText(string text, TaskStep task, float dialogueVisibleSecondsOverride)
+    {
         string finalText = FormatText(text);
 
         if (task.useDialogueOverlay)
-            DialogueOverlay.Show(finalText);
+        {
+            if (dialogueVisibleSecondsOverride >= 0f)
+                DialogueOverlay.ShowFor(finalText, dialogueVisibleSecondsOverride);
+            else
+                DialogueOverlay.Show(finalText);
+        }
 
         if (task.useOperationHintOverlay)
-            OperationHintOverlay.Show(finalText, task.visibleSeconds);
+        {
+            float operationHintVisibleSeconds = dialogueVisibleSecondsOverride >= 0f
+                ? dialogueVisibleSecondsOverride
+                : task.visibleSeconds;
+
+            OperationHintOverlay.Show(finalText, operationHintVisibleSeconds);
+        }
     }
 
     private string FormatText(string text)
@@ -320,6 +349,61 @@ public class TaskChainManager : MonoBehaviour
             return "";
 
         return text.Replace("\\n", "\n");
+    }
+
+    private static bool HasStartDialogues(TaskStep task)
+    {
+        if (task == null || !task.showStartDialogue)
+            return false;
+
+        if (task.startDialogues != null)
+        {
+            for (int i = 0; i < task.startDialogues.Length; i++)
+            {
+                StartDialogueEntry entry = task.startDialogues[i];
+                if (entry != null && !string.IsNullOrWhiteSpace(entry.dialogue))
+                    return true;
+            }
+        }
+
+        return !string.IsNullOrWhiteSpace(task.startDialogue);
+    }
+
+    private IEnumerator PlayStartDialogueSequence(TaskStep task)
+    {
+        bool playedAny = false;
+
+        if (task.startDialogues != null && task.startDialogues.Length > 0)
+        {
+            for (int i = 0; i < task.startDialogues.Length; i++)
+            {
+                StartDialogueEntry entry = task.startDialogues[i];
+                if (entry == null || string.IsNullOrWhiteSpace(entry.dialogue))
+                    continue;
+
+                yield return PlaySingleStartDialogue(task, entry.dialogue, entry.visibleSeconds);
+                playedAny = true;
+
+                if (!isRunning)
+                    yield break;
+            }
+        }
+
+        if (!playedAny && !string.IsNullOrWhiteSpace(task.startDialogue))
+            yield return PlaySingleStartDialogue(task, task.startDialogue, -1f);
+    }
+
+    private IEnumerator PlaySingleStartDialogue(TaskStep task, string text, float visibleSecondsOverride)
+    {
+        float visibleSeconds = visibleSecondsOverride > 0f
+            ? visibleSecondsOverride
+            : DialogueOverlay.DefaultVisibleSeconds;
+
+        ShowText(text, task, visibleSeconds);
+
+        float waitSeconds = visibleSeconds + DialogueOverlay.DefaultFadeOutDuration;
+        if (waitSeconds > 0f)
+            yield return new WaitForSecondsRealtime(waitSeconds);
     }
 
     private bool IsInTargetScene()
