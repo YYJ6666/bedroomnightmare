@@ -26508,7 +26508,7 @@ MonoBehaviour:
     startDialogue: test
     startDialogues: []
     setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: test
+    tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u6211\u7A7F\u4E86\u4EC0\u4E48\u5417\uFF1F"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogueDelay: 0
