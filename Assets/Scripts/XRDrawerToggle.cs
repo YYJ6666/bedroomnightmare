@@ -3,8 +3,19 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(XRSimpleInteractable))]
-public class XRDrawerToggle : MonoBehaviour
+public class XRDrawerToggle : MonoBehaviour, ICheckpointStateHandler
 {
+    [System.Serializable]
+    private class DrawerCheckpointState
+    {
+        public bool isOpen;
+        public bool isUnlocked;
+        public bool allowSelectToggle;
+        public bool hasLockObject;
+        public bool lockObjectActiveSelf;
+        public Vector3 drawerLocalPosition;
+    }
+
     [Header("Activation")]
     [SerializeField] private bool allowSelectToggle = true;
 
@@ -153,6 +164,50 @@ public class XRDrawerToggle : MonoBehaviour
 
         if (glowObject != null)
             glowObject.Reveal();
+    }
+
+    public string CaptureCheckpointState()
+    {
+        DrawerCheckpointState state = new DrawerCheckpointState();
+        state.isOpen = isOpen;
+        state.isUnlocked = isUnlocked;
+        state.allowSelectToggle = allowSelectToggle;
+        state.hasLockObject = lockObjectToHide != null;
+        state.lockObjectActiveSelf = lockObjectToHide != null && lockObjectToHide.activeSelf;
+        state.drawerLocalPosition = drawerToMove != null ? drawerToMove.localPosition : transform.localPosition;
+
+        return JsonUtility.ToJson(state);
+    }
+
+    public void RestoreCheckpointState(string stateJson)
+    {
+        if (string.IsNullOrWhiteSpace(stateJson))
+            return;
+
+        DrawerCheckpointState state = JsonUtility.FromJson<DrawerCheckpointState>(stateJson);
+
+        if (state == null)
+            return;
+
+        if (moveRoutine != null)
+        {
+            StopCoroutine(moveRoutine);
+            moveRoutine = null;
+        }
+
+        isOpen = state.isOpen;
+        isUnlocked = state.isUnlocked;
+        allowSelectToggle = state.allowSelectToggle;
+
+        if (drawerToMove == null)
+            drawerToMove = transform;
+
+        drawerToMove.localPosition = state.drawerLocalPosition;
+
+        if (lockObjectToHide != null)
+            lockObjectToHide.SetActive(state.hasLockObject ? state.lockObjectActiveSelf : !isUnlocked);
+
+        ApplyDrawerOpenLinkedState();
     }
 
     public void ToggleDrawer()

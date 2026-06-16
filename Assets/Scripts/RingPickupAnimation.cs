@@ -76,10 +76,14 @@ public class RingPickupAnimation : MonoBehaviour
         grab.enabled = false;
 
         // 3. 锁定物理
-        rb.isKinematic = true;
+        if (!rb.isKinematic)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+
         rb.useGravity = false;
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
 
         // 4. 飞到玩家视野前方
         Vector3 facePos =

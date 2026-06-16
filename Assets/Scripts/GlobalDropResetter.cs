@@ -604,8 +604,12 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         if (rb != null)
         {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            if (!rb.isKinematic)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
             rb.useGravity = false;
             rb.isKinematic = true;
         }

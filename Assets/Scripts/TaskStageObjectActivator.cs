@@ -1,7 +1,13 @@
 using UnityEngine;
 
-public class TaskStageRevealObject : MonoBehaviour
+public class TaskStageRevealObject : MonoBehaviour, ICheckpointStateHandler
 {
+    [System.Serializable]
+    private class StageRevealCheckpointState
+    {
+        public bool hasRevealed;
+    }
+
     [Header("Task")]
     [SerializeField] private string revealTaskId = "find_ring";
 
@@ -49,6 +55,36 @@ public class TaskStageRevealObject : MonoBehaviour
         {
             Debug.Log($"[TaskStageRevealObject] {name} revealed at {revealTaskId}");
         }
+    }
+
+    public string CaptureCheckpointState()
+    {
+        StageRevealCheckpointState state = new StageRevealCheckpointState();
+        state.hasRevealed = hasRevealed || ShouldBeRevealedForCurrentTask();
+
+        return JsonUtility.ToJson(state);
+    }
+
+    public void RestoreCheckpointState(string stateJson)
+    {
+        if (string.IsNullOrWhiteSpace(stateJson))
+            return;
+
+        StageRevealCheckpointState state = JsonUtility.FromJson<StageRevealCheckpointState>(stateJson);
+
+        if (state == null)
+            return;
+
+        hasRevealed = state.hasRevealed;
+        SetVisible(hasRevealed);
+    }
+
+    private bool ShouldBeRevealedForCurrentTask()
+    {
+        if (TaskChainManager.Instance == null)
+            return false;
+
+        return TaskChainManager.Instance.IsCurrentTask(revealTaskId);
     }
 
     private void SetVisible(bool visible)

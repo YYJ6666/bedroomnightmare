@@ -11,6 +11,13 @@ public class CheckpointManager : MonoBehaviour
     public static CheckpointManager Instance => instance;
 
     [System.Serializable]
+    private class ComponentSnapshot
+    {
+        public string typeName;
+        public string stateJson;
+    }
+
+    [System.Serializable]
     private class ObjectSnapshot
     {
         public string id;
@@ -25,6 +32,8 @@ public class CheckpointManager : MonoBehaviour
         public bool isKinematic;
         public Vector3 velocity;
         public Vector3 angularVelocity;
+
+        public List<ComponentSnapshot> componentSnapshots = new List<ComponentSnapshot>();
     }
 
     private class CheckpointSnapshot
@@ -231,7 +240,31 @@ public class CheckpointManager : MonoBehaviour
                 objectSnapshot.angularVelocity = rb.angularVelocity;
             }
 
+            SaveComponentStates(obj, objectSnapshot);
+
             snapshot.objectSnapshots.Add(objectSnapshot);
+        }
+    }
+
+    private void SaveComponentStates(CheckpointStateObject obj, ObjectSnapshot objectSnapshot)
+    {
+        MonoBehaviour[] behaviours = obj.GetComponents<MonoBehaviour>();
+
+        for (int i = 0; i < behaviours.Length; i++)
+        {
+            if (!(behaviours[i] is ICheckpointStateHandler handler))
+                continue;
+
+            string stateJson = handler.CaptureCheckpointState();
+
+            if (string.IsNullOrWhiteSpace(stateJson))
+                continue;
+
+            ComponentSnapshot componentSnapshot = new ComponentSnapshot();
+            componentSnapshot.typeName = behaviours[i].GetType().AssemblyQualifiedName;
+            componentSnapshot.stateJson = stateJson;
+
+            objectSnapshot.componentSnapshots.Add(componentSnapshot);
         }
     }
 
@@ -347,11 +380,44 @@ public class CheckpointManager : MonoBehaviour
 
             if (rb != null && snapshot.hasRigidbody)
             {
-                rb.useGravity = snapshot.useGravity;
-                rb.isKinematic = snapshot.isKinematic;
+                rb.isKinematic = false;
                 rb.velocity = snapshot.velocity;
                 rb.angularVelocity = snapshot.angularVelocity;
+                rb.useGravity = snapshot.useGravity;
+                rb.isKinematic = snapshot.isKinematic;
                 rb.WakeUp();
+            }
+
+            RestoreComponentStates(obj, snapshot);
+        }
+    }
+
+    private void RestoreComponentStates(CheckpointStateObject obj, ObjectSnapshot snapshot)
+    {
+        if (snapshot.componentSnapshots == null || snapshot.componentSnapshots.Count == 0)
+            return;
+
+        MonoBehaviour[] behaviours = obj.GetComponents<MonoBehaviour>();
+
+        for (int i = 0; i < behaviours.Length; i++)
+        {
+            if (!(behaviours[i] is ICheckpointStateHandler handler))
+                continue;
+
+            string componentTypeName = behaviours[i].GetType().AssemblyQualifiedName;
+
+            for (int j = 0; j < snapshot.componentSnapshots.Count; j++)
+            {
+                ComponentSnapshot componentSnapshot = snapshot.componentSnapshots[j];
+
+                if (componentSnapshot == null)
+                    continue;
+
+                if (componentSnapshot.typeName != componentTypeName)
+                    continue;
+
+                handler.RestoreCheckpointState(componentSnapshot.stateJson);
+                break;
             }
         }
     }
@@ -395,4 +461,10 @@ public class CheckpointManager : MonoBehaviour
                 clearText.Invoke(null, null);
         }
     }
+}
+
+public interface ICheckpointStateHandler
+{
+    string CaptureCheckpointState();
+    void RestoreCheckpointState(string stateJson);
 }

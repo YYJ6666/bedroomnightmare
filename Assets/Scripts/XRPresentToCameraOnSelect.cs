@@ -115,8 +115,12 @@ public class XRPresentToCameraOnSelect : MonoBehaviour
             originalIsKinematic = rb.isKinematic;
             changedPhysics = true;
 
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+            if (!rb.isKinematic)
+            {
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
             rb.useGravity = false;
             rb.isKinematic = true;
             rb.WakeUp();
@@ -169,10 +173,11 @@ public class XRPresentToCameraOnSelect : MonoBehaviour
 
         if (changedPhysics && rb != null)
         {
-            rb.useGravity = originalUseGravity;
-            rb.isKinematic = originalIsKinematic;
+            rb.isKinematic = false;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            rb.useGravity = originalUseGravity;
+            rb.isKinematic = originalIsKinematic;
             rb.WakeUp();
         }
 
