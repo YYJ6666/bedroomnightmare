@@ -4488,13 +4488,27 @@ MonoBehaviour:
   audioDelay: 0.5
   spawnPoint: {fileID: 1642021946}
   rb: {fileID: 341190716}
-  colliders:
-  - {fileID: 341190715}
-  renderers:
-  - {fileID: 0}
   dropForce: 0
   glowObject: {fileID: 341190714}
   hint: "\u6709\u4EC0\u4E48\u4E1C\u897F\u4ECE\u8863\u670D\u91CC\u6389\u51FA\u6765\u4E86\u2026\u2026"
+  hideByScale: 1
+--- !u!114 &341190723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341190710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad23877b5887a441b59517d24919285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 0}
+  moveTime: 0.5
+  holdTime: 1
+  leftDistance: 0.18
+  sinkDistance: 0.05
 --- !u!1 &344929623 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2041064705424493845, guid: e77449f683d90b84a9c41bf30096462e, type: 3}
@@ -10852,8 +10866,8 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: 0.011049271
+      value: 0.19796178
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -21709,6 +21723,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       insertIndex: -1
       addedObject: {fileID: 341190720}
+    - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341190723}
   m_SourcePrefab: {fileID: 100100000, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
 --- !u!1 &1749143356
 GameObject:
@@ -26086,68 +26103,6 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
-  - taskId: restore_memory
-    repeatingHint: "\u627E\u5BFB\u90A3\u5929\u7684\u8BB0\u5FC6..."
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u665A\u4E0A\u53D1\u751F\u4E86\u4EC0\u4E48\u5417\uFF1F\u8FD8\u662F\u8BF4\uFF0C\u4F60\u53C8\u60F3\u88C5\u4F5C\u4EC0\u4E48\u90FD\u6CA1\u53D1\u751F\uFF1F"
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: test
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: 1111
-  - taskId: password
-    repeatingHint: password
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: pass
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: pass
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: passwordok
-  - taskId: final_choice
-    repeatingHint: choice
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: start choice
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: choice
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: 'choice complete
-
-'
-  - taskId: find_cloths
-    repeatingHint: test
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: test
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: test
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: 1111
   - taskId: switch_light
     repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
     firstDelay: 15
@@ -26208,6 +26163,68 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogue: "\u627E\u5230\u4E86\u2026\u2026"
+  - taskId: find_cloths
+    repeatingHint: test
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: test
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: test
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 1111
+  - taskId: restore_memory
+    repeatingHint: "\u627E\u5BFB\u90A3\u5929\u7684\u8BB0\u5FC6..."
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u665A\u4E0A\u53D1\u751F\u4E86\u4EC0\u4E48\u5417\uFF1F\u8FD8\u662F\u8BF4\uFF0C\u4F60\u53C8\u60F3\u88C5\u4F5C\u4EC0\u4E48\u90FD\u6CA1\u53D1\u751F\uFF1F"
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: test
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 1111
+  - taskId: password
+    repeatingHint: password
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: pass
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: pass
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: passwordok
+  - taskId: final_choice
+    repeatingHint: choice
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: start choice
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: choice
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 'choice complete
+
+'
   currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
