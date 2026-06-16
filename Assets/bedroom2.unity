@@ -2920,7 +2920,7 @@ PrefabInstance:
     - target: {fileID: 23309229629674614, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 648619996abe30644849fa326f1350ef, type: 2}
+      objectReference: {fileID: 2100000, guid: 631b1a0efbf78cf459b485757d161c3e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4303,7 +4303,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 8
+  outlineWidth: 3
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -4338,7 +4338,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.05, y: 0.02, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4364,8 +4364,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4374,6 +4374,141 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400614, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
   m_PrefabInstance: {fileID: 1748514659}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &341190720
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341190710}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1.35
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 0.1
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.2888889
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &341190721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341190710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7d65fc8f9d3fa42aac8ea771978777, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealTaskId: restore_memory
+  audioSource: {fileID: 341190720}
+  revealClip: {fileID: 8300000, guid: 1c576620a390af3438d8501c93104ff0, type: 3}
+  audioDelay: 0.5
+  spawnPoint: {fileID: 1642021946}
+  rb: {fileID: 341190716}
+  dropForce: 0
+  glowObject: {fileID: 341190714}
+  hint: "\u6709\u4EC0\u4E48\u4E1C\u897F\u4ECE\u8863\u670D\u91CC\u6389\u51FA\u6765\u4E86\u2026\u2026"
+  hideByScale: 1
+--- !u!114 &341190723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341190710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad23877b5887a441b59517d24919285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 0}
+  moveTime: 0.5
+  holdTime: 1
+  leftDistance: 0.18
+  sinkDistance: 0.05
 --- !u!1 &344929623 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2041064705424493845, guid: e77449f683d90b84a9c41bf30096462e, type: 3}
@@ -6961,7 +7096,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10731,8 +10866,8 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
+      time: 0.011049271
+      value: 0.19796178
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -17173,6 +17308,7 @@ MonoBehaviour:
   requiredItemIds:
   - pink_dress
   - pink_bag
+  - pink_shoes
   requireEachItemOnce: 1
   allowExtraItems: 1
   checkDelayAfterSocketEvent: 0.15
@@ -20247,6 +20383,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1314082628}
   m_SourcePrefab: {fileID: 100100000, guid: 00c715cf02461844395b6cd252645661, type: 3}
+--- !u!4 &1642021946 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1052123582371261217, guid: 00c715cf02461844395b6cd252645661, type: 3}
+  m_PrefabInstance: {fileID: 1642021945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1651088050 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1746614087314138, guid: 676654d9fc2c33c4e9b903aa7233b323, type: 3}
@@ -21491,6 +21632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gold Ring 19
       objectReference: {fileID: 0}
+    - target: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400614, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.3
@@ -21556,6 +21701,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 341190721}
+    - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 341190716}
     - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       insertIndex: -1
@@ -21572,6 +21720,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       insertIndex: -1
       addedObject: {fileID: 341190711}
+    - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341190720}
+    - targetCorrespondingSourceObject: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341190723}
   m_SourcePrefab: {fileID: 100100000, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
 --- !u!1 &1749143356
 GameObject:
@@ -22392,6 +22546,19 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &1766341905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846915518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9c809254fa35947a4b2aa596a28367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: pink_shoes
 --- !u!1 &1771598255
 GameObject:
   m_ObjectHideFlags: 0
@@ -23343,6 +23510,7 @@ GameObject:
   - component: {fileID: 1824413099}
   - component: {fileID: 1824413105}
   - component: {fileID: 1824413104}
+  - component: {fileID: 1824413106}
   m_Layer: 0
   m_Name: ini
   m_TagString: Untagged
@@ -23554,7 +23722,7 @@ Transform:
   m_GameObject: {fileID: 1824413097}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -2.253, y: -1.319, z: 2.157}
+  m_LocalPosition: {x: -2.253, y: -1.03, z: 2.157}
   m_LocalScale: {x: 0.14999996, y: 0.008333332, z: 0.09999998}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23594,6 +23762,21 @@ MonoBehaviour:
   outlines:
   - {fileID: 1824413104}
   glowDuration: 10
+--- !u!114 &1824413106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824413097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde4f9fc992a2548837c8656c28eab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealTaskId: restore_memory
+  hideOnStart: 1
+  logDebug: 0
 --- !u!65 &1837257827 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 1478238252595102350, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
@@ -23852,6 +24035,7 @@ GameObject:
   - component: {fileID: 1870945480}
   - component: {fileID: 1870945479}
   - component: {fileID: 1870945481}
+  - component: {fileID: 1870945482}
   m_Layer: 0
   m_Name: report
   m_TagString: Untagged
@@ -24084,6 +24268,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlines: []
   glowDuration: 10
+--- !u!114 &1870945482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870945471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbde4f9fc992a2548837c8656c28eab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  revealTaskId: restore_memory
+  hideOnStart: 1
+  logDebug: 0
 --- !u!1 &1873752716 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2581745182649784471, guid: 95fe2a903838b4948918915b903b50d8, type: 3}
@@ -25527,6 +25726,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1319206809988850, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1766341902}
+    - targetCorrespondingSourceObject: {fileID: 1319206809988850, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1766341905}
   m_SourcePrefab: {fileID: 100100000, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
 --- !u!65 &1986765663 stripped
 BoxCollider:
@@ -25901,38 +26103,6 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
-  - taskId: password
-    repeatingHint: password
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: pass
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: pass
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: passwordok
-  - taskId: final_choice
-    repeatingHint: choice
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: start choice
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: choice
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogue: 'choice complete
-
-'
   - taskId: switch_light
     repeatingHint: "\u5F00\u706F\u5F00\u706F\u3002"
     firstDelay: 15
@@ -26023,6 +26193,38 @@ MonoBehaviour:
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogue: 1111
+  - taskId: password
+    repeatingHint: password
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: pass
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: pass
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: passwordok
+  - taskId: final_choice
+    repeatingHint: choice
+    firstDelay: 15
+    repeatInterval: 15
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: start choice
+    setTVTextOnTaskStart: 0
+    tvScreenTextOnTaskStart: choice
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogue: 'choice complete
+
+'
   currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
