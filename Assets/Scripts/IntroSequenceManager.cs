@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class IntroSequenceManager : MonoBehaviour
 {
@@ -36,6 +37,16 @@ public class IntroSequenceManager : MonoBehaviour
     [Header("Black Screen")]
     [SerializeField] private CanvasGroup blackScreenGroup;
 
+    [Header("Final Image")]
+    [Tooltip("黑屏上显示的 UI Image 对象。")]
+    [SerializeField] private Image finalImage;
+
+    [Tooltip("Intro 结束后显示的图片。")]
+    [SerializeField] private Sprite finalSprite;
+
+    [Tooltip("图片显示多久后进入游戏场景。")]
+    [SerializeField] private float finalImageDuration = 3f;
+
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
 
@@ -53,6 +64,13 @@ public class IntroSequenceManager : MonoBehaviour
         {
             blackScreenGroup.gameObject.SetActive(true);
             blackScreenGroup.alpha = 1f;
+        }
+
+        // 一开始先隐藏结尾图片
+        if (finalImage != null)
+        {
+            finalImage.enabled = false;
+            finalImage.sprite = null;
         }
 
         // 等待 DialogueOverlay 初始化
@@ -81,6 +99,9 @@ public class IntroSequenceManager : MonoBehaviour
 
         DialogueOverlay.Hide(true);
 
+        // Intro 全部结束后，在黑屏上显示图片
+        yield return ShowFinalImageRoutine();
+
         if (string.IsNullOrWhiteSpace(gameSceneName))
         {
             Debug.LogError("[IntroSequenceManager] Game Scene Name is empty.");
@@ -88,6 +109,35 @@ public class IntroSequenceManager : MonoBehaviour
         }
 
         SceneManager.LoadScene(gameSceneName);
+    }
+
+    private IEnumerator ShowFinalImageRoutine()
+    {
+        if (finalImage == null)
+            yield break;
+
+        if (finalSprite == null)
+        {
+            Debug.LogWarning("[IntroSequenceManager] Final Sprite 没有设置，跳过结尾图片。");
+            yield break;
+        }
+
+        if (blackScreenGroup != null)
+        {
+            blackScreenGroup.gameObject.SetActive(true);
+            blackScreenGroup.alpha = 1f;
+        }
+
+        finalImage.sprite = finalSprite;
+        finalImage.enabled = true;
+        finalImage.color = Color.white;
+        finalImage.preserveAspect = true;
+
+        // 确保图片显示在黑屏上方
+        finalImage.transform.SetAsLastSibling();
+
+        if (finalImageDuration > 0f)
+            yield return new WaitForSecondsRealtime(finalImageDuration);
     }
 
     private IEnumerator PlayAudioRoutine(IntroStep step)
@@ -148,7 +198,7 @@ public class IntroSequenceManager : MonoBehaviour
 
     private static bool HasSubtitleCues(IntroStep step)
     {
-        return step.subtitles != null && step.subtitles.Length > 0;
+        return step != null && step.subtitles != null && step.subtitles.Length > 0;
     }
 
     private static float GetSubtitleTimelineEnd(IntroStep step)
@@ -165,7 +215,10 @@ public class IntroSequenceManager : MonoBehaviour
             if (cue == null || string.IsNullOrWhiteSpace(cue.subtitle))
                 continue;
 
-            latestEnd = Mathf.Max(latestEnd, Mathf.Max(0f, cue.delay) + Mathf.Max(0f, cue.duration));
+            latestEnd = Mathf.Max(
+                latestEnd,
+                Mathf.Max(0f, cue.delay) + Mathf.Max(0f, cue.duration)
+            );
         }
 
         return latestEnd;

@@ -7437,7 +7437,7 @@ MonoBehaviour:
     selectedGlowDuration: 0
     postStepGlowTarget: {fileID: 1870945481}
     keepPostStepGlow: 1
-    tvTextAfterThisStep: "\u5FEB\u5230\u8FD9\u91CC\u6765"
+    tvTextAfterThisStep: "\u8FC7\u6765\uFF0C\u770B\u770B\u8FD9\u4E2A\u3002"
     repeatingHintAfterThisStep: 
     repeatingHintFirstDelay: 15
     repeatingHintRepeatInterval: 15
@@ -7457,15 +7457,15 @@ MonoBehaviour:
     repeatingHintVisibleSeconds: 4
   resetProgressOnWrongSelect: 0
   ignoreSocketSelect: 1
-  wrongOrderDialogue: "\u4E0D\u662F\u8FD9\u4E2A\u987A\u5E8F\u3002\u4F60\u5F97\u6309\u8BB0\u5FC6\u53D1\u751F\u7684\u987A\u5E8F\u6765\u3002"
-  completeDialogue: "\u4F60\u7EC8\u4E8E\u613F\u610F\u628A\u8BB0\u5FC6\u8FDE\u8D77\u6765\u4E86\u3002"
+  wrongOrderDialogue: "\u4E0D\u5BF9\uFF0C\u4E0D\u662F\u8FD9\u6837\u3002"
+  completeDialogue: "\u4F60\u5DF2\u7ECF\u6B7B\u4E86\u2026\u2026\u8FD8\u8981\u6765\u7F20\u7740\u6211\u5417\uFF01"
   showDialogue: 1
-  playAudioOnComplete: 0
-  audioSource: {fileID: 0}
-  completeAudioClip: {fileID: 0}
+  playAudioOnComplete: 1
+  audioSource: {fileID: 745225949}
+  completeAudioClip: {fileID: 8300000, guid: 53ca4fc6df1ba674c9eb12b5224d7f95, type: 3}
   audioDelay: 0
   useOneShot: 1
-  audioVolume: 1
+  audioVolume: 0.6
   stepAudioSource: {fileID: 631721324}
   stopCurrentStepAudioBeforePlay: 1
   useOneShotForStepAudio: 1
@@ -17945,7 +17945,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1414952340}
   - component: {fileID: 1414952339}
-  - component: {fileID: 1414952341}
   m_Layer: 0
   m_Name: clothes puzzle
   m_TagString: Untagged
@@ -18003,18 +18002,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1414952341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414952337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babc748063f7461395dda58038fe6a24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1416247739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24599,7 +24586,7 @@ MonoBehaviour:
   cameraFacingEulerOffset: {x: 90, y: 0, z: 0}
   keepWorldRotation: 0
   moveToCameraDuration: 0.35
-  stayDuration: 3
+  stayDuration: 10
   moveBackDuration: 0.35
   disablePhysicsWhilePresenting: 1
 --- !u!65 &1824413100
@@ -25083,7 +25070,7 @@ MonoBehaviour:
   cameraFacingEulerOffset: {x: 90, y: 0, z: 0}
   keepWorldRotation: 0
   moveToCameraDuration: 0.35
-  stayDuration: 3
+  stayDuration: 10
   moveBackDuration: 0.35
   disablePhysicsWhilePresenting: 1
 --- !u!114 &1870945480
@@ -27343,18 +27330,18 @@ MonoBehaviour:
       waitUntilAudioEnds: 0
       delayAfter: 0
     playOnlyOnce: 1
-    stopWhenTaskEnds: 1
-    restartIfAlreadyPlaying: 1
+    stopWhenTaskEnds: 0
+    restartIfAlreadyPlaying: 0
     logDebug: 1
   - taskId: final_choice
     audioSourceOverride: {fileID: 745225949}
     audioSteps:
-    - audioClip: {fileID: 8300000, guid: 2d3ae7efbdf1a8647a8091ae99bbd47c, type: 3}
-      volume: 0.5
+    - audioClip: {fileID: 8300000, guid: 85d522d10115b3b43b47a4ceab3b7a7e, type: 3}
+      volume: 0.599
       delayBefore: 0
       waitUntilAudioEnds: 0
       delayAfter: 0
-    playOnlyOnce: 1
+    playOnlyOnce: 0
     stopWhenTaskEnds: 1
     restartIfAlreadyPlaying: 1
     logDebug: 1
