@@ -18829,6 +18829,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8935437802348617227, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9013326905665515995, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -26519,6 +26523,31 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
+  - taskId: password
+    repeatingHint: "\u5F00\u95E8\u7684\u5BC6\u7801\u2026\u2026\n\u5979\u79BB\u5F00\u7684\u90A3\u4E00\u5929\u2026\u2026"
+    firstDelay: 30
+    repeatInterval: 30
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u5979\u79BB\u5F00\u7684\u90A3\u4E00\u5929\u2026\u2026"
+      visibleSeconds: 0
+    - dialogue: "\u6211\u523B\u610F\u4E0D\u53BB\u60F3\u8D77\u6765\u2026\u2026"
+      visibleSeconds: 0
+    - dialogue: "\u4E0D\u884C\u4E0D\u80FD\u56F0\u6B7B\u5728\u8FD9\u91CC\u3002"
+      visibleSeconds: 0
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: "\u4F60\u73B0\u5728\u53EF\u4EE5\u8D70\u4E86\u3002\n\u4E0D\u8FC7\uFF0C\u5F97\u628A\u5FD8\u8BB0\u7684\u4E8B\u5168\u8BB0\u4F4F\u3002"
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: "\u95E8\u5F00\u4E86\uFF01"
+    completeDialogues: []
   - taskId: switch_light
     repeatingHint: "\u597D\u9ED1\u554A\uFF0C\u5148\u628A\u706F\u5F00\u5F00\u5427......"
     firstDelay: 15
@@ -26661,25 +26690,6 @@ MonoBehaviour:
       visibleSeconds: 4
     - dialogue: "\u5BF9\u4E0D\u8D77......"
       visibleSeconds: 0
-  - taskId: password
-    repeatingHint: password
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: pass
-    startDialogues: []
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: pass
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogueDelay: 0
-    suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: passwordok
-    completeDialogues: []
   - taskId: final_choice
     repeatingHint: choice
     firstDelay: 15
