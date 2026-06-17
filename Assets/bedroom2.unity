@@ -7420,14 +7420,41 @@ MonoBehaviour:
     correctDialogue: "\u8FD9\u662F......\u6211\u4EEC\u7684\u7ED3\u5A5A\u6212\u6307\u3002\u4F46\u6211\u540E\u6765\u628A\u5B83\u6458\u4E0B\u6765\u4E86\n\u56E0\u4E3A\u6211\u4E00\u770B\u5230\u5B83\uFF0C\u5C31\u4F1A\u60F3\u8D77\u90A3\u5929\u665A\u4E0A......"
     correctAudioClip: {fileID: 8300000, guid: 2147911c5426bd2468e7fd4195e46dfa, type: 3}
     correctAudioDelay: 0
+    selectedGlowTarget: {fileID: 0}
+    selectedGlowDuration: 0
+    postStepGlowTarget: {fileID: 0}
+    keepPostStepGlow: 0
+    tvTextAfterThisStep: 
+    repeatingHintAfterThisStep: "\u6211\u628A\u9080\u8BF7\u51FD\u4E22\u6389\u54EA\u53BB\u4E86\uFF1F"
+    repeatingHintFirstDelay: 15
+    repeatingHintRepeatInterval: 15
+    repeatingHintVisibleSeconds: 4
   - interactable: {fileID: 1824413098}
     correctDialogue: "\u90A3\u5929\u6211\u4EEC\u7EA6\u597D\u4E00\u8D77\u53BB\u5E86\u795D\uFF0C\u53EF\u662F\u6211\u5931\u7EA6\u4E86......\n\u4E4B\u540E\u53D1\u751F\u7684\u4E8B\u60C5\uFF0C\u662F\u6211\u6700\u4E0D\u613F\u56DE\u60F3\u7684..."
     correctAudioClip: {fileID: 8300000, guid: e7f43a9732317e14280cc3c8c806ea07, type: 3}
     correctAudioDelay: 0
+    selectedGlowTarget: {fileID: 0}
+    selectedGlowDuration: 0
+    postStepGlowTarget: {fileID: 1870945481}
+    keepPostStepGlow: 1
+    tvTextAfterThisStep: "\u5FEB\u5230\u8FD9\u91CC\u6765"
+    repeatingHintAfterThisStep: 
+    repeatingHintFirstDelay: 15
+    repeatingHintRepeatInterval: 15
+    repeatingHintVisibleSeconds: 4
   - interactable: {fileID: 1870945480}
-    correctDialogue: "\u4E0D......\n\u5BF9\u4E0D\u8D77......"
+    correctDialogue: 
     correctAudioClip: {fileID: 0}
     correctAudioDelay: 0
+    selectedGlowTarget: {fileID: 1870945481}
+    selectedGlowDuration: 5
+    postStepGlowTarget: {fileID: 0}
+    keepPostStepGlow: 0
+    tvTextAfterThisStep: 
+    repeatingHintAfterThisStep: 
+    repeatingHintFirstDelay: 15
+    repeatingHintRepeatInterval: 15
+    repeatingHintVisibleSeconds: 4
   resetProgressOnWrongSelect: 0
   ignoreSocketSelect: 1
   wrongOrderDialogue: "\u4E0D\u662F\u8FD9\u4E2A\u987A\u5E8F\u3002\u4F60\u5F97\u6309\u8BB0\u5FC6\u53D1\u751F\u7684\u987A\u5E8F\u6765\u3002"
@@ -27166,7 +27193,7 @@ MonoBehaviour:
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u90A3\u5929\u7684\u4E8B\u4F60\u4E0D\u4F1A\u5168\u5FD8\u8BB0\u4E86\u5427\uFF01"
     tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
+    showDialogueOnComplete: 0
     completeDialogueDelay: 5
     suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 
@@ -27233,7 +27260,7 @@ Transform:
   m_GameObject: {fileID: 2019063104}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.226, y: 1.882, z: 0.121}
+  m_LocalPosition: {x: 4.226, y: 1.882, z: 0.12099996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29577,8 +29604,8 @@ SceneRoots:
   - {fileID: 1876747699}
   - {fileID: 1461580384}
   - {fileID: 481174082}
-  - {fileID: 1296682786}
   - {fileID: 2019063106}
+  - {fileID: 1296682786}
   - {fileID: 1503220816}
   - {fileID: 99355756}
   - {fileID: 1414952340}
