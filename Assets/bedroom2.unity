@@ -4582,7 +4582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 3
+  outlineWidth: 8
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -7371,7 +7371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22617,6 +22617,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 151062, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       propertyPath: m_Name
       value: Gold Ring 19
@@ -22624,6 +22628,14 @@ PrefabInstance:
     - target: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 167666, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 176464, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400614, guid: 6a501784ffb626c4cba40418f3378a58, type: 3}
       propertyPath: m_LocalScale.x
