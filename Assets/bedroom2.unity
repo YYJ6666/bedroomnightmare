@@ -6750,7 +6750,7 @@ Transform:
   m_GameObject: {fileID: 490562692}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 3.18, y: -0.072, z: -0.278}
+  m_LocalPosition: {x: 2.925, y: -0.072, z: -0.278}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18371,7 +18371,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0.21226418, g: 0.03704611, b: 0.03704611, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -27219,7 +27219,7 @@ MonoBehaviour:
     suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 
     completeDialogues: []
-  currentTaskIndex: 0
+  currentTaskIndex: 6
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
   checkpointPrefix: after_
@@ -27301,6 +27301,30 @@ MonoBehaviour:
     - audioClip: {fileID: 8300000, guid: 71cc92b37233e2741bc54df79410dbdf, type: 3}
       volume: 0.6
       delayBefore: 7
+      waitUntilAudioEnds: 0
+      delayAfter: 0
+    playOnlyOnce: 1
+    stopWhenTaskEnds: 1
+    restartIfAlreadyPlaying: 1
+    logDebug: 1
+  - taskId: find_photo
+    audioSourceOverride: {fileID: 631721324}
+    audioSteps:
+    - audioClip: {fileID: 8300000, guid: 2d3ae7efbdf1a8647a8091ae99bbd47c, type: 3}
+      volume: 0.1
+      delayBefore: 0
+      waitUntilAudioEnds: 0
+      delayAfter: 0
+    playOnlyOnce: 1
+    stopWhenTaskEnds: 1
+    restartIfAlreadyPlaying: 1
+    logDebug: 1
+  - taskId: final_choice
+    audioSourceOverride: {fileID: 745225949}
+    audioSteps:
+    - audioClip: {fileID: 8300000, guid: 2d3ae7efbdf1a8647a8091ae99bbd47c, type: 3}
+      volume: 0.5
+      delayBefore: 0
       waitUntilAudioEnds: 0
       delayAfter: 0
     playOnlyOnce: 1
