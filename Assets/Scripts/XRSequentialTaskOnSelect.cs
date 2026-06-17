@@ -13,6 +13,10 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         [Header("Optional Dialogue")]
         [TextArea(2, 5)]
         public string correctDialogue = "";
+
+        [Header("Optional Audio")]
+        public AudioClip correctAudioClip;
+        public float correctAudioDelay = 0f;
     }
 
     [Header("Task")]
@@ -48,17 +52,28 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float audioVolume = 1f;
 
+    [Header("Sequence Step Audio")]
+    [SerializeField] private AudioSource stepAudioSource;
+    [SerializeField] private bool stopCurrentStepAudioBeforePlay = false;
+    [SerializeField] private bool useOneShotForStepAudio = true;
+    [Range(0f, 1f)]
+    [SerializeField] private float stepAudioVolume = 1f;
+
     [Header("Debug")]
     [SerializeField] private bool logDebug = true;
 
     private int currentIndex = 0;
     private bool hasCompleted = false;
     private Coroutine audioRoutine;
+    private Coroutine stepAudioRoutine;
 
     private void Awake()
     {
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        if (stepAudioSource == null)
+            stepAudioSource = audioSource;
     }
 
     private void OnEnable()
@@ -74,6 +89,12 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         {
             StopCoroutine(audioRoutine);
             audioRoutine = null;
+        }
+
+        if (stepAudioRoutine != null)
+        {
+            StopCoroutine(stepAudioRoutine);
+            stepAudioRoutine = null;
         }
     }
 
@@ -128,11 +149,19 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         if (currentIndex < 0 || currentIndex >= sequence.Length)
             currentIndex = 0;
 
-        XRBaseInteractable expected = sequence[currentIndex].interactable;
+        int selectedIndex = FindSequenceIndex(selected);
+        if (selectedIndex < 0)
+            return;
 
-        if (selected == expected)
+        if (selectedIndex == currentIndex)
         {
             HandleCorrectSelect(sequence[currentIndex]);
+            return;
+        }
+
+        if (selectedIndex < currentIndex)
+        {
+            HandleAlreadyCompletedSelect(sequence[selectedIndex]);
             return;
         }
 
@@ -144,6 +173,8 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         if (showDialogue && item != null && !string.IsNullOrWhiteSpace(item.correctDialogue))
             DialogueOverlay.Show(FormatText(item.correctDialogue));
 
+        PlayStepAudioWithDelay(item);
+
         currentIndex++;
 
         if (logDebug)
@@ -151,6 +182,17 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
 
         if (currentIndex >= sequence.Length)
             CompleteSequenceTask();
+    }
+
+    private void HandleAlreadyCompletedSelect(SequenceItem item)
+    {
+        if (showDialogue && item != null && !string.IsNullOrWhiteSpace(item.correctDialogue))
+            DialogueOverlay.Show(FormatText(item.correctDialogue));
+
+        PlayStepAudioWithDelay(item);
+
+        if (logDebug)
+            Debug.Log($"{name}: 点击了已完成的顺序物品，当前进度保持 {currentIndex}/{sequence.Length}");
     }
 
     private void HandleWrongSelect(XRBaseInteractable selected)
@@ -186,6 +228,21 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         hasCompleted = false;
     }
 
+    private int FindSequenceIndex(XRBaseInteractable selected)
+    {
+        if (selected == null || sequence == null)
+            return -1;
+
+        for (int i = 0; i < sequence.Length; i++)
+        {
+            SequenceItem item = sequence[i];
+            if (item != null && item.interactable == selected)
+                return i;
+        }
+
+        return -1;
+    }
+
     private string FormatText(string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -203,6 +260,45 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
             StopCoroutine(audioRoutine);
 
         audioRoutine = StartCoroutine(PlayAudioRoutine());
+    }
+
+    private void PlayStepAudioWithDelay(SequenceItem item)
+    {
+        if (item == null || item.correctAudioClip == null)
+            return;
+
+        if (stepAudioRoutine != null)
+            StopCoroutine(stepAudioRoutine);
+
+        stepAudioRoutine = StartCoroutine(PlayStepAudioRoutine(item.correctAudioClip, item.correctAudioDelay));
+    }
+
+    private IEnumerator PlayStepAudioRoutine(AudioClip clip, float delay)
+    {
+        if (delay > 0f)
+            yield return new WaitForSecondsRealtime(delay);
+
+        if (stepAudioSource == null || clip == null)
+        {
+            Debug.LogWarning($"{name}: 想播放步骤音频，但 Step Audio Source 或 Correct Audio Clip 没有设置。 ");
+            stepAudioRoutine = null;
+            yield break;
+        }
+
+        if (stopCurrentStepAudioBeforePlay)
+            stepAudioSource.Stop();
+
+        if (useOneShotForStepAudio)
+            stepAudioSource.PlayOneShot(clip, stepAudioVolume);
+        else
+        {
+            stepAudioSource.clip = clip;
+            stepAudioSource.volume = stepAudioVolume;
+            stepAudioSource.loop = false;
+            stepAudioSource.Play();
+        }
+
+        stepAudioRoutine = null;
     }
 
     private IEnumerator PlayAudioRoutine()
