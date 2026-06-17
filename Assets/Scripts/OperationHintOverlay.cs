@@ -31,7 +31,7 @@ public sealed class OperationHintOverlay : MonoBehaviour
     [SerializeField] private float canvasScale = 0.0012f;
 
     [Header("Text Style")]
-    [SerializeField] private float fontSize = 15f;
+    [SerializeField] private float fontSize = 20f;
     [SerializeField] private Color textColor = Color.white;
     [SerializeField] private TextAlignmentOptions alignment = TextAlignmentOptions.TopRight;
 

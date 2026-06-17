@@ -2174,38 +2174,6 @@ MonoBehaviour:
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
---- !u!1 &208272067
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 208272068}
-  m_Layer: 0
-  m_Name: SocketAttach
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 123
-  m_IsActive: 1
---- !u!4 &208272068
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 208272067}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0027666888, y: -0.019000014, z: -0.057}
-  m_LocalScale: {x: 0.91343325, y: 0.9134333, z: 0.91343325}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1761463203}
-  m_Father: {fileID: 2087267386}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &218280443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1854962426394316, guid: f27b91e6437eeda4ba4f298d4b99f63f, type: 3}
@@ -4520,8 +4488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 0}
-  moveTime: 0.5
-  holdTime: 1
+  moveTime: 1
+  holdTime: 1.8
   leftDistance: 0.18
   sinkDistance: 0.05
 --- !u!114 &341190725
@@ -7148,13 +7116,18 @@ MonoBehaviour:
   completeOnlyOnce: 0
   sequence:
   - interactable: {fileID: 341190712}
-    correctDialogue: "\u7ED3\u5A5A\u6212\u6307...\u6211\u540E\u6765\u628A\u5B83\u6458\u4E0B\u6765\u4E86\u3002                             
-      \n\u540E\u6765\u2026\u684C\u4E0A\u8FD8\u6709\u4E00\u5F20\u9080\u8BF7\u51FD\u2026\u6211\u4EEC\u4E00\u8D77\u53BB\u8FC7\u5468\u5E74\u7EAA\u5FF5\u65E5\u3002"
+    correctDialogue: "\u8FD9\u662F......\u6211\u4EEC\u7684\u7ED3\u5A5A\u6212\u6307\u3002\u4F46\u6211\u540E\u6765\u628A\u5B83\u6458\u4E0B\u6765\u4E86\n\u56E0\u4E3A\u6211\u4E00\u770B\u5230\u5B83\uFF0C\u5C31\u4F1A\u60F3\u8D77\u90A3\u5929\u665A\u4E0A......"
+    correctAudioClip: {fileID: 8300000, guid: 2147911c5426bd2468e7fd4195e46dfa, type: 3}
+    correctAudioDelay: 0
   - interactable: {fileID: 1824413098}
-    correctDialogue: "\u90A3\u5929\u6211\u4EEC\u7EA6\u597D\u4E00\u8D77\u53BB\u5E86\u795D\u2026\u53EF\u662F\u6211\u6CA1\u53BB\u2026\u540E\u6765\u53D1\u751F\u4E86\u4EC0\u4E48\u5462...\u518D\u542C\u5230\u6D88\u606F\uFF0C\u5C31\u662F\u533B\u9662\u7684\u901A\u77E5\u5355\u4E86..."
+    correctDialogue: "\u90A3\u5929\u6211\u4EEC\u7EA6\u597D\u4E00\u8D77\u53BB\u5E86\u795D\uFF0C\u53EF\u662F\u6211\u5931\u7EA6\u4E86......\n\u4E4B\u540E\u53D1\u751F\u7684\u4E8B\u60C5\uFF0C\u662F\u6211\u6700\u4E0D\u613F\u56DE\u60F3\u7684..."
+    correctAudioClip: {fileID: 8300000, guid: e7f43a9732317e14280cc3c8c806ea07, type: 3}
+    correctAudioDelay: 0
   - interactable: {fileID: 1870945480}
-    correctDialogue: 
-  resetProgressOnWrongSelect: 1
+    correctDialogue: "\u4E0D......\n\u5BF9\u4E0D\u8D77......"
+    correctAudioClip: {fileID: 0}
+    correctAudioDelay: 0
+  resetProgressOnWrongSelect: 0
   ignoreSocketSelect: 1
   wrongOrderDialogue: "\u4E0D\u662F\u8FD9\u4E2A\u987A\u5E8F\u3002\u4F60\u5F97\u6309\u8BB0\u5FC6\u53D1\u751F\u7684\u987A\u5E8F\u6765\u3002"
   completeDialogue: "\u4F60\u7EC8\u4E8E\u613F\u610F\u628A\u8BB0\u5FC6\u8FDE\u8D77\u6765\u4E86\u3002"
@@ -7165,6 +7138,10 @@ MonoBehaviour:
   audioDelay: 0
   useOneShot: 1
   audioVolume: 1
+  stepAudioSource: {fileID: 631721324}
+  stopCurrentStepAudioBeforePlay: 1
+  useOneShotForStepAudio: 1
+  stepAudioVolume: 1
   logDebug: 1
 --- !u!4 &542885459
 Transform:
@@ -17454,7 +17431,6 @@ MonoBehaviour:
   completeOnlyOnce: 1
   sockets:
   - {fileID: 1732620412}
-  - {fileID: 1761463205}
   - {fileID: 609936569}
   - {fileID: 1489552372}
   requiredItemIds:
@@ -17466,7 +17442,7 @@ MonoBehaviour:
   checkDelayAfterSocketEvent: 0.15
   showDialogueOnComplete: 0
   completeDialogue: 
-  playAudioOnComplete: 0
+  playAudioOnComplete: 1
   audioSource: {fileID: 631721324}
   completeAudioClip: {fileID: 8300000, guid: a8ba4473f861c07439a33cfc1d04d9ca, type: 3}
   audioDelay: 0
@@ -22369,120 +22345,6 @@ MonoBehaviour:
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
---- !u!1 &1761463202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1761463203}
-  - component: {fileID: 1761463205}
-  - component: {fileID: 1761463204}
-  m_Layer: 0
-  m_Name: ClothesSocketPoint 2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 123
-  m_IsActive: 1
---- !u!4 &1761463203
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761463202}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.050359454, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 208272068}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1761463204
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761463202}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.05
-  m_Center: {x: 0, y: -0.05, z: 0}
---- !u!114 &1761463205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761463202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60523e0647cc6ab43acc73cb266a32a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 0}
-  m_InteractionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_InteractionLayers:
-    m_Bits: 4294967295
-  m_AttachTransform: {fileID: 208272068}
-  m_KeepSelectedTargetValid: 1
-  m_DisableVisualsWhenBlockedInGroup: 1
-  m_StartingSelectedInteractable: {fileID: 0}
-  m_StartingTargetFilter: {fileID: 0}
-  m_HoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_HoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_SelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_StartingHoverFilters: []
-  m_StartingSelectFilters: []
-  m_OnHoverEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnHoverExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectEntered:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnSelectExited:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ShowInteractableHoverMeshes: 1
-  m_InteractableHoverMeshMaterial: {fileID: 0}
-  m_InteractableCantHoverMeshMaterial: {fileID: 0}
-  m_SocketActive: 1
-  m_InteractableHoverScale: 1
-  m_RecycleDelayTime: 1
-  m_HoverSocketSnapping: 0
-  m_SocketSnappingRadius: 0.1
-  m_SocketScaleMode: 0
-  m_FixedScale: {x: 1, y: 1, z: 1}
-  m_TargetBoundsSize: {x: 1, y: 1, z: 1}
 --- !u!114 &1764094113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23352,9 +23214,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4137328588415972, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
       insertIndex: -1
       addedObject: {fileID: 807568088}
-    - targetCorrespondingSourceObject: {fileID: 4137328588415972, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 208272068}
     - targetCorrespondingSourceObject: {fileID: 4137328588415972, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1050438921}
@@ -26550,7 +26409,7 @@ MonoBehaviour:
     startDialogue: 
     startDialogues:
     - dialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F"
-      visibleSeconds: 4
+      visibleSeconds: 3
     - dialogue: "\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
       visibleSeconds: 4
     setTVTextOnTaskStart: 0
@@ -26573,14 +26432,14 @@ MonoBehaviour:
     startDialogue: 
     startDialogues:
     - dialogue: "\u8FD9\u6ECB\u6ECB\u5566\u5566\u7684......\u4F3C\u4E4E\u662F\u7535\u89C6\u5728\u54CD......"
-      visibleSeconds: 4
+      visibleSeconds: 3
     - dialogue: "\u96BE\u9053\u521A\u521A\u4E0D\u662F\u6211\u5E7B\u542C\u4E86\uFF1F\u662F\u7535\u89C6\u53D1\u51FA\u7684\u58F0\u97F3\uFF1F\n\u53BB\u770B\u770B\u7535\u89C6\u662F\u4EC0\u4E48\u60C5\u51B5\uFF01"
       visibleSeconds: 4
     setTVTextOnTaskStart: 0
     tvScreenTextOnTaskStart: 
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogueDelay: 3
+    completeDialogueDelay: 4
     suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 
     completeDialogues:
@@ -26594,7 +26453,7 @@ MonoBehaviour:
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 4
+    startDialogueDelay: 2
     startDialogue: 
     startDialogues:
     - dialogue: "\u6CA1\u6709\uFF01\u6211\u6CA1\u6709\u5FD8\u8BB0\u4F60\uFF01"
@@ -26617,7 +26476,7 @@ MonoBehaviour:
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 8
+    startDialogueDelay: 13
     startDialogue: 
     startDialogues:
     - dialogue: "\u90A3\u5929......\n\u90A3\u5929\u662F\u6211\u4EEC\u7EA6\u597D\u89C1\u9762\u7684\u65E5\u5B50\uFF01"
@@ -26633,27 +26492,21 @@ MonoBehaviour:
     completeDialogue: 
     completeDialogues: []
   - taskId: restore_memory
-    repeatingHint: "\u7A76\u7ADF\u6709\u54EA\u4E9B\u4E1C\u897F\u80FD\u8BA9\u6211\u60F3\u8D77\u6765\uFF1F"
+    repeatingHint: 
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
-    showStartDialogue: 1
+    showStartDialogue: 0
     startDialogueDelay: 1
     startDialogue: 
-    startDialogues:
-    - dialogue: "\u90A3\u4E00\u5929......\u90A3\u4E00\u5929\u53D1\u751F\u4E86\u4EC0\u4E48\uFF1F"
-      visibleSeconds: 3
-    - dialogue: "\u554A\uFF01\u6211\u7684\u5934\u597D\u75DB\uFF01\u4E3A\u4EC0\u4E48\u60F3\u4E0D\u8D77\u6765\uFF01"
-      visibleSeconds: 4
-    - dialogue: "......\u4E00\u5B9A\u6709\u4EC0\u4E48\u91CD\u8981\u7684\u4E8B\u60C5\u88AB\u6211\u5FD8\u8BB0\u4E86\uFF01\n\u6211\u8981\u5728\u5BB6\u91CC\u4ED4\u7EC6\u627E\u627E"
-      visibleSeconds: 5
+    startDialogues: []
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u90A3\u5929\u7684\u4E8B\u4F60\u4E0D\u4F1A\u5168\u5FD8\u8BB0\u4E86\u5427\uFF01"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
-    completeDialogueDelay: 0
+    completeDialogueDelay: 5
     suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 
     completeDialogues:

@@ -304,7 +304,7 @@ public class HiddenItemReveal : MonoBehaviour, ICheckpointStateHandler
 
         if (playFeedback && !string.IsNullOrWhiteSpace(hint))
         {
-            OperationHintOverlay.Show(hint, 6f);
+            OperationHintOverlay.Show(hint, 12f);
         }
     }
 
