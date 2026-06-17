@@ -27219,7 +27219,7 @@ MonoBehaviour:
     suppressXRDialogueOnSelectOnComplete: 1
     completeDialogue: 
     completeDialogues: []
-  currentTaskIndex: 6
+  currentTaskIndex: 0
   autoStart: 1
   saveCheckpointOnTaskComplete: 1
   checkpointPrefix: after_
