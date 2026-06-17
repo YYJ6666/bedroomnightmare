@@ -33,12 +33,29 @@ public sealed class GlobalDropResetter : MonoBehaviour
     [Tooltip("落地音效结束/等待后，再延迟多久播放尖叫。")]
     [SerializeField] private float waitBeforeScream = 0.1f;
 
-    [Tooltip("尖叫播放多久后开始黑屏。0 表示自动按尖叫音频长度等待一小段。")]
+    [Tooltip("尖叫播放多久后开始黑屏。0 表示自动按尖叫音频长度等待。")]
     [SerializeField] private float waitAfterScream = 0f;
+
+    [Tooltip("waitAfterScream 为 0 时，是否等待尖叫音频基本播完再黑屏/重启。VR 设备上建议勾选。")]
+    [SerializeField] private bool waitForScreamToFinish = true;
+
+    [Tooltip("等待尖叫音频的最大秒数，防止很长的音频卡住 reset。")]
+    [SerializeField] private float maxScreamWaitSeconds = 8f;
+
     [Header("Sound")]
     [Tooltip("如果物体没有 DropResetSoundProfile，就播放这个默认声音。")]
     [SerializeField] private AudioClip defaultDropSound;
     [SerializeField] private float defaultVolume = 1f;
+
+    [Header("Drop Sound Wait")]
+    [Tooltip("是否等待落地音效播放一段时间后，再进入尖叫/黑屏/重启流程。VR 设备上建议勾选。")]
+    [SerializeField] private bool waitForDropSoundBeforeReset = true;
+
+    [Tooltip("等待落地音效的最大秒数，防止很长的音频让 reset 卡太久。")]
+    [SerializeField] private float maxDropSoundWaitSeconds = 5f;
+
+    [Tooltip("落地音效等待结束后，再额外停顿多久。")]
+    [SerializeField] private float extraWaitAfterDropSound = 0.05f;
 
     [Header("Black Screen")]
     [SerializeField] private bool useBlackScreenBeforeReset = true;
@@ -109,6 +126,21 @@ public sealed class GlobalDropResetter : MonoBehaviour
         if (instance != null)
             return;
 
+        // 优先使用场景里已经配置好的 GlobalDropResetter。
+        // 原来的写法会先创建一个“空配置”的运行时对象，导致你在 Inspector 里拖的音频没有生效。
+        GlobalDropResetter existing = FindObjectOfType<GlobalDropResetter>(true);
+
+        if (existing != null)
+        {
+            instance = existing;
+
+            if (existing.transform.parent != null)
+                existing.transform.SetParent(null);
+
+            DontDestroyOnLoad(existing.gameObject);
+            return;
+        }
+
         GameObject go = new GameObject(nameof(GlobalDropResetter));
         instance = go.AddComponent<GlobalDropResetter>();
         DontDestroyOnLoad(go);
@@ -124,6 +156,11 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         instance = this;
         resetting = false;
+
+        if (transform.parent != null)
+            transform.SetParent(null);
+
+        DontDestroyOnLoad(gameObject);
 
         if (groundLayers.value == 0)
         {
@@ -330,7 +367,7 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         AudioClip clip = defaultDropSound;
         float volume = defaultVolume;
-        float waitBeforeFade = 0.2f;
+        float profileWaitBeforeNextStep = 0.2f;
 
         if (source != null)
         {
@@ -342,19 +379,17 @@ public sealed class GlobalDropResetter : MonoBehaviour
                     clip = profile.DropSound;
 
                 volume = profile.Volume;
-                waitBeforeFade = profile.GetWaitBeforeFade();
-            }
-            else if (clip != null)
-            {
-                waitBeforeFade = Mathf.Min(clip.length, 1.2f);
+                profileWaitBeforeNextStep = profile.GetWaitBeforeFade();
             }
         }
 
         // 1. 播放物体自己的落地声音
         PlayOneShotSound(clip, volume, "DropResetSound");
 
-        if (waitBeforeFade > 0f)
-            yield return new WaitForSecondsRealtime(waitBeforeFade);
+        float dropSoundWait = GetDropSoundWaitTime(clip, profileWaitBeforeNextStep);
+
+        if (dropSoundWait > 0f)
+            yield return new WaitForSecondsRealtime(dropSoundWait);
 
         // 2. 播放 reset 前的尖叫声
         if (waitBeforeScream > 0f)
@@ -625,12 +660,28 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
         AudioSource source = audioGo.AddComponent<AudioSource>();
         source.playOnAwake = false;
-        source.spatialBlend = 0f;
-        source.volume = volume;
+        source.loop = false;
+        source.spatialBlend = 0f; // 2D 音效，VR 设备上最稳
+        source.volume = Mathf.Clamp01(volume);
         source.clip = clip;
         source.Play();
 
-        Destroy(audioGo, clip.length + 0.5f);
+        Destroy(audioGo, clip.length + 0.75f);
+    }
+
+    private float GetDropSoundWaitTime(AudioClip clip, float profileWaitBeforeNextStep)
+    {
+        float wait = Mathf.Max(0f, profileWaitBeforeNextStep);
+
+        if (!waitForDropSoundBeforeReset || clip == null)
+            return wait;
+
+        float clipWait = clip.length + Mathf.Max(0f, extraWaitAfterDropSound);
+
+        if (maxDropSoundWaitSeconds > 0f)
+            clipWait = Mathf.Min(clipWait, maxDropSoundWaitSeconds);
+
+        return Mathf.Max(wait, clipWait);
     }
 
     private float GetScreamWaitTime()
@@ -641,7 +692,15 @@ public sealed class GlobalDropResetter : MonoBehaviour
         if (waitAfterScream > 0f)
             return waitAfterScream;
 
-        return Mathf.Min(screamBeforeResetClip.length, 1.5f);
+        if (!waitForScreamToFinish)
+            return Mathf.Min(screamBeforeResetClip.length, 1.5f);
+
+        float wait = screamBeforeResetClip.length;
+
+        if (maxScreamWaitSeconds > 0f)
+            wait = Mathf.Min(wait, maxScreamWaitSeconds);
+
+        return wait;
     }
 
     private IEnumerator FadeToBlack()
