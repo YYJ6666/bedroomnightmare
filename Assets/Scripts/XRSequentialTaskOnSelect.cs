@@ -17,6 +17,30 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         [Header("Optional Audio")]
         public AudioClip correctAudioClip;
         public float correctAudioDelay = 0f;
+
+        [Header("On Correct Select Glow")]
+        public TouchGlowObject selectedGlowTarget;
+        public float selectedGlowDuration = 0f;
+
+        [Header("After This Step Effects")]
+        public TouchGlowObject postStepGlowTarget;
+        public bool keepPostStepGlow = true;
+
+        [TextArea(2, 5)]
+        public string tvTextAfterThisStep = "";
+
+        [Header("Post Step Repeating Hint")]
+        [TextArea(2, 5)]
+        public string repeatingHintAfterThisStep = "";
+
+        [Tooltip("完成这一项后，等待多久开始第一次循环提示。")]
+        public float repeatingHintFirstDelay = 15f;
+
+        [Tooltip("第一次之后，每隔多久重复提示一次。")]
+        public float repeatingHintRepeatInterval = 15f;
+
+        [Tooltip("每次循环提示显示多久。")]
+        public float repeatingHintVisibleSeconds = 4f;
     }
 
     [Header("Task")]
@@ -66,6 +90,8 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
     private bool hasCompleted = false;
     private Coroutine audioRoutine;
     private Coroutine stepAudioRoutine;
+    private Coroutine repeatingHintRoutine;
+    private Coroutine selectedGlowRestoreRoutine;
 
     private void Awake()
     {
@@ -95,6 +121,18 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         {
             StopCoroutine(stepAudioRoutine);
             stepAudioRoutine = null;
+        }
+
+        if (repeatingHintRoutine != null)
+        {
+            StopCoroutine(repeatingHintRoutine);
+            repeatingHintRoutine = null;
+        }
+
+        if (selectedGlowRestoreRoutine != null)
+        {
+            StopCoroutine(selectedGlowRestoreRoutine);
+            selectedGlowRestoreRoutine = null;
         }
     }
 
@@ -170,18 +208,28 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
 
     private void HandleCorrectSelect(SequenceItem item)
     {
+        StopRepeatingHintRoutine();
+
         if (showDialogue && item != null && !string.IsNullOrWhiteSpace(item.correctDialogue))
             DialogueOverlay.Show(FormatText(item.correctDialogue));
 
+        ApplySelectedGlowEffect(item);
         PlayStepAudioWithDelay(item);
 
         currentIndex++;
+
+        ApplyPostStepEffects(item);
 
         if (logDebug)
             Debug.Log($"{name}: 顺序点击正确，进度 {currentIndex}/{sequence.Length}");
 
         if (currentIndex >= sequence.Length)
+        {
             CompleteSequenceTask();
+            return;
+        }
+
+        StartRepeatingHintForCurrentProgress();
     }
 
     private void HandleAlreadyCompletedSelect(SequenceItem item)
@@ -189,6 +237,7 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         if (showDialogue && item != null && !string.IsNullOrWhiteSpace(item.correctDialogue))
             DialogueOverlay.Show(FormatText(item.correctDialogue));
 
+        ApplySelectedGlowEffect(item);
         PlayStepAudioWithDelay(item);
 
         if (logDebug)
@@ -210,6 +259,7 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
     private void CompleteSequenceTask()
     {
         hasCompleted = true;
+        StopRepeatingHintRoutine();
 
         if (showDialogue && !string.IsNullOrWhiteSpace(completeDialogue))
             DialogueOverlay.Show(FormatText(completeDialogue));
@@ -226,6 +276,7 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
     {
         currentIndex = 0;
         hasCompleted = false;
+        StopRepeatingHintRoutine();
     }
 
     private int FindSequenceIndex(XRBaseInteractable selected)
@@ -241,6 +292,55 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         }
 
         return -1;
+    }
+
+    private void ApplySelectedGlowEffect(SequenceItem item)
+    {
+        if (item == null || item.selectedGlowTarget == null || item.selectedGlowDuration <= 0f)
+            return;
+
+        if (selectedGlowRestoreRoutine != null)
+        {
+            StopCoroutine(selectedGlowRestoreRoutine);
+            selectedGlowRestoreRoutine = null;
+        }
+
+        selectedGlowRestoreRoutine = StartCoroutine(PlaySelectedGlowDurationRoutine(item.selectedGlowTarget, item.selectedGlowDuration));
+    }
+
+    private void ApplyPostStepEffects(SequenceItem item)
+    {
+        if (item == null)
+            return;
+
+        if (item.postStepGlowTarget != null)
+        {
+            if (item.keepPostStepGlow)
+                item.postStepGlowTarget.RevealAndKeep();
+            else
+                item.postStepGlowTarget.Reveal();
+        }
+
+        if (!string.IsNullOrWhiteSpace(item.tvTextAfterThisStep))
+            TVScreenTextManager.SetText(item.tvTextAfterThisStep);
+    }
+
+    private IEnumerator PlaySelectedGlowDurationRoutine(TouchGlowObject glowTarget, float duration)
+    {
+        if (glowTarget == null)
+            yield break;
+
+        float originalDuration = glowTarget.glowDuration;
+        glowTarget.glowDuration = duration;
+        glowTarget.ReleaseKeep();
+        glowTarget.Reveal();
+
+        yield return new WaitForSecondsRealtime(Mathf.Max(0f, duration));
+
+        if (glowTarget != null)
+            glowTarget.glowDuration = originalDuration;
+
+        selectedGlowRestoreRoutine = null;
     }
 
     private string FormatText(string text)
@@ -299,6 +399,56 @@ public class XRSequentialTaskOnSelect : MonoBehaviour
         }
 
         stepAudioRoutine = null;
+    }
+
+    private void StartRepeatingHintForCurrentProgress()
+    {
+        StopRepeatingHintRoutine();
+
+        if (!showDialogue)
+            return;
+
+        if (currentIndex <= 0 || currentIndex > sequence.Length - 1)
+            return;
+
+        SequenceItem completedStep = sequence[currentIndex - 1];
+        if (completedStep == null || string.IsNullOrWhiteSpace(completedStep.repeatingHintAfterThisStep))
+            return;
+
+        repeatingHintRoutine = StartCoroutine(RepeatingHintRoutine(completedStep, currentIndex));
+    }
+
+    private void StopRepeatingHintRoutine()
+    {
+        if (repeatingHintRoutine != null)
+        {
+            StopCoroutine(repeatingHintRoutine);
+            repeatingHintRoutine = null;
+        }
+    }
+
+    private IEnumerator RepeatingHintRoutine(SequenceItem item, int expectedCurrentIndex)
+    {
+        if (item.repeatingHintFirstDelay > 0f)
+            yield return new WaitForSecondsRealtime(item.repeatingHintFirstDelay);
+
+        while (!hasCompleted && currentIndex == expectedCurrentIndex)
+        {
+            if (!string.IsNullOrWhiteSpace(item.repeatingHintAfterThisStep))
+            {
+                DialogueOverlay.ShowFor(
+                    FormatText(item.repeatingHintAfterThisStep),
+                    item.repeatingHintVisibleSeconds
+                );
+            }
+
+            if (item.repeatingHintRepeatInterval <= 0f)
+                break;
+
+            yield return new WaitForSecondsRealtime(item.repeatingHintRepeatInterval);
+        }
+
+        repeatingHintRoutine = null;
     }
 
     private IEnumerator PlayAudioRoutine()
