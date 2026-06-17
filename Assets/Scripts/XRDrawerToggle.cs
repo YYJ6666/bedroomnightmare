@@ -158,7 +158,13 @@ public class XRDrawerToggle : MonoBehaviour, ICheckpointStateHandler
         isUnlocked = true;
 
         if (lockObjectToHide != null)
+        {
+            XRDialogueOnHide dialogueOnHide = lockObjectToHide.GetComponent<XRDialogueOnHide>();
+            if (dialogueOnHide != null)
+                dialogueOnHide.TryShowDialogue();
+
             lockObjectToHide.SetActive(false);
+        }
 
         allowSelectToggle = true;
 

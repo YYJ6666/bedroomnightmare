@@ -132,6 +132,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3497069454454143804, guid: 5f39ae34e4c1ba4439f016d560e3c5ae, type: 3}
   m_PrefabInstance: {fileID: 198391374}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &25546016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25546008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb9158911ce99441b0a3ee27636c83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u603B\u7B97\u6253\u5F00\u4E86\uFF0C\u7167\u7247\u5C31\u5728\u91CC\u9762"
+  instant: 0
+  showOnlyOnce: 1
 --- !u!1 &25872119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,7 +1833,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4306503987809214854, guid: 5f39ae34e4c1ba4439f016d560e3c5ae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 25546016}
   m_SourcePrefab: {fileID: 100100000, guid: 5f39ae34e4c1ba4439f016d560e3c5ae, type: 3}
 --- !u!1001 &204215834
 PrefabInstance:
@@ -2685,6 +2703,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1899013259332816, guid: 13855bd37cc22e448afb6ee6e6903f68, type: 3}
       insertIndex: -1
       addedObject: {fileID: 599794517}
+    - targetCorrespondingSourceObject: {fileID: 1899013259332816, guid: 13855bd37cc22e448afb6ee6e6903f68, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 599794520}
   m_SourcePrefab: {fileID: 100100000, guid: 13855bd37cc22e448afb6ee6e6903f68, type: 3}
 --- !u!1 &235831833
 GameObject:
@@ -4819,7 +4840,7 @@ Transform:
   m_GameObject: {fileID: 391114116}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9, z: -0.535}
+  m_LocalPosition: {x: 0, y: 0.9, z: -0.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7128,7 +7149,7 @@ MonoBehaviour:
   sequence:
   - interactable: {fileID: 341190712}
     correctDialogue: "\u7ED3\u5A5A\u6212\u6307...\u6211\u540E\u6765\u628A\u5B83\u6458\u4E0B\u6765\u4E86\u3002                             
-      \u540E\u6765\u2026\u684C\u4E0A\u8FD8\u6709\u4E00\u5F20\u9080\u8BF7\u51FD\u2026\u6211\u4EEC\u4E00\u8D77\u53BB\u8FC7\u5468\u5E74\u7EAA\u5FF5\u65E5\u3002"
+      \n\u540E\u6765\u2026\u684C\u4E0A\u8FD8\u6709\u4E00\u5F20\u9080\u8BF7\u51FD\u2026\u6211\u4EEC\u4E00\u8D77\u53BB\u8FC7\u5468\u5E74\u7EAA\u5FF5\u65E5\u3002"
   - interactable: {fileID: 1824413098}
     correctDialogue: "\u90A3\u5929\u6211\u4EEC\u7EA6\u597D\u4E00\u8D77\u53BB\u5E86\u795D\u2026\u53EF\u662F\u6211\u6CA1\u53BB\u2026\u540E\u6765\u53D1\u751F\u4E86\u4EC0\u4E48\u5462...\u518D\u542C\u5230\u6D88\u606F\uFF0C\u5C31\u662F\u533B\u9662\u7684\u901A\u77E5\u5355\u4E86..."
   - interactable: {fileID: 1870945480}
@@ -7911,6 +7932,22 @@ MonoBehaviour:
   outlines:
   - {fileID: 599794517}
   glowDuration: 10
+--- !u!114 &599794520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599794513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u8FD9\u662F\u6211\u642D\u914D\u897F\u88C5\u7684\u76AE\u978B"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1 &608293712
 GameObject:
   m_ObjectHideFlags: 0
@@ -9928,7 +9965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlines: []
-  glowDuration: 10
+  glowDuration: 15
 --- !u!1 &739165870
 GameObject:
   m_ObjectHideFlags: 0
@@ -12045,6 +12082,22 @@ MonoBehaviour:
   outlines:
   - {fileID: 923120324}
   glowDuration: 10
+--- !u!114 &923120327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923120320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u8FD9\u662F\u5979\u7684\u767D\u8272\u9AD8\u8DDF\u978B\uFF0C\u767E\u642D\u6B3E"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1 &944601940
 GameObject:
   m_ObjectHideFlags: 0
@@ -16918,6 +16971,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1076430160325510, guid: 88b26ad2c19fcc54d9d7e45d2ecd9d8e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 923120324}
+    - targetCorrespondingSourceObject: {fileID: 1076430160325510, guid: 88b26ad2c19fcc54d9d7e45d2ecd9d8e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 923120327}
   m_SourcePrefab: {fileID: 100100000, guid: 88b26ad2c19fcc54d9d7e45d2ecd9d8e, type: 3}
 --- !u!1 &1372410866 stripped
 GameObject:
@@ -17408,8 +17464,14 @@ MonoBehaviour:
   requireEachItemOnce: 1
   allowExtraItems: 1
   checkDelayAfterSocketEvent: 0.15
-  showDialogueOnComplete: 1
-  completeDialogue: "\u8FD9\u6837\u624D\u5BF9\u3002"
+  showDialogueOnComplete: 0
+  completeDialogue: 
+  playAudioOnComplete: 0
+  audioSource: {fileID: 631721324}
+  completeAudioClip: {fileID: 8300000, guid: a8ba4473f861c07439a33cfc1d04d9ca, type: 3}
+  audioDelay: 0
+  useOneShot: 1
+  audioVolume: 1
   logDebug: 1
 --- !u!4 &1414952340
 Transform:
@@ -20470,6 +20532,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1070932431775236, guid: 2758c9162ab37ee4189e73f6f530e801, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1937071101}
+    - targetCorrespondingSourceObject: {fileID: 1070932431775236, guid: 2758c9162ab37ee4189e73f6f530e801, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1937071104}
   m_SourcePrefab: {fileID: 100100000, guid: 2758c9162ab37ee4189e73f6f530e801, type: 3}
 --- !u!1001 &1630926806
 PrefabInstance:
@@ -22866,6 +22931,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uniqueId: pink_shoes
+--- !u!114 &1766341907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846915518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u8FD9\u53CC\u662F\u5979\u6700\u7231\u7684\u9AD8\u8DDF\u978B\uFF0C\u548C\u5979\u5FC3\u7231\u7684\u88D9\u5B50\u683C\u5916\u76F8\u914D"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1 &1771598255
 GameObject:
   m_ObjectHideFlags: 0
@@ -25780,6 +25861,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glowObject: {fileID: 1937071102}
+--- !u!114 &1937071104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415093322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueText: "\u8FD9\u662F\u6211\u6700\u7231\u7684\u9ED1\u76AE\u978B\uFF0C\u64E6\u5F97\u9503\u4EAE"
+  instant: 0
+  showOnlyOnce: 0
+  ignoreSocketSelect: 1
 --- !u!1 &1956959246 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2189527576106858717, guid: 828d187c6a64cd24883762d5cf367413, type: 3}
@@ -26045,6 +26142,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1319206809988850, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1766341906}
+    - targetCorrespondingSourceObject: {fileID: 1319206809988850, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1766341907}
   m_SourcePrefab: {fileID: 100100000, guid: 43dcbfb9aea1c204c9698b79ad58009c, type: 3}
 --- !u!65 &1986765663 stripped
 BoxCollider:
@@ -26450,7 +26550,7 @@ MonoBehaviour:
     startDialogue: 
     startDialogues:
     - dialogue: "\u8C01\uFF01\u8C01\u5728\u90A3\u91CC\uFF1F"
-      visibleSeconds: 3
+      visibleSeconds: 4
     - dialogue: "\u53C8\u542C\u4E0D\u5230\u4E86......\u6211\u7761\u8FF7\u7CCA\u4E86\u5417......\n\u597D\u6E34......\u7B97\u4E86\uFF0C\u5148\u559D\u53E3\u6C34"
       visibleSeconds: 4
     setTVTextOnTaskStart: 0
@@ -26469,7 +26569,7 @@ MonoBehaviour:
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 5
+    startDialogueDelay: 4
     startDialogue: 
     startDialogues:
     - dialogue: "\u8FD9\u6ECB\u6ECB\u5566\u5566\u7684......\u4F3C\u4E4E\u662F\u7535\u89C6\u5728\u54CD......"
@@ -26494,7 +26594,7 @@ MonoBehaviour:
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 1
+    startDialogueDelay: 4
     startDialogue: 
     startDialogues:
     - dialogue: "\u6CA1\u6709\uFF01\u6211\u6CA1\u6709\u5FD8\u8BB0\u4F60\uFF01"
@@ -26510,43 +26610,57 @@ MonoBehaviour:
     completeDialogue: "\u547C\uFF01\u603B\u7B97\u627E\u5230\u4E86\uFF01"
     completeDialogues: []
   - taskId: find_cloths
-    repeatingHint: test
+    repeatingHint: "\u5979\u7CBE\u5FC3\u914D\u9F50\u4E86\u4E00\u6574\u5957\u9020\u578B\n\u88D9\u5B50\u3001\u9AD8\u8DDF\u978B\u548C\u5305\u5305\u642D\u914D\u5F97\u6070\u5230\u597D\u5904"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: test
-    startDialogues: []
+    startDialogueDelay: 8
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u90A3\u5929......\n\u90A3\u5929\u662F\u6211\u4EEC\u7EA6\u597D\u89C1\u9762\u7684\u65E5\u5B50\uFF01"
+      visibleSeconds: 3
+    - dialogue: "\u90A3\u5929\u5979\u7279\u610F\u7A7F\u4E86\u6700\u7F8E\u7684\u8863\u670D\uFF01\u6211\u5F53\u7136\u8BB0\u5F97\uFF01"
+      visibleSeconds: 4
     setTVTextOnTaskStart: 1
     tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u6211\u7A7F\u4E86\u4EC0\u4E48\u5417\uFF1F"
     tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
+    showDialogueOnComplete: 0
     completeDialogueDelay: 0
     suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 1111
+    completeDialogue: 
     completeDialogues: []
   - taskId: restore_memory
-    repeatingHint: "\u627E\u5BFB\u90A3\u5929\u7684\u8BB0\u5FC6..."
+    repeatingHint: "\u7A76\u7ADF\u6709\u54EA\u4E9B\u4E1C\u897F\u80FD\u8BA9\u6211\u60F3\u8D77\u6765\uFF1F"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
     useDialogueOverlay: 1
     useOperationHintOverlay: 0
     showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u665A\u4E0A\u53D1\u751F\u4E86\u4EC0\u4E48\u5417\uFF1F\u8FD8\u662F\u8BF4\uFF0C\u4F60\u53C8\u60F3\u88C5\u4F5C\u4EC0\u4E48\u90FD\u6CA1\u53D1\u751F\uFF1F"
-    startDialogues: []
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: test
+    startDialogueDelay: 1
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u90A3\u4E00\u5929......\u90A3\u4E00\u5929\u53D1\u751F\u4E86\u4EC0\u4E48\uFF1F"
+      visibleSeconds: 3
+    - dialogue: "\u554A\uFF01\u6211\u7684\u5934\u597D\u75DB\uFF01\u4E3A\u4EC0\u4E48\u60F3\u4E0D\u8D77\u6765\uFF01"
+      visibleSeconds: 4
+    - dialogue: "......\u4E00\u5B9A\u6709\u4EC0\u4E48\u91CD\u8981\u7684\u4E8B\u60C5\u88AB\u6211\u5FD8\u8BB0\u4E86\uFF01\n\u6211\u8981\u5728\u5BB6\u91CC\u4ED4\u7EC6\u627E\u627E"
+      visibleSeconds: 5
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: "\u90A3\u5929\u7684\u4E8B\u4F60\u4E0D\u4F1A\u5168\u5FD8\u8BB0\u4E86\u5427\uFF01"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogueDelay: 0
     suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 1111
-    completeDialogues: []
+    completeDialogue: 
+    completeDialogues:
+    - dialogue: "\u6211......\u6211\u60F3\u8D77\u6765\u4E86....\u5168\u90E8\u60F3\u8D77\u6765\u4E86......"
+      visibleSeconds: 4
+    - dialogue: "\u5BF9\u4E0D\u8D77......"
+      visibleSeconds: 0
   - taskId: password
     repeatingHint: password
     firstDelay: 15
@@ -27454,7 +27568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd75a7a78ee04047bb084c9e55c25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueText: "\u7F6E\u7269\u67B6\uFF0C\u4EE5\u524D\u5979\u603B\u63D0\u524D\n\u642D\u914D\u597D\u7A7F\u642D\u3002"
+  dialogueText: "\u7F6E\u7269\u67B6\uFF0C\u4EE5\u524D\u5979\u603B\u63D0\u524D\n\u642D\u914D\u597D\u7A7F\u642D"
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1

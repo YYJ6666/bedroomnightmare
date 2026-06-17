@@ -38,11 +38,27 @@ public class SocketCombinationPuzzle : MonoBehaviour
     [TextArea(2, 5)]
     [SerializeField] private string completeDialogue = "这样才对。";
 
+    [Header("Complete Audio")]
+    [SerializeField] private bool playAudioOnComplete = false;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip completeAudioClip;
+    [SerializeField] private float audioDelay = 0f;
+    [SerializeField] private bool useOneShot = true;
+    [Range(0f, 1f)]
+    [SerializeField] private float audioVolume = 1f;
+
     [Header("Debug")]
     [SerializeField] private bool logDebug = true;
 
     private bool hasCompleted;
     private Coroutine checkRoutine;
+    private Coroutine audioRoutine;
+
+    private void Awake()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnEnable()
     {
@@ -58,6 +74,12 @@ public class SocketCombinationPuzzle : MonoBehaviour
         {
             StopCoroutine(checkRoutine);
             checkRoutine = null;
+        }
+
+        if (audioRoutine != null)
+        {
+            StopCoroutine(audioRoutine);
+            audioRoutine = null;
         }
     }
 
@@ -292,10 +314,50 @@ public class SocketCombinationPuzzle : MonoBehaviour
             DialogueOverlay.Show(completeDialogue.Replace("\\n", "\n"));
         }
 
+        PlayCompleteAudioWithDelay();
+
         if (logDebug)
             Debug.Log($"[{name}] 完成 Socket 组合谜题：{taskId}");
 
         TaskChainManager.Instance.CompleteTask(taskId);
+    }
+
+    private void PlayCompleteAudioWithDelay()
+    {
+        if (!playAudioOnComplete)
+            return;
+
+        if (audioRoutine != null)
+            StopCoroutine(audioRoutine);
+
+        audioRoutine = StartCoroutine(PlayAudioRoutine());
+    }
+
+    private IEnumerator PlayAudioRoutine()
+    {
+        if (audioDelay > 0f)
+            yield return new WaitForSecondsRealtime(audioDelay);
+
+        if (audioSource == null || completeAudioClip == null)
+        {
+            Debug.LogWarning($"{name}: 想播放完成音频，但 AudioSource 或 CompleteAudioClip 没有设置。");
+            audioRoutine = null;
+            yield break;
+        }
+
+        if (useOneShot)
+        {
+            audioSource.PlayOneShot(completeAudioClip, audioVolume);
+        }
+        else
+        {
+            audioSource.clip = completeAudioClip;
+            audioSource.volume = audioVolume;
+            audioSource.loop = false;
+            audioSource.Play();
+        }
+
+        audioRoutine = null;
     }
 
     public void ResetPuzzle()
