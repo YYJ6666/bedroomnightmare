@@ -255,7 +255,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1177749916}
-  - component: {fileID: 1177749915}
   - component: {fileID: 1177749914}
   - component: {fileID: 1177749917}
   m_Layer: 0
@@ -361,52 +360,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1177749915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177749913}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7757e5b075dc144b9397587889381c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  steps:
-  - audioClip: {fileID: 8300000, guid: 932b4638ac15e3740abf9d274a3f33ef, type: 3}
-    subtitles:
-    - subtitle: "\u8FDF\u5230\u4E86\u2026\u2026"
-      delay: 0
-      duration: 2
-    - subtitle: "\u63A5\u7535\u8BDD\u554A\u2026\u2026"
-      delay: 4
-      duration: 3
-    - subtitle: "\u751F\u6C14\u4E86\u5417\u2026\u2026"
-      delay: 8
-      duration: 4
-    extraWaitAfterAudio: 0
-  - audioClip: {fileID: 8300000, guid: 33fdd659be2bf7545b7654b876148fa6, type: 3}
-    subtitles:
-    - subtitle: "\u5582\uFF1F\u5582\uFF01"
-      delay: 2
-      duration: 3
-    extraWaitAfterAudio: 3
-  - audioClip: {fileID: 8300000, guid: fb15d726e5c31c74088721d75c217a4d, type: 3}
-    subtitles:
-    - subtitle: "\u5BF9\u4E0D\u8D77\u2026\u2026"
-      delay: 2
-      duration: 3
-    - subtitle: "\u9192\u9192\uFF0C\u4E0D\u8981\u7761\uFF01"
-      delay: 6
-      duration: 2
-    - subtitle: "\u90FD\u662F\u6211\u7684\u9519\u2026\u2026\u4F60\u6068\u6211\u5427\u2026\u2026"
-      delay: 19
-      duration: 5
-    extraWaitAfterAudio: 3
-  blackScreenGroup: {fileID: 892743883}
-  audioSource: {fileID: 1177749914}
-  gameSceneName: bedroom2
 --- !u!4 &1177749916
 Transform:
   m_ObjectHideFlags: 0
@@ -452,6 +405,8 @@ MonoBehaviour:
     names: "\u674E\u6668\u5B81"
   - sectionTitle: "\u89C6\u542C\u7D20\u6750\u5BFB\u627E"
     names: "\u5F20\u6069\u7545"
+  - sectionTitle: REMEMBER ME
+    names: 2026.06.18
   startDelay: 1
   scrollSpeed: 60
   startOffsetY: 0
