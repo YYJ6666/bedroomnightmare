@@ -358,11 +358,11 @@ MonoBehaviour:
       delay: 3
       duration: 11
     steps:
-    - audioClip: {fileID: 8300000, guid: 48c4b63a5ac7b4f40a949c197398c3cb, type: 3}
+    - audioClip: {fileID: 8300000, guid: 3ab70741261b6014bbdc39ddc403eda8, type: 3}
       subtitles:
-      - subtitle: bedbed
+      - subtitle: "\u6211\u4EEC\u4F1A\u4E00\u76F4\u5728\u4E00\u8D77\u7684\uFF0C\u5BF9\u5417\uFF1F"
         delay: 2
-        duration: 5
+        duration: 7
       extraWaitAfterAudio: 0
   - endingType: 1
     images:
@@ -389,7 +389,7 @@ MonoBehaviour:
   endingImage: {fileID: 1964409542}
   audioSource: {fileID: 1177749914}
   creditsSceneName: CreditsScene
-  fallbackEnding: 1
+  fallbackEnding: 2
 --- !u!1 &1383622849
 GameObject:
   m_ObjectHideFlags: 0

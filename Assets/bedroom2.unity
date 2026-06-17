@@ -3747,7 +3747,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.1
-  m_Range: 3
+  m_Range: 1.5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -3846,12 +3846,12 @@ MonoBehaviour:
   bedGlowObject: {fileID: 1777586428}
   doorExitGlowObject: {fileID: 218280445}
   endingSceneName: EndingScene
-  showStartDialogue: 1
-  startDialogue: test door ok
+  showStartDialogue: 0
+  startDialogue: 
   showDoorWarningDialogue: 1
-  doorWarningDialogue: "\u4F60\u8FD8\u662F\u9009\u62E9\u79BB\u5F00\u4E86\u3002"
+  doorWarningDialogue: "\u4E0D\u884C\uFF0C\u4F60\u5DF2\u7ECF\u6B7B\u4E86\uFF0C\u6211\u4E0D\u80FD\u548C\u4F60\u5728\u4E00\u8D77\u3002"
   showBedDialogue: 1
-  bedDialogue: test bed ok
+  bedDialogue: "\u597D\u5427\uFF0C\u6211\u4F1A\u7559\u4E0B\u6765\u3002"
   sceneLoadDelay: 1.5
   logDebug: 1
 --- !u!4 &312671555
@@ -18918,7 +18918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: keypadCombo
-      value: 1314
+      value: 0617
       objectReference: {fileID: 0}
     - target: {fileID: 2303921294396319334, guid: b47bdf1669865c841ace96330ee3d7ec, type: 3}
       propertyPath: lockedTextTime
@@ -21261,6 +21261,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.06346117, y: 0.81004214, z: 0.99618304}
   m_Center: {x: 0.000000067055225, y: -0.40502065, z: 0.0000004172325}
+--- !u!114 &1652346632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652346623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436ba1ac1e14c4c42af82d38cfaf6081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTaskId: find_cloths
+  glowObject: {fileID: 1652346626}
+  hideWhenTaskEnds: 1
+  hideOnAwake: 1
+  logDebug: 0
 --- !u!65 &1672658034 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 372964699726209864, guid: 828d187c6a64cd24883762d5cf367413, type: 3}
@@ -23430,6 +23447,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1895757708702104, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2087267400}
+    - targetCorrespondingSourceObject: {fileID: 1895757708702104, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2087267401}
   m_SourcePrefab: {fileID: 100100000, guid: 486aa2ac8c6ffe3459ecb587b716ed71, type: 3}
 --- !u!1 &1797260366 stripped
 GameObject:
@@ -24957,6 +24977,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1288203294914356, guid: 322aea51c1d456f48a5bc5a59a931ed3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1652346631}
+    - targetCorrespondingSourceObject: {fileID: 1288203294914356, guid: 322aea51c1d456f48a5bc5a59a931ed3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1652346632}
   m_SourcePrefab: {fileID: 100100000, guid: 322aea51c1d456f48a5bc5a59a931ed3, type: 3}
 --- !u!65 &1888724424 stripped
 BoxCollider:
@@ -26570,104 +26593,6 @@ MonoBehaviour:
   onlyInGameScene: 1
   gameSceneName: bedroom2
   tasks:
-  - taskId: password
-    repeatingHint: "\u5F00\u95E8\u7684\u5BC6\u7801\u2026\u2026\n\u5979\u79BB\u5F00\u7684\u90A3\u4E00\u5929\u2026\u2026"
-    firstDelay: 30
-    repeatInterval: 30
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: 
-    startDialogues:
-    - dialogue: "\u5979\u79BB\u5F00\u7684\u90A3\u4E00\u5929\u2026\u2026"
-      visibleSeconds: 0
-    - dialogue: "\u6211\u523B\u610F\u4E0D\u53BB\u60F3\u8D77\u6765\u2026\u2026"
-      visibleSeconds: 0
-    - dialogue: "\u4E0D\u884C\u4E0D\u80FD\u56F0\u6B7B\u5728\u8FD9\u91CC\u3002"
-      visibleSeconds: 0
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: "\u4F60\u73B0\u5728\u53EF\u4EE5\u8D70\u4E86\u3002\n\u4E0D\u8FC7\uFF0C\u5F97\u628A\u5FD8\u8BB0\u7684\u4E8B\u5168\u8BB0\u4F4F\u3002"
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogueDelay: 0
-    suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: "\u95E8\u5F00\u4E86\uFF01"
-    completeDialogues: []
-  - taskId: final_choice
-    repeatingHint: choice
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 5
-    startDialogue: start choice
-    startDialogues: []
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: choice
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogueDelay: 0
-    suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 'choice complete
-
-'
-    completeDialogues: []
-  - taskId: find_cloths
-    repeatingHint: "\u5979\u7CBE\u5FC3\u914D\u9F50\u4E86\u4E00\u6574\u5957\u9020\u578B\n\u88D9\u5B50\u3001\u9AD8\u8DDF\u978B\u548C\u5305\u5305\u642D\u914D\u5F97\u6070\u5230\u597D\u5904"
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 8
-    startDialogue: 
-    startDialogues:
-    - dialogue: "\u90A3\u5929......\n\u90A3\u5929\u662F\u6211\u4EEC\u7EA6\u597D\u89C1\u9762\u7684\u65E5\u5B50\uFF01"
-      visibleSeconds: 3
-    - dialogue: "\u90A3\u5929\u5979\u7279\u610F\u7A7F\u4E86\u6700\u7F8E\u7684\u8863\u670D\uFF01\u6211\u5F53\u7136\u8BB0\u5F97\uFF01"
-      visibleSeconds: 4
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: "\u4F60\u8FD8\u8BB0\u5F97\u90A3\u5929\u6211\u7A7F\u4E86\u4EC0\u4E48\u5417\uFF1F"
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 0
-    completeDialogueDelay: 0
-    suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 
-    completeDialogues: []
-  - taskId: restore_memory
-    repeatingHint: "\u7A76\u7ADF\u6709\u54EA\u4E9B\u4E1C\u897F\u80FD\u8BA9\u6211\u60F3\u8D77\u6765\uFF1F"
-    firstDelay: 15
-    repeatInterval: 15
-    visibleSeconds: 4
-    useDialogueOverlay: 1
-    useOperationHintOverlay: 0
-    showStartDialogue: 1
-    startDialogueDelay: 1
-    startDialogue: 
-    startDialogues:
-    - dialogue: "\u90A3\u4E00\u5929......\u90A3\u4E00\u5929\u53D1\u751F\u4E86\u4EC0\u4E48\uFF1F"
-      visibleSeconds: 3
-    - dialogue: "\u554A\uFF01\u6211\u7684\u5934\u597D\u75DB\uFF01\u4E3A\u4EC0\u4E48\u60F3\u4E0D\u8D77\u6765\uFF01"
-      visibleSeconds: 4
-    - dialogue: "......\u4E00\u5B9A\u6709\u4EC0\u4E48\u91CD\u8981\u7684\u4E8B\u60C5\u88AB\u6211\u5FD8\u8BB0\u4E86\uFF01\n\u6211\u8981\u5728\u5BB6\u91CC\u4ED4\u7EC6\u627E\u627E"
-      visibleSeconds: 5
-    setTVTextOnTaskStart: 1
-    tvScreenTextOnTaskStart: "\u90A3\u5929\u7684\u4E8B\u4F60\u4E0D\u4F1A\u5168\u5FD8\u8BB0\u4E86\u5427\uFF01"
-    tvScreenTextDelay: 0
-    showDialogueOnComplete: 1
-    completeDialogueDelay: 0
-    suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 
-    completeDialogues:
-    - dialogue: "\u6211......\u6211\u60F3\u8D77\u6765\u4E86....\u5168\u90E8\u60F3\u8D77\u6765\u4E86......"
-      visibleSeconds: 4
-    - dialogue: "\u5BF9\u4E0D\u8D77......"
-      visibleSeconds: 0
   - taskId: switch_light
     repeatingHint: "\u597D\u9ED1\u554A\uFF0C\u5148\u628A\u706F\u5F00\u5F00\u5427......"
     firstDelay: 15
@@ -26804,8 +26729,33 @@ MonoBehaviour:
       visibleSeconds: 4
     - dialogue: "\u5BF9\u4E0D\u8D77......"
       visibleSeconds: 0
+  - taskId: password
+    repeatingHint: "\u5F00\u95E8\u7684\u5BC6\u7801\u2026\u2026\n6\u670817\u65E5\u2026\u2026\n23\uFF1A17\u2026\u2026"
+    firstDelay: 30
+    repeatInterval: 30
+    visibleSeconds: 4
+    useDialogueOverlay: 1
+    useOperationHintOverlay: 0
+    showStartDialogue: 1
+    startDialogueDelay: 5
+    startDialogue: 
+    startDialogues:
+    - dialogue: "\u5979\u79BB\u5F00\u7684\u90A3\u4E00\u5929\u2026\u2026"
+      visibleSeconds: 0
+    - dialogue: "\u6211\u523B\u610F\u4E0D\u53BB\u60F3\u8D77\u6765\u2026\u2026"
+      visibleSeconds: 0
+    - dialogue: "\u4E0D\u884C\u4E0D\u80FD\u56F0\u6B7B\u5728\u8FD9\u91CC\u3002"
+      visibleSeconds: 0
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: "\u4F60\u73B0\u5728\u53EF\u4EE5\u8D70\u4E86\u3002\n\u4E0D\u8FC7\uFF0C\u5F97\u628A\u5FD8\u8BB0\u7684\u4E8B\u5168\u8BB0\u4F4F\u3002"
+    tvScreenTextDelay: 0
+    showDialogueOnComplete: 1
+    completeDialogueDelay: 0
+    suppressXRDialogueOnSelectOnComplete: 1
+    completeDialogue: "\u95E8\u5F00\u4E86\uFF01"
+    completeDialogues: []
   - taskId: final_choice
-    repeatingHint: choice
+    repeatingHint: "\u51FA\u53BB\u2026\u2026\u8FD8\u662F\u7559\u4E0B\uFF1F"
     firstDelay: 15
     repeatInterval: 15
     visibleSeconds: 4
@@ -26813,17 +26763,15 @@ MonoBehaviour:
     useOperationHintOverlay: 0
     showStartDialogue: 1
     startDialogueDelay: 5
-    startDialogue: start choice
+    startDialogue: "\u8981\u79BB\u5F00\u5417?"
     startDialogues: []
-    setTVTextOnTaskStart: 0
-    tvScreenTextOnTaskStart: choice
+    setTVTextOnTaskStart: 1
+    tvScreenTextOnTaskStart: "\u522B\u8D70\uFF0C\u7559\u4E0B\u6765\u966A\u6211"
     tvScreenTextDelay: 0
     showDialogueOnComplete: 1
     completeDialogueDelay: 0
     suppressXRDialogueOnSelectOnComplete: 1
-    completeDialogue: 'choice complete
-
-'
+    completeDialogue: 
     completeDialogues: []
   currentTaskIndex: 0
   autoStart: 1
@@ -27765,6 +27713,23 @@ MonoBehaviour:
   instant: 0
   showOnlyOnce: 0
   ignoreSocketSelect: 1
+--- !u!114 &2087267401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087267385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436ba1ac1e14c4c42af82d38cfaf6081, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetTaskId: find_cloths
+  glowObject: {fileID: 2087267390}
+  hideWhenTaskEnds: 1
+  hideOnAwake: 1
+  logDebug: 0
 --- !u!1 &2096478959
 GameObject:
   m_ObjectHideFlags: 0
