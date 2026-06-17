@@ -77,13 +77,13 @@ public sealed class GlobalDropResetter : MonoBehaviour
 
     [TextArea(2, 6)]
     [SerializeField] private string firstRunHintDialogue =
-        "太黑了，先开灯吧 \n我记得睡前在床头放了一杯水……\n （灯的开关右手边的床头柜上，先打开灯然后喝口水吧）";
+        "太黑了，先开灯吧 \n我记得睡前在右边床头放了一杯水……\n开关也在那里 ";
 
     [SerializeField] private float timeBetweenFirstRunDialogues = 3f;
 
     [TextArea(2, 5)]
     [SerializeField] private string repeatedResetDialogue =
-        "是她！是她回来了！\n （她不喜欢“我”把东西丢在地上，嘘！小心！别让她生气！）";   
+        "是她！是她回来了！\n 她不喜欢“我”把东西丢在地上。别让她生气。";   
 
     private bool resetting;
     private float lastTriggerTime;
