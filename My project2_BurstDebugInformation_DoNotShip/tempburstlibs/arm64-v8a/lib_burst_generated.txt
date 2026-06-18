@@ -1,4 +1,4 @@
-Library: D:\final_project\bedroomnightmare\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+Library: E:\unity\My project2\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --platform=Android
 --backend=burst-llvm-18
 --target=ARMV8A_AARCH64
@@ -8,10 +8,10 @@ Library: D:\final_project\bedroomnightmare\Temp\BurstOutput\tempburstlibs\arm64-
 --float-precision=Standard
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\final_project\bedroomnightmare\Temp\Burst
---key-folder=D:/edit_unity/2022.3.62f3c1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=D:\final_project\bedroomnightmare\Library\Burst
---output=D:\final_project\bedroomnightmare\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--temp-folder=E:\unity\My project2\Temp\Burst
+--key-folder=E:/unity/2022.3.62f3c1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=E:\unity\My project2\Library\Burst
+--output=E:\unity\My project2\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.XR.Interaction.Toolkit.Utilities.BurstMathUtility, Unity.XR.Interaction.Toolkit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::ProjectOnPlane(Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null)--1819bc9925667b008fd6c3e6019ccf71
@@ -87,10 +87,10 @@ Library: D:\final_project\bedroomnightmare\Temp\BurstOutput\tempburstlibs\arm64-
 --target-framework=NetFramework
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=D:\final_project\bedroomnightmare\Temp\Burst
---key-folder=D:/edit_unity/2022.3.62f3c1/Editor/Data/PlaybackEngines/AndroidPlayer
---decode-folder=D:\final_project\bedroomnightmare\Library\Burst
---output=D:\final_project\bedroomnightmare\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
+--temp-folder=E:\unity\My project2\Temp\Burst
+--key-folder=E:/unity/2022.3.62f3c1/Editor/Data/PlaybackEngines/AndroidPlayer
+--decode-folder=E:\unity\My project2\Library\Burst
+--output=E:\unity\My project2\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.ZBinningJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.ZBinningJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--77fc393cb521ac129b1392d4eb94d29a
