@@ -17,8 +17,8 @@
 
 ## 演示视频
 
+* [游戏PV](./d1da53f5c19967b05c1cc24340ced830_raw.mp4)
 * [VR 实机演示](./com.oculus.metacam-20260617-173251-0.mp4)
-* [项目展示视频](./d1da53f5c19967b05c1cc24340ced830_raw.mp4)
 
 ---
 
